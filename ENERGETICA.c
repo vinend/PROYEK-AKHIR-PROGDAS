@@ -11,24 +11,47 @@
 #define ANSI_COLOR_CYAN    "\x1b[36m"
 #define ANSI_COLOR_WHITE   "\x1b[37m"
 
-int main() {
+
+typedef struct kotaEnergetica {
 	
-	int pil;
+	char nama[50];
+	float indeksKota;
+	float nilaiKeseluruhan;
+	
+	struct aksesListrik {
+		
+	};
+	
+	struct kebersihanRumahTangga {
+		
+	};
+	
+	struct aksesEnergiBersih {
+		
+	};
+	
+	struct emisiGasRumahKaca {
+		
+	};
+	
+} kota;
+
+int main() {
 	
     printf(ANSI_COLOR_YELLOW "  W   W  EEEEE  L      CCCCC  OOO   M     M  EEEEE  \n");
     printf("  W   W  E      L     C      O   O  MM   MM  E      \n");
     printf("  W W W  EEEE   L     C      O   O  M M M M  EEEE   \n");
     printf("  W W W  E      L     C      O   O  M  M  M  E      \n");
     printf("   W W   EEEEE  LLLLL  CCCCC  OOO   M     M  EEEEE  \n");
-    
+
     printf("\n");
-    
+
     printf("  TTTTT  OOO   \n");
     printf("    T   O   O  \n");
     printf("    T   O   O  \n");
     printf("    T   O   O  \n");
     printf("    T    OOO   \n");
-    
+
     printf("\n");
 
     printf("  " ANSI_COLOR_GREEN "EEEEE" ANSI_COLOR_RESET "  N     N  " ANSI_COLOR_GREEN "EEEEE" ANSI_COLOR_RESET "  RRRR   GGG   " ANSI_COLOR_GREEN "EEEEE" ANSI_COLOR_RESET "  TTTTT  III  CCCCC  AAAAA \n");
@@ -41,6 +64,7 @@ int main() {
     getch();
     system("cls");
     
+    int pil;
     
     while(1) {
 	
@@ -75,5 +99,3 @@ int main() {
 
     return 0;
 }
-
-
