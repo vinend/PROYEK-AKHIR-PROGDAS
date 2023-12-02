@@ -17,6 +17,7 @@ typedef struct kotaEnergetica {
 	char nama[50];
 	float indeksKota;
 	float nilaiKeseluruhan;
+	float budget;
 	
 	struct aksesListrik {
 		
@@ -40,19 +41,19 @@ typedef struct kotaEnergetica {
 
 int main() {
 	
-   printf(ANSI_COLOR_YELLOW" _       __________    __________  __  _________                   "ANSI_COLOR_BLUE"________\n"ANSI_COLOR_YELLOW);
-    printf("| |     / / ____/ /   / ____/ __ \\/  |/  / ____/                  "ANSI_COLOR_BLUE"/////////\n"ANSI_COLOR_YELLOW);
-    printf("| | /| / / __/ / /   / /   / / / / /|_/ / __/                    "ANSI_COLOR_BLUE"/////////\n"ANSI_COLOR_YELLOW);
-    printf("| |/ |/ / /___/ /___/ /___/ /_/ / /  / / /___                   "ANSI_COLOR_BLUE"/////////\n"ANSI_COLOR_YELLOW);
-    printf("|__/|__/_____/_____/\\____/\\____/_/  /_/_____/                  "ANSI_COLOR_BLUE"/////////___\n"ANSI_COLOR_YELLOW);
+   	printf(ANSI_COLOR_YELLOW " _       __________    __________  __  _________                   " ANSI_COLOR_BLUE "________\n" ANSI_COLOR_YELLOW);
+    printf("| |     / / ____/ /   / ____/ __ \\/  |/  / ____/                  " ANSI_COLOR_BLUE "/////////\n" ANSI_COLOR_YELLOW);
+    printf("| | /| / / __/ / /   / /   / / / / /|_/ / __/                    " ANSI_COLOR_BLUE "/////////\n" ANSI_COLOR_YELLOW);
+    printf("| |/ |/ / /___/ /___/ /___/ /_/ / /  / / /___                   " ANSI_COLOR_BLUE "/////////\n" ANSI_COLOR_YELLOW);
+    printf("|__/|__/_____/_____/\\____/\\____/_/  /_/_____/                  " ANSI_COLOR_BLUE "/////////___\n" ANSI_COLOR_YELLOW);
 
     printf("\t\t\t\t\t\t\t" "      "ANSI_COLOR_BLUE"/_____///////\n"ANSI_COLOR_YELLOW);
 
-    printf("  __________                                                       "ANSI_COLOR_BLUE"///////\n"ANSI_COLOR_YELLOW);
-    printf(" /_  __/ __ \\                                                     "ANSI_COLOR_BLUE"///////__\n"ANSI_COLOR_YELLOW);
-    printf("  / / / / / /                                                    "ANSI_COLOR_BLUE"//////////\n"ANSI_COLOR_YELLOW);
-    printf(" / / / /_/ /                                                    "ANSI_COLOR_BLUE"/____/////\n"ANSI_COLOR_YELLOW);
-    printf("/_/  \\____/                                                         "ANSI_COLOR_BLUE"/////\n"ANSI_COLOR_YELLOW);
+    printf("  __________                                                       " ANSI_COLOR_BLUE "///////\n" ANSI_COLOR_YELLOW);
+    printf(" /_  __/ __ \\                                                     " ANSI_COLOR_BLUE "///////__\n" ANSI_COLOR_YELLOW);
+    printf("  / / / / / /                                                    " ANSI_COLOR_BLUE "//////////\n" ANSI_COLOR_YELLOW);
+    printf(" / / / /_/ /                                                    " ANSI_COLOR_BLUE "/____/////\n" ANSI_COLOR_YELLOW);
+    printf("/_/  \\____/                                                         " ANSI_COLOR_BLUE "/////\n" ANSI_COLOR_YELLOW);
 
     printf("\t\t\t\t\t\t\t\t" "   "ANSI_COLOR_BLUE"/////\n");
 
@@ -104,7 +105,26 @@ int main() {
     	
     	case 3 : 
 		system("cls");
-		
+		printf(ANSI_COLOR_CYAN" ________  ________  ________                ________  \n");
+    	printf("|\\   ____\\|\\   ___ \\|\\   ____\\              |\\_____  \\ \n");
+    	printf("\\ \\  \\___|\\ \\  \\_|\\ \\ \\  \\___|               \\|___/  /|\n");
+    	printf(" \\ \\_____  \\ \\  \\ \\\\ \\ \\  \\  ___                 /  / / \n");
+    	printf("  \\|____|\\  \\ \\  \\_\\\\ \\ \\  \\|\\  \\               /  / /  \n");
+    	printf("    ____\\_\\  \\ \\_______\\ \\_______\\             /__/ /   \n");
+    	printf("   |\\_________\\|_______|\\|_______|             |__|/    \n");
+   	 	printf("   \\|_________|                                        \n");
+   	 	
+   	 	
+   	 	printf("  ___  ____________ _________________  ___  ______ _      _____   _____ _   _ _____ _____ ___  _____ _   _   ___  ______ _      _____  ______ _____ _     _____  ___  ______ _      _____ \n");
+    	printf(" / _ \\ |  ___|  ___|  _  | ___ \\  _  \\/ _ \\ | ___ \\ |    |  ___| /  ___| | | /  ___|_   _/ _ \\|_   _| \\ | | / _ \\ | ___ \\ |    |  ___| | ___ \\  ___| |   |_   _|/ _ \\ | ___ \\ |    |  ___|\n");
+   	 	printf("/ /_\\ \\| |_  | |_  | | | | |_/ / | | / /_\\ \\| |_/ / |    | |__   \\ `--.| | | \\ `--.  | |/ /_\\ \\ | | |  \\| |/ /_\\ \\| |_/ / |    | |__   | |_/ / |__ | |     | | / /_\\ \\| |_/ / |    | |__  \n");
+    	printf("|  _  ||  _| |  _| | | | |    /| | | |  _  || ___ \\ |    |  __|   `--. \\ | | |`--. \\ | ||  _  | | | | . ` ||  _  || ___ \\ |    |  __|  |    /|  __|| |     | | |  _  || ___ \\ |    |  __| \n");
+    	printf("| | | || |   | |   \\ \\_/ / |\\ \\| |/ /| | | || |_/ / |____| |___  /\\__/ / |_| /\\__/ / | || | | |_| |_| |\\  || | | || |_/ / |____| |___  | |\ \\| |___| |_____| |_| | | || |_/ / |____| |___ \n");
+    	printf("\\_| |_/\\_|   \\_|    \\___/\\_| \\_|___/ \\_| |_/\\____/\\_____/\\____/  \\____/ \\___/\\____/  \\_/\\_| |_/\\___/\\_| \\_/\\_| |_/\____/\\_____/\\____/  \\_| \\_\\____/\\_____/\\___/\\_| |_/\\____/\\_____/\n");
+    
+   	 	printf("\n===================================================================================================================================================================================================================\n" ANSI_COLOR_RESET);
+   	 	
+    	getch();
 		system("cls"); break;
     		
     	case 4 : 
