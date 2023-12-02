@@ -36,6 +36,8 @@ typedef struct kotaEnergetica {
 	
 } kota;
 
+
+
 int main() {
 	
    printf(ANSI_COLOR_YELLOW" _       __________    __________  __  _________                   "ANSI_COLOR_BLUE"________\n"ANSI_COLOR_YELLOW);
@@ -86,13 +88,33 @@ int main() {
     switch(pil) {
     	case 1 : system("cls"); break;
     		
-    	case 2 : system("cls"); break;
+    	case 2 : 
+    	system("cls");
+    	printf("C A R A   B E R M A I N\n");
+    	printf("==============================\n");
+    	printf("1. Anda akan diberikan suatu senario dimana anda harus memecahkan masalah pada kota\n\n");
+		printf("2. Pada game ini terdapat 4 kota yang harus anda selesaikan masalahnya : Dea Tae-AE, Elegger City, Tekkompolis, dan Biotopia\n\n");
+		printf("3. Tiap kota memiliki indeks pencapaian yang meliputi 4 aspek yaitu Akses Listrik, Kebersihan Rumah Tangga, Akses Energi Bersih, dan Pengurangan Emisi Gas Rumah Kaca\n\n");
+		printf("4. Kita akan diberikan budget yang berbeda-beda setiap kota untuk memecahkan masalah-masalah ini, semua aspek yang mempengaruhi indeks harus harmonis dan saling balanced\n\n");
+		printf("5. Jika Indeks tidak tercapai, batas hari sudah habis, atau budget melebihi batas maka anda gagal\n\n");
+		printf("6. Jika Indeks tercapai dalam batas hari yang diinginkan maka anda lanjut ke level berikutnya sampai game selesai!\n\n");
+		printf("\nPress Any Button To Continue");
+		getch();
+		system("cls"); break;
     	
-    	case 3 : system("cls"); break;
+    	case 3 : 
+		system("cls");
+		
+		system("cls"); break;
     		
-    	case 4 : system("cls"); break;
+    	case 4 : return 0;
     		
-    	default : system("cls"); break;
+    	default : 
+		system("cls");
+		printf("T Y P E   A   V A L I D   N U M B E R !!\n\n");
+		printf("Press Any Button To Continue");
+		getch();
+		system("cls"); break;
 	}
 }
     
