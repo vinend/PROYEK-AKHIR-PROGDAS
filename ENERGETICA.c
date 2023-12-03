@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
+#include <string.h>
 #define ANSI_COLOR_RESET   "\x1b[0m"
 #define ANSI_COLOR_BLACK   "\x1b[30m"
 #define ANSI_COLOR_RED     "\x1b[31m"
@@ -38,8 +39,21 @@ typedef struct kotaEnergetica {
 } kota;
 
 
+void definisiKota(kota *energetica) {
+	
+    strcpy(energetica[0].nama, "Dea-Tae-AE");
+    strcpy(energetica[1].nama, "Elegger City");
+    strcpy(energetica[2].nama, "Tekkompolis");
+    strcpy(energetica[3].nama, "Biotopia");
+	
+}
+
 
 int main() {
+	
+	kota energetica[4];
+	
+	definisiKota(energetica);
 	
    	printf(ANSI_COLOR_YELLOW " _       __________    __________  __  _________                   " ANSI_COLOR_BLUE "________\n" ANSI_COLOR_YELLOW);
     printf("| |     / / ____/ /   / ____/ __ \\/  |/  / ____/                  " ANSI_COLOR_BLUE "/////////\n" ANSI_COLOR_YELLOW);
@@ -87,7 +101,21 @@ int main() {
     printf("P I L I H A N  :  "); scanf("%d", &pil);
     
     switch(pil) {
-    	case 1 : system("cls"); break;
+    	case 1 :
+		system("cls"); 
+    	printf("S E L A M A T!\n");
+    	printf("===================\n");
+    	printf("Anda terpilih menjadi presiden dari negara" ANSI_COLOR_GREEN " ENERGETICA" ANSI_COLOR_RESET "!");
+    	printf("\nPres Any Button To Continue");
+    	getch();
+		system("cls");
+    	
+    	printf(ANSI_COLOR_GREEN "ENERGETICA" ANSI_COLOR_RESET " adalah negara yang kecil, namun memiliki potensi yang besar. Saat ini " ANSI_COLOR_GREEN "ENERGETICA" ANSI_COLOR_RESET" dalam rangka janji kampanye yang telah dibuat,");
+    	printf("kamu bertekad untuk membawa negara ini dan kota-kotanya untuk mencapai tujuan dari" ANSI_COLOR_CYAN " SDG 7 " ANSI_COLOR_RESET "yang memiliki indeks capaian tersebut. Majukanlah kota-kota Energetica untuk mencapai tujuan SDG 7 dan mencapai tujuan indeks kalian!");
+    	printf("\nPress Any Button to Continue!");
+    	getch();
+    	
+		system("cls"); break;
     		
     	case 2 : 
     	system("cls");
@@ -112,17 +140,19 @@ int main() {
     	printf("  \\|____|\\  \\ \\  \\_\\\\ \\ \\  \\|\\  \\               /  / /  \n");
     	printf("    ____\\_\\  \\ \\_______\\ \\_______\\             /__/ /   \n");
     	printf("   |\\_________\\|_______|\\|_______|             |__|/    \n");
-   	 	printf("   \\|_________|                                        \n");
+   	 	printf("   \\|_________|                                        \n" ANSI_COLOR_RESET);
    	 	
    	 	
-   	printf("  ___  ____________ _________________  ___  ______ _      _____   _____ _   _ _____ _____ ___  _____ _   _   ___  ______ _      _____  ______ _____ _     _____  ___  ______ _      _____ \n");
+   		printf( ANSI_COLOR_WHITE"  ___  ____________ _________________  ___  ______ _      _____   _____ _   _ _____ _____ ___  _____ _   _   ___  ______ _      _____  ______ _____ _     _____  ___  ______ _      _____ \n");
     	printf(" / _ \\ |  ___|  ___|  _  | ___ \\  _  \\/ _ \\ | ___ \\ |    |  ___| /  ___| | | /  ___|_   _/ _ \\|_   _| \\ | | / _ \\ | ___ \\ |    |  ___| | ___ \\  ___| |   |_   _|/ _ \\ | ___ \\ |    |  ___|\n");
-   	printf("/ /_\\ \\| |_  | |_  | | | | |_/ / | | / /_\\ \\| |_/ / |    | |__   \\ `--.| | | \\ `--.  | |/ /_\\ \\ | | |  \\| |/ /_\\ \\| |_/ / |    | |__   | |_/ / |__ | |     | | / /_\\ \\| |_/ / |    | |__  \n");
+   		printf("/ /_\\ \\| |_  | |_  | | | | |_/ / | | / /_\\ \\| |_/ / |    | |__   \\ `--.| | | \\ `--.  | |/ /_\\ \\ | | |  \\| |/ /_\\ \\| |_/ / |    | |__   | |_/ / |__ | |     | | / /_\\ \\| |_/ / |    | |__  \n");
     	printf("|  _  ||  _| |  _| | | | |    /| | | |  _  || ___ \\ |    |  __|   `--. \\ | | |`--. \\ | ||  _  | | | | . ` ||  _  || ___ \\ |    |  __|  |    /|  __|| |     | | |  _  || ___ \\ |    |  __| \n");
     	printf("| | | || |   | |   \\ \\_/ / |\\ \\| |/ /| | | || |_/ / |____| |___  /\\__/ / |_| /\\__/ / | || | | |_| |_| |\\  || | | || |_/ / |____| |___  | |\\ \\| |___| |_____| |_| | | || |_/ / |____| |___ \n");
-    	printf("\\_| |_/\\_|   \\_|    \\___/\\_| \\_|___/ \\_| |_/\\____/\\_____/\\____/  \\____/ \\___/\\____/  \\_/\\_| |_/\\___/\\_| \\_/\\_| |_/\\____/\\_____/\\____/  \\_| \\_\\____/\\_____/\\___/\\_| |_/\\____/\\_____/\\____/\n");
+    	printf("\\_| |_/\\_|   \\_|    \\___/\\_| \\_|___/ \\_| |_/\\____/\\_____/\\____/  \\____/ \\___/\\____/  \\_/\\_| |_/\\___/\\_| \\_/\\_| |_/\\____/\\_____/\\____/  \\_| \\_\\____/\\_____/\\___/\\_| |_/\\____/\\_____/\\____/\n" ANSI_COLOR_WHITE);
 	
-   	printf("\n===================================================================================================================================================================================================================\n" ANSI_COLOR_RESET);
+   		printf(ANSI_COLOR_CYAN "\n===================================================================================================================================================================================================================\n"ANSI_COLOR_RESET);
+   		printf("THE GOAL OF SDG 7 FROM THE UN IS TO ENSURE ACCESS TO AFFORDABLE, RELIABLE, SUSTAINABLE, AND MODERN ENERGY FOR ALL!");
+   	
    	 	
     	getch();
 		system("cls"); break;
