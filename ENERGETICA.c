@@ -166,11 +166,11 @@ int main() {
    			printf("Renewable energy solutions are becoming cheaper, more reliable and more efficient every day.Our current reliance on fossil fuels is unsustainable and harmful to the planet, which is why we have to change the way we produce and consume energy. Implementing these new energy solutions as fast as possible is essential to counter climate change, one of the biggest threats to our own survival.\n");
    	 		printf("\nTHINGS TO DO!\n");
    	 		printf("+Find a Goal 7 charity you want to support. Any donation, big or small, can make a difference!\n");
-   	 		printf("+Turn off your air conditioning, especially for sleeping – open a window or use a fan.\n");
-   	 		printf("+Do not use multiple devices at the same time. Be mindful about this and only several devices when absolutely necessary.\n");
-   	 		printf("+Switch off your appliances at the socket. Turn off the lights when you’re not using them.\n");
-   	 		printf("+Buy rechargeable electronics. Don’t buy or use one-use batteries.\n");
-   	 		printf("+Use solar energy sources. Install solar panels in your home for your heating and electricity. Use solar technology – radio, charger, lights etc.\n");
+   	 		printf("+Turn off your air conditioning, especially for sleeping - open a window or use a fan.\n");
+   	 		printf("+Don't use multiple devices at the same time. Be mindful about this and only several devices when absolutely necessary.\n");
+   	 		printf("+Switch off your appliances at the socket. Turn off the lights when you're not using them.\n");
+   	 		printf("+Buy rechargeable electronics. Don't buy or use one-use batteries.\n");
+   	 		printf("+Use solar energy sources. Install solar panels in your home for your heating and electricity. Use solar technology - radio, charger, lights etc.\n");
    	 	
    	 		printf("\nPress any key to go back to main menu");
     			getch();
