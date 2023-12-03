@@ -15,6 +15,7 @@
 
 typedef struct kotaEnergetica {
 	
+	char desc[500];
 	char nama[50];
 	float indeksKota;
 	float nilaiKeseluruhan;
@@ -46,14 +47,52 @@ void definisiKota(kota *energetica) {
     strcpy(energetica[1].nama, "Elegger City");
     strcpy(energetica[2].nama, "Tekkompolis");
     strcpy(energetica[3].nama, "Biotopia");
+    
+    strcpy(energetica[0].desc, "");
+    strcpy(energetica[1].desc, "");
+    strcpy(energetica[2].desc, "");
+    strcpy(energetica[3].desc, "");
 	
 }
 
 void gameplay(kota *energetica) {
-	int i;
+	int i, pil;
 	
-	for(i = 0; i < 3; i++) {
+	system("cls");
+	
+	for(i = 0; i < 4; i++) {
+		printf("L E V E L   %d\n", i + 1);
+		printf("===============\n");
+		printf("%s\n", energetica[0].desc);
+		printf("Press Any Button to Continue!");
+		getch();
+		system("cls");
 		
+		while(energetica[i].hari > 1 && energetica[i].budget > 1) {
+			
+			
+			
+			switch(pil) {
+						
+				case 1 : 
+				
+				case 2 :
+					
+				case 3 :
+				
+				case 4 :
+				
+				default : 
+				printf("Tolong masukkan angka yang valid!");
+				continue;
+				
+			}
+			
+		}
+		
+		
+		getch();
+		system("cls");
 	}
 }
 
@@ -125,7 +164,8 @@ int main() {
     			getch();
     	
     			gameplay(energetica);
-    	
+    		
+    		getch();
 			system("cls"); break;
     		
     		case 2 : 
@@ -198,3 +238,4 @@ int main() {
 
     return 0;
 }
+
