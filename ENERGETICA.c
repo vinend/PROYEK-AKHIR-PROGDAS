@@ -19,6 +19,7 @@ typedef struct kotaEnergetica {
 	float indeksKota;
 	float nilaiKeseluruhan;
 	float budget;
+	int hari;
 	
 	struct aksesListrik {
 		
@@ -46,6 +47,14 @@ void definisiKota(kota *energetica) {
     strcpy(energetica[2].nama, "Tekkompolis");
     strcpy(energetica[3].nama, "Biotopia");
 	
+}
+
+void gameplay(kota *energetica) {
+	int i;
+	
+	for(i = 0; i < 3; i++) {
+		
+	}
 }
 
 
@@ -111,9 +120,11 @@ int main() {
 		system("cls");
     	
     	printf(ANSI_COLOR_GREEN "ENERGETICA" ANSI_COLOR_RESET " adalah negara yang kecil, namun memiliki potensi yang besar. Saat ini " ANSI_COLOR_GREEN "ENERGETICA" ANSI_COLOR_RESET" dalam rangka janji kampanye yang telah dibuat,");
-    	printf("kamu bertekad untuk membawa negara ini dan kota-kotanya untuk mencapai tujuan dari" ANSI_COLOR_CYAN " SDG 7 " ANSI_COLOR_RESET "yang memiliki indeks capaian tersebut. Majukanlah kota-kota Energetica untuk mencapai tujuan SDG 7 dan mencapai tujuan indeks kalian!");
-    	printf("\nPress Any Button to Continue!");
+    	printf("kamu bertekad untuk membawa negara ini dan kota-kotanya untuk mencapai tujuan dari" ANSI_COLOR_CYAN " SDG 7 " ANSI_COLOR_RESET "yang memiliki indeks capaian tersebut. Majukanlah kota-kota Energetica untuk mencapai tujuan SDG 7 dan mencapai tujuan indeks kalian!\n\n");
+    	printf("Press Any Button to Continue!");
     	getch();
+    	
+    	gameplay(energetica);
     	
 		system("cls"); break;
     		
