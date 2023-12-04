@@ -58,9 +58,33 @@ void changeCO2(kota *energetica, float gasCO2, int i) {
 	}
 }
 
+void changeCH4(kota *energetica, float gasCH4, int i) {
+	float inc;
+	printf("Masukkan penurunan CH4 yang diinginkan: ");
+	scanf("%f", &inc);
+	
+	if(inc > 0 ) {
+		energetica[i].emisiGas.gasCH4 -= inc;
+		energetica[i].indeksKota -= 0.1 * inc;
+		printf("Berhasil menambahkan CO2\n");
+	}
+}
+
+void changeN2O(kota *energetica, float gasN2O, int i) {
+	float inc;
+	printf("Masukkan penurunan N2O yang diinginkan: ");
+	scanf("%f", &inc);
+	
+	if(inc > 0 ) {
+		energetica[i].emisiGas.gasN2O -= inc;
+		energetica[i].indeksKota -= 0.1 * inc;
+		printf("Berhasil menambahkan CO2\n");
+	}
+}
+
 void aturEmisi(kota *energetica, int i) {
 	int pil, hari;//ini hari belum diganti
-	float budgeet=100000000;//ini harusnya disesuaikan dengan option
+	float budget=100000000;//ini harusnya disesuaikan dengan option
 	
 	printf("O P S I\n");
 	printf("========================\n");
@@ -73,12 +97,11 @@ void aturEmisi(kota *energetica, int i) {
 		case 1 : 
 			changeCO2(energetica,energetica[i].emisiGas.gasCO2, i);
 			break;
-		
 		case 2 : 
-			//changeCH4(energetica);
+			changeCH4(energetica,energetica[i].emisiGas.gasCH4, i);
 			break;
 		case 3 : 
-			//changeN20(energetica);
+			changeN2O(energetica,energetica[i].emisiGas.gasN2O, i);
 			break;
 		default : 
 			printf("Masukkan Variabel Yang Valid!");
@@ -86,7 +109,7 @@ void aturEmisi(kota *energetica, int i) {
 			system("cls");	
 	}
 	
-	energetica[i].budget-=budgeet;	//lebih cocok untuk nanti di function
+	energetica[i].budget-=budget;	//lebih cocok untuk nanti di function
 	
 }
 
@@ -132,7 +155,7 @@ void gameplay(kota *energetica) {
 		getch();
 		system("cls");
 		
-		while(energetica[i].hari > 1 && energetica[i].budget > 1) {
+		while(energetica[i].hari => 1 && energetica[i].budget => 1) {
 			
 			
 			scanf("%d", &pil);
