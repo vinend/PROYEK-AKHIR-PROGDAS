@@ -12,20 +12,24 @@
 #define ANSI_COLOR_CYAN    "\x1b[36m"
 #define ANSI_COLOR_WHITE   "\x1b[37m"
 
-
 typedef struct kotaEnergetica {
 	
 	char desc[500];
 	char nama[50];
 	
-	float indeksKota;
 	float budget;
-	
+    float indeksKota;
+
 	int hari;
 	
 	struct aksesListrik {
+        float listrikSubsidi;
+        float listrikUmum;
+        float listrikTerbaharui;
+        float maxValue;
+        float skalaHistogram;
 		
-	};
+	} listrik;
 	
 	struct kebersihanRumahTangga {
 		
@@ -38,13 +42,89 @@ typedef struct kotaEnergetica {
 	struct emisiGasRumahKaca {
 		float gasCO2;
 		float gasCH4;
-		float gasN20;
+		float gasN2O;
 		float maxValue;
 		int skalaHistogram;
 		
-	}emisiGas;
+	} emisiGas;
 	
 } kota;
+
+//CODE KIMUSU
+//Sekarang baru bisa buat akses listrik bersubsidi
+//Error handling belum gitu jelas
+//Kriteria masih harus diperhitungkan lagi
+
+void definisiListrik(kota *energetica) {
+
+        energetica[0].listrik.listrikSubsidi = 0;
+        energetica[1].listrik.listrikSubsidi = 0;
+        energetica[2].listrik.listrikSubsidi = 0;
+        energetica[3].listrik.listrikSubsidi = 0;
+
+        energetica[0].listrik.listrikUmum = 0;
+        energetica[1].listrik.listrikUmum = 0;
+        energetica[2].listrik.listrikUmum = 0;
+        energetica[3].listrik.listrikUmum = 0;
+
+        energetica[0].listrik.listrikTerbaharui = 0;
+        energetica[1].listrik.listrikTerbaharui = 0;
+        energetica[2].listrik.listrikTerbaharui = 0;
+        energetica[3].listrik.listrikTerbaharui = 0;
+}
+
+void changeSubsidi(kota *energetica, float listrikSubsidi, int i) {
+    float inc = 0;
+    float biaya = 1500000 * (i+1);
+    float incIndeks = 0.1 * (i+1);
+
+    printf("\nBiaya : %.0f / poin", biaya);
+    printf("\n      : %.1f%% / poin", incIndeks);
+    printf("\n\nMasukkan penambahan akses listrik bersubsidi: ");
+    
+    while (inc <= 0) {
+        scanf("%f", &inc);
+        if (inc <= 0) {
+            printf("Masukkan angka yang valid!\n");
+        }
+    }
+        energetica[i].listrik.listrikSubsidi += inc;
+        energetica[i].indeksKota += incIndeks * inc;
+        energetica[i].budget -= biaya * inc;
+        energetica[i].hari -= 1;
+}
+
+void aturListrik(kota *energetica, int i) {
+    int pil, hari;
+	float budget = 100000000;
+
+	printf("\nO P S I\n");
+	printf("========================\n");
+	printf("1. Menyediakan listrik bersubsidi\n");
+	printf("2. Penambahan listrik untuk fasilitas umum\n");
+	printf("3. Penyediaan listrik dari energi terbaharukan\n");
+
+    printf("\nMasukkan OPSI: "); 
+	scanf("%d",&pil);
+	
+	switch(pil) {
+		case 1 : 
+			changeSubsidi(energetica,energetica[i].listrik.listrikSubsidi, i);
+			system("cls");	
+			break;
+		case 2 : 
+			break;
+		case 3 : 
+			break;
+		default : 
+			printf("Input anda tidak valid!\n\nPress any key to continue!");
+			getch();
+			system("cls");	
+	}
+}
+
+
+//CODE MEERDJAH
 
 void changeCO2(kota *energetica, float gasCO2, int i) {
 	float inc;
@@ -54,7 +134,7 @@ void changeCO2(kota *energetica, float gasCO2, int i) {
 	if(inc > 0 ) { //kondisinya ada yang gua apus
 		energetica[i].emisiGas.gasCO2 -= inc;
 		energetica[i].indeksKota -= 0.1 * inc;
-		printf("Berhasil menambahkan CO2\n");
+		printf("Berhasil menurunkan CO2\n");
 	}
 }
 
@@ -66,7 +146,7 @@ void changeCH4(kota *energetica, float gasCH4, int i) {
 	if(inc > 0 ) {
 		energetica[i].emisiGas.gasCH4 -= inc;
 		energetica[i].indeksKota -= 0.1 * inc;
-		printf("Berhasil menambahkan CO2\n");
+		printf("Berhasil menurunkan CH4\n");
 	}
 }
 
@@ -78,15 +158,15 @@ void changeN2O(kota *energetica, float gasN2O, int i) {
 	if(inc > 0 ) {
 		energetica[i].emisiGas.gasN2O -= inc;
 		energetica[i].indeksKota -= 0.1 * inc;
-		printf("Berhasil menambahkan CO2\n");
+		printf("Berhasil menurunkan CH4\n");
 	}
 }
 
 void aturEmisi(kota *energetica, int i) {
 	int pil, hari;//ini hari belum diganti
-	float budget=100000000;//ini harusnya disesuaikan dengan option
+	float budget = 100000000;//ini harusnya disesuaikan dengan option
 	
-	printf("O P S I\n");
+	printf("\n\nO P S I\n");
 	printf("========================\n");
 	printf("1. Gas CO2\n");
 	printf("2. Gas CH4\n");
@@ -109,9 +189,11 @@ void aturEmisi(kota *energetica, int i) {
 			system("cls");	
 	}
 	
-	energetica[i].budget-=budget;	//lebih cocok untuk nanti di function
+	energetica[i].budget -= budget;	//lebih cocok untuk nanti di function
 	
 }
+
+//CODE BERSAMA
 
 void definisiKota(kota *energetica) {
 	
@@ -120,16 +202,16 @@ void definisiKota(kota *energetica) {
     strcpy(energetica[2].nama, "Tekkompolis");
     strcpy(energetica[3].nama, "Biotopia");
     
-    strcpy(energetica[0].desc, "Tes");
-    strcpy(energetica[1].desc, "Tes");
-    strcpy(energetica[2].desc, "Tes");
-    strcpy(energetica[3].desc, "Tes");
+    strcpy(energetica[0].desc, "Ini deskripsi kota Dea-Tae-AE");
+    strcpy(energetica[1].desc, "Ini deskripsi kota Elegger City");
+    strcpy(energetica[2].desc, "Ini deskripsi kota Tekkompolis");
+    strcpy(energetica[3].desc, "Ini deskripsi kota Biotopia");
     
     energetica[0].budget = 250000000;
     energetica[1].budget = 200000000;
     energetica[2].budget = 150000000;
     energetica[3].budget = 100000000;
-	
+
 	energetica[0].indeksKota = 40;
 	energetica[1].indeksKota = 35;
 	energetica[2].indeksKota = 30;
@@ -145,23 +227,43 @@ void definisiKota(kota *energetica) {
 void gameplay(kota *energetica) {
 	int i, pil;
 	
-	system("cls");
-	
 	for(i = 0; i < 4; i++) {
+        definisiListrik(energetica);
+
 		printf("L E V E L   %d || %s\n", i + 1, energetica[i].nama);
 		printf("==================================\n");
-		printf("%s\n", energetica[0].desc);
-		printf("Press Any Button to Continue!");
+		printf("%s\n\n", energetica[i].desc);
+		printf("Press any key to continue!");
 		getch();
 		system("cls");
 		
-		while(energetica[i].hari => 1 && energetica[i].budget => 1) {
+		while(energetica[i].hari > 0 && energetica[i].budget > 0) {
 			
-			
+            printf("Berikut adalah informasi mengenai kota %s sejauh ini\n", energetica[i].nama);
+            printf("Budget kota : %.2f\n", energetica[i].budget);
+            printf("Sisa hari   : %.d\n\n", energetica[i].hari);
+
+            printf("||================================\n");
+            printf("|| Statistik\n");
+            printf("||================================\n");
+            printf("|| Status Indeks        : %.2f%%\n", energetica[i].indeksKota);
+            printf("|| Status Listrik       : %%\n");
+            printf("|| Status Kebersihan    : %%\n");
+            printf("|| Status Energi Bersih : %%\n");
+            printf("|| Status Emisi Gas     : %%\n");
+
+            printf("\nSektor yang dapat dipilih:\n");
+            printf("1. Akses Listrik\n");
+            printf("2. Kebersihan Rumah Tangga\n");
+            printf("3. Akses Energi Bersih\n");
+            printf("4. Emisi Gas Rumah Kaca\n\n");
+
+            printf("Masukkan sektor yang ingin diubah: ");
 			scanf("%d", &pil);
 			switch(pil) {
 						
 				case 1 : 
+                    aturListrik(energetica, i);
 					break;
 				case 2 :
 					break;
@@ -171,12 +273,13 @@ void gameplay(kota *energetica) {
 					aturEmisi(energetica, i);
 					break;
 				default : 
-				printf("Tolong masukkan angka yang valid!");
-				continue;
+                    printf("Input anda tidak valid!\n\nPress any key to continue!");
+                    continue;
 				
 			}
 			
 		}
+
 		printf("B E R H A S I L - L E V E L   %d || %s\n", i + 1, energetica[i].nama);
 		
 		getch();
@@ -191,9 +294,9 @@ int main() {
 	
 	definisiKota(energetica);
 	
-   	printf(ANSI_COLOR_YELLOW " _       __________    __________  __  _________                   " ANSI_COLOR_BLUE "________\n" ANSI_COLOR_YELLOW);
-	printf("| |     / / ____/ /   / ____/ __ \\/  |/  / ____/                  " ANSI_COLOR_BLUE "/////////\n" ANSI_COLOR_YELLOW);
-	printf("| | /| / / __/ / /   / /   / / / / /|_/ / __/                    " ANSI_COLOR_BLUE "/////////\n" ANSI_COLOR_YELLOW);
+   	    printf(ANSI_COLOR_YELLOW " _       __________    __________  __  _________                   " ANSI_COLOR_BLUE "________\n" ANSI_COLOR_YELLOW);
+	    printf("| |     / / ____/ /   / ____/ __ \\/  |/  / ____/                  " ANSI_COLOR_BLUE "/////////\n" ANSI_COLOR_YELLOW);
+	    printf("| | /| / / __/ / /   / /   / / / / /|_/ / __/                    " ANSI_COLOR_BLUE "/////////\n" ANSI_COLOR_YELLOW);
     	printf("| |/ |/ / /___/ /___/ /___/ /_/ / /  / / /___                   " ANSI_COLOR_BLUE "/////////\n" ANSI_COLOR_YELLOW);
     	printf("|__/|__/_____/_____/\\____/\\____/_/  /_/_____/                  " ANSI_COLOR_BLUE "/////////___\n" ANSI_COLOR_YELLOW);
 
@@ -203,7 +306,7 @@ int main() {
     	printf(" /_  __/ __ \\                                                     " ANSI_COLOR_BLUE "///////__\n" ANSI_COLOR_YELLOW);
     	printf("  / / / / / /                                                    " ANSI_COLOR_BLUE "//////////\n" ANSI_COLOR_YELLOW);
     	printf(" / / / /_/ /                                                    " ANSI_COLOR_BLUE "/____/////\n" ANSI_COLOR_YELLOW);
-	printf("/_/  \\____/                                                         " ANSI_COLOR_BLUE "/////\n" ANSI_COLOR_YELLOW);
+	    printf("/_/  \\____/                                                         " ANSI_COLOR_BLUE "/////\n" ANSI_COLOR_YELLOW);
 
     	printf("\t\t\t\t\t\t\t\t" "   "ANSI_COLOR_BLUE"/////\n");
 
@@ -213,7 +316,7 @@ int main() {
     	printf(ANSI_COLOR_GREEN" / /___"ANSI_COLOR_RESET"/ /|  "ANSI_COLOR_GREEN"/ /___"ANSI_COLOR_RESET"/ _, _/ /_/ "ANSI_COLOR_GREEN"/ /___  "ANSI_COLOR_RESET"/ / _/ // /___/ ___ |     "ANSI_COLOR_BLUE"///\n"ANSI_COLOR_RESET);
     	printf(ANSI_COLOR_GREEN"/_____/"ANSI_COLOR_RESET"_/ |_"ANSI_COLOR_GREEN"/_____/"ANSI_COLOR_RESET"_/ |_|\\____"ANSI_COLOR_GREEN"/_____/"ANSI_COLOR_RESET" /_/ /___/\\____/_/  |_|     "ANSI_COLOR_BLUE"//\n"ANSI_COLOR_RESET);
     
-    	printf("\n\nPress any button to Continue!");
+    	printf("\n\nPress any key to Continue!");
     	getch();
     	system("cls");
     
@@ -242,84 +345,88 @@ int main() {
     			printf("S E L A M A T!\n");
     			printf("===================\n");
     			printf("Anda terpilih menjadi presiden dari negara" ANSI_COLOR_GREEN " ENERGETICA" ANSI_COLOR_RESET "!");
-    			printf("\nPres Any Button To Continue");
+    			printf("\n\nPress any key to continue!");
     			getch();
-			system("cls");
+			    system("cls");
     	
-    			printf(ANSI_COLOR_GREEN "ENERGETICA" ANSI_COLOR_RESET " adalah negara yang kecil, namun memiliki potensi yang besar. Saat ini " ANSI_COLOR_GREEN "ENERGETICA" ANSI_COLOR_RESET" dalam rangka janji kampanye yang telah dibuat,");
-    			printf("kamu bertekad untuk membawa negara ini dan kota-kotanya untuk mencapai tujuan dari" ANSI_COLOR_CYAN " SDG 7 " ANSI_COLOR_RESET "yang memiliki indeks capaian tersebut. Majukanlah kota-kota Energetica untuk mencapai tujuan SDG 7 dan mencapai tujuan indeks kalian!\n\n");
-    			printf("Press Any Button to Continue!");
+    			printf(ANSI_COLOR_GREEN "ENERGETICA" ANSI_COLOR_RESET " adalah negara yang kecil, namun memiliki potensi yang besar. Saat ini " ANSI_COLOR_GREEN "ENERGETICA" ANSI_COLOR_RESET" dalam rangka janji kampanye yang telah dibuat,\n");
+    			printf("kamu bertekad untuk membawa negara ini dan kota-kotanya untuk mencapai tujuan dari" ANSI_COLOR_CYAN " SDG 7 " ANSI_COLOR_RESET "yang memiliki indeks capaian tersebut. Majukanlah kota-kota Energetica untuk mencapai\n");
+                printf("tujuan SDG 7 dan mencapai tujuan indeks kalian!");
+    			printf("\n\nPress any key to continue!");
     			getch();
+                system("cls");
     	
     			gameplay(energetica);
     		
-    		getch();
-			system("cls"); break;
+    		    getch();
+			    system("cls"); 
+                break;
     		
     		case 2 : 
     			system("cls");
     			printf("C A R A   B E R M A I N\n");
     			printf("==============================\n");
     			printf("1. Anda akan diberikan suatu senario dimana anda harus memecahkan masalah pada kota\n\n");
-			printf("2. Pada game ini terdapat 4 kota yang harus anda selesaikan masalahnya : Dea Tae-AE, Elegger City, Tekkompolis, dan Biotopia\n\n");
-			printf("3. Tiap kota memiliki indeks pencapaian yang meliputi 4 aspek yaitu Akses Listrik, Kebersihan Rumah Tangga, Akses Energi Bersih, dan Pengurangan Emisi Gas Rumah Kaca\n\n");
-			printf("4. Kita akan diberikan budget yang berbeda-beda setiap kota untuk memecahkan masalah-masalah ini, semua aspek yang mempengaruhi indeks harus harmonis dan saling balanced\n\n");
-			printf("5. Jika Indeks tidak tercapai, batas hari sudah habis, atau budget melebihi batas maka anda gagal\n\n");
-			printf("6. Jika Indeks tercapai dalam batas hari yang diinginkan maka anda lanjut ke level berikutnya sampai game selesai!\n\n");
-			printf("\nPress Any Button To Continue");
-			getch();
-			system("cls"); break;
+				printf("2. Pada game ini terdapat 4 kota yang harus anda selesaikan masalahnya : Dea Tae-AE, Elegger City, Tekkompolis, dan Biotopia\n\n");
+				printf("3. Tiap kota memiliki indeks pencapaian yang meliputi 4 aspek yaitu Akses Listrik, Kebersihan Rumah Tangga, Akses Energi Bersih, dan Pengurangan Emisi Gas Rumah Kaca\n\n");
+				printf("4. Kita akan diberikan budget yang berbeda-beda setiap kota untuk memecahkan masalah-masalah ini, semua aspek yang mempengaruhi indeks harus harmonis dan saling balanced\n\n");
+				printf("5. Jika Indeks tidak tercapai, batas hari sudah habis, atau budget melebihi batas maka anda gagal\n\n");
+				printf("6. Jika Indeks tercapai dalam batas hari yang diinginkan maka anda lanjut ke level berikutnya sampai game selesai!\n\n");
+				printf("\nPress any key to continue!");
+				getch();
+				system("cls"); 
+				break;
     	
     		case 3 : 
-			system("cls");
-			printf(ANSI_COLOR_CYAN" ________  ________  ________                ________  \n");
+				system("cls");
+				printf(ANSI_COLOR_CYAN" ________  ________  ________                ________  \n");
     			printf("|\\   ____\\|\\   ___ \\|\\   ____\\              |\\_____  \\ \n");
     			printf("\\ \\  \\___|\\ \\  \\_|\\ \\ \\  \\___|               \\|___/  /|\n");
     			printf(" \\ \\_____  \\ \\  \\ \\\\ \\ \\  \\  ___                 /  / / \n");
     			printf("  \\|____|\\  \\ \\  \\_\\\\ \\ \\  \\|\\  \\               /  / /  \n");
     			printf("    ____\\_\\  \\ \\_______\\ \\_______\\             /__/ /   \n");
     			printf("   |\\_________\\|_______|\\|_______|             |__|/    \n");
-   	 		printf("   \\|_________|                                        \n" ANSI_COLOR_RESET);
-   	 	
-   	 	
-   			printf( ANSI_COLOR_WHITE"  ___  ____________ _________________  ___  ______ _      _____   _____ _   _ _____ _____ ___  _____ _   _   ___  ______ _      _____  ______ _____ _     _____  ___  ______ _      _____ \n");
+   	 			printf("   \\|_________|                                        \n" ANSI_COLOR_RESET);
+
+   				printf( ANSI_COLOR_WHITE"  ___  ____________ _________________  ___  ______ _      _____   _____ _   _ _____ _____ ___  _____ _   _   ___  ______ _      _____  ______ _____ _     _____  ___  ______ _      _____ \n");
     			printf(" / _ \\ |  ___|  ___|  _  | ___ \\  _  \\/ _ \\ | ___ \\ |    |  ___| /  ___| | | /  ___|_   _/ _ \\|_   _| \\ | | / _ \\ | ___ \\ |    |  ___| | ___ \\  ___| |   |_   _|/ _ \\ | ___ \\ |    |  ___|\n");
-   			printf("/ /_\\ \\| |_  | |_  | | | | |_/ / | | / /_\\ \\| |_/ / |    | |__   \\ `--.| | | \\ `--.  | |/ /_\\ \\ | | |  \\| |/ /_\\ \\| |_/ / |    | |__   | |_/ / |__ | |     | | / /_\\ \\| |_/ / |    | |__  \n");
+   				printf("/ /_\\ \\| |_  | |_  | | | | |_/ / | | / /_\\ \\| |_/ / |    | |__   \\ `--.| | | \\ `--.  | |/ /_\\ \\ | | |  \\| |/ /_\\ \\| |_/ / |    | |__   | |_/ / |__ | |     | | / /_\\ \\| |_/ / |    | |__  \n");
     			printf("|  _  ||  _| |  _| | | | |    /| | | |  _  || ___ \\ |    |  __|   `--. \\ | | |`--. \\ | ||  _  | | | | . ` ||  _  || ___ \\ |    |  __|  |    /|  __|| |     | | |  _  || ___ \\ |    |  __| \n");
     			printf("| | | || |   | |   \\ \\_/ / |\\ \\| |/ /| | | || |_/ / |____| |___  /\\__/ / |_| /\\__/ / | || | | |_| |_| |\\  || | | || |_/ / |____| |___  | |\\ \\| |___| |_____| |_| | | || |_/ / |____| |___ \n");
     			printf("\\_| |_/\\_|   \\_|    \\___/\\_| \\_|___/ \\_| |_/\\____/\\_____/\\____/  \\____/ \\___/\\____/  \\_/\\_| |_/\\___/\\_| \\_/\\_| |_/\\____/\\_____/\\____/  \\_| \\_\\____/\\_____/\\___/\\_| |_/\\____/\\_____/\\____/\n" ANSI_COLOR_WHITE);
 	
-   			printf(ANSI_COLOR_CYAN "\n===================================================================================================================================================================================================================\n"ANSI_COLOR_RESET);
-   			printf("THE GOAL OF SDG 7 FROM THE UN IS TO ENSURE ACCESS TO AFFORDABLE, RELIABLE, SUSTAINABLE, AND MODERN ENERGY FOR ALL!\n");
-   			printf("Renewable energy solutions are becoming cheaper, more reliable and more efficient every day.Our current reliance on fossil fuels is unsustainable and harmful to the planet, which is why we have to change the way we produce and consume energy. Implementing these new energy solutions as fast as possible is essential to counter climate change, one of the biggest threats to our own survival.\n");
-   	 		printf("\nTHINGS TO DO!\n");
-   	 		printf("+Find a Goal 7 charity you want to support. Any donation, big or small, can make a difference!\n");
-   	 		printf("+Turn off your air conditioning, especially for sleeping - open a window or use a fan.\n");
-   	 		printf("+Don't use multiple devices at the same time. Be mindful about this and only several devices when absolutely necessary.\n");
-   	 		printf("+Switch off your appliances at the socket. Turn off the lights when you're not using them.\n");
-   	 		printf("+Buy rechargeable electronics. Don't buy or use one-use batteries.\n");
-   	 		printf("+Use solar energy sources. Install solar panels in your home for your heating and electricity. Use solar technology - radio, charger, lights etc.\n");
-   	 	
-   	 		printf("\nPress any key to go back to main menu");
-    			getch();
-			system("cls"); break;
+   				printf(ANSI_COLOR_CYAN "\n===================================================================================================================================================================================================================\n"ANSI_COLOR_RESET);
+   				printf("THE GOAL OF SDG 7 FROM THE UN IS TO ENSURE ACCESS TO AFFORDABLE, RELIABLE, SUSTAINABLE, AND MODERN ENERGY FOR ALL!\n");
+   				printf("Renewable energy solutions are becoming cheaper, more reliable and more efficient every day.Our current reliance on fossil fuels is unsustainable and harmful to the planet, which is why we have to change the way we produce and consume energy. Implementing these new energy solutions as fast as possible is essential to counter climate change, one of the biggest threats to our own survival.\n");
+   	 			printf("\nTHINGS TO DO!\n");
+				printf("+Find a Goal 7 charity you want to support. Any donation, big or small, can make a difference!\n");
+				printf("+Turn off your air conditioning, especially for sleeping - open a window or use a fan.\n");
+				printf("+Don't use multiple devices at the same time. Be mindful about this and only several devices when absolutely necessary.\n");
+				printf("+Switch off your appliances at the socket. Turn off the lights when you're not using them.\n");
+				printf("+Buy rechargeable electronics. Don't buy or use one-use batteries.\n");
+				printf("+Use solar energy sources. Install solar panels in your home for your heating and electricity. Use solar technology - radio, charger, lights etc.\n");
+			
+				printf("\nPress any key to go back to main menu");
+				getch();
+				system("cls"); 
+				break;
     		
     		case 4 : 
     			system("cls");
-			printf(ANSI_COLOR_GREEN "______________ ___    _____    _______   ____  __. _____.___.________   ____ ___  ._.\n");
+				printf(ANSI_COLOR_GREEN "______________ ___    _____    _______   ____  __. _____.___.________   ____ ___  ._.\n");
     			printf("\\__    ___/   |   \\  /  _  \\   \\      \\ |    |/ _| \\__  |   |\\_____  \\ |    |   \\ | |\n");
     			printf("  |    | /    ~    \\/  /_\\  \\  /   |   \\|      <    /   |   | /   |   \\|    |   / | |\n");
     			printf("  |    | \\    Y    /    |    \\/    |    \\    |  \\   \\____   |/    |    \\    |  /   \\|\n");
-   			printf("  |____|  \\___|_  /\\____|__  /\\____|__  /____|__ \\  / ______|\\_______  /______/    __\n");
+   				printf("  |____|  \\___|_  /\\____|__  /\\____|__  /____|__ \\  / ______|\\_______  /______/    __\n");
     			printf("                \\/         \\/         \\/        \\/  \\/               \\/            \\/" ANSI_COLOR_RESET "\n");
-			return 0;
+				return 0;
     		
     		default : 
-			system("cls");
-			printf("T Y P E   A   V A L I D   N U M B E R !!\n\n");
-			printf("Press Any Button To Continue");
-			getch();
-			system("cls"); break;
+				system("cls");
+				printf("T Y P E   A   V A L I D   N U M B E R !!\n\n");
+				printf("Press any key to Continue");
+				getch();
+				system("cls");
 		}
 	}
     
