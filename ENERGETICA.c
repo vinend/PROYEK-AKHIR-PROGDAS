@@ -36,11 +36,57 @@ typedef struct kotaEnergetica {
 	};
 	
 	struct emisiGasRumahKaca {
+		float gasCO2;
+		float gasCH4;
+		float gasN20;
+		float maxValue;
+		int skalaHistogram;
 		
 	};
 	
 } kota;
 
+void changeCO2(kota *energetica[i]) {
+	float inc;
+	printf("Masukkan kenaikan CO2 yang diinginkan: ");
+	scanf("%f", &inc);
+	
+	if(inc > 0 && gasCO2 >= inc) {
+		energetica[i].emisiGasRumahKaca.gasCO2 -= inc;
+		energetica[i].indeksKota -= 0.1 * inc;
+	}
+}
+
+void aturEmisi(kota *energetica) {
+	int pil, i;
+	
+	printf("O P S I\n");
+	printf("========================");
+	printf("1. Gas CO2\n");
+	printf("2. Gas CH4\n");
+	printf("3. Gas N20\n");
+	
+	switch(pil) {
+		
+		case 1 : 
+			changeCO2(energetica);
+			break;
+		
+		case 2 : 
+			changeCH4(energetica);
+		
+		case 3 : 
+			changeN20(energetica);
+		
+		default : 
+			printf("Masukkan Variabel Yang Valid!");
+			getch()
+			system("cls");
+		
+		
+	}
+	
+}
 
 void definisiKota(kota *energetica) {
 	
@@ -254,3 +300,4 @@ int main() {
 
     return 0;
 }
+
