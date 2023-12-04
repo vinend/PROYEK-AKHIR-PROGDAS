@@ -42,49 +42,51 @@ typedef struct kotaEnergetica {
 		float maxValue;
 		int skalaHistogram;
 		
-	};
+	}emisiGas;
 	
 } kota;
 
-void changeCO2(kota *energetica[i]) {
+void changeCO2(kota *energetica, float gasCO2, int i) {
 	float inc;
-	printf("Masukkan kenaikan CO2 yang diinginkan: ");
+	printf("Masukkan penurunan CO2 yang diinginkan: ");
 	scanf("%f", &inc);
 	
-	if(inc > 0 && gasCO2 >= inc) {
-		energetica[i].emisiGasRumahKaca.gasCO2 -= inc;
+	if(inc > 0 ) { //kondisinya ada yang gua apus
+		energetica[i].emisiGas.gasCO2 -= inc;
 		energetica[i].indeksKota -= 0.1 * inc;
+		printf("Berhasil menambahkan CO2\n");
 	}
 }
 
-void aturEmisi(kota *energetica) {
-	int pil, i;
+void aturEmisi(kota *energetica, int i) {
+	int pil, hari;//ini hari belum diganti
+	float budgeet=100000000;//ini harusnya disesuaikan dengan option
 	
 	printf("O P S I\n");
-	printf("========================");
+	printf("========================\n");
 	printf("1. Gas CO2\n");
 	printf("2. Gas CH4\n");
 	printf("3. Gas N20\n");
+	scanf("%d",&pil);
 	
 	switch(pil) {
-		
 		case 1 : 
-			changeCO2(energetica);
+			changeCO2(energetica,energetica[i].emisiGas.gasCO2, i);
 			break;
 		
 		case 2 : 
-			changeCH4(energetica);
-		
+			//changeCH4(energetica);
+			break;
 		case 3 : 
-			changeN20(energetica);
-		
+			//changeN20(energetica);
+			break;
 		default : 
 			printf("Masukkan Variabel Yang Valid!");
-			getch()
-			system("cls");
-		
-		
+			getch();
+			system("cls");	
 	}
+	
+	energetica[i].budget-=budgeet;	//lebih cocok untuk nanti di function
 	
 }
 
@@ -133,17 +135,18 @@ void gameplay(kota *energetica) {
 		while(energetica[i].hari > 1 && energetica[i].budget > 1) {
 			
 			
-			
+			scanf("%d", &pil);
 			switch(pil) {
 						
 				case 1 : 
-				
+					break;
 				case 2 :
-					
+					break;
 				case 3 :
-				
+					break;
 				case 4 :
-				
+					aturEmisi(energetica, i);
+					break;
 				default : 
 				printf("Tolong masukkan angka yang valid!");
 				continue;
@@ -151,7 +154,7 @@ void gameplay(kota *energetica) {
 			}
 			
 		}
-		
+		printf("B E R H A S I L - L E V E L   %d || %s\n", i + 1, energetica[i].nama);
 		
 		getch();
 		system("cls");
@@ -300,4 +303,3 @@ int main() {
 
     return 0;
 }
-
