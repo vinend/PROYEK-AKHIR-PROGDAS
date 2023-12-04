@@ -17,9 +17,10 @@ typedef struct kotaEnergetica {
 	
 	char desc[500];
 	char nama[50];
+	
 	float indeksKota;
-	float nilaiKeseluruhan;
 	float budget;
+	
 	int hari;
 	
 	struct aksesListrik {
@@ -48,11 +49,21 @@ void definisiKota(kota *energetica) {
     strcpy(energetica[2].nama, "Tekkompolis");
     strcpy(energetica[3].nama, "Biotopia");
     
-    strcpy(energetica[0].desc, "");
-    strcpy(energetica[1].desc, "");
-    strcpy(energetica[2].desc, "");
-    strcpy(energetica[3].desc, "");
+    strcpy(energetica[0].desc, "Tes");
+    strcpy(energetica[1].desc, "Tes");
+    strcpy(energetica[2].desc, "Tes");
+    strcpy(energetica[3].desc, "Tes");
+    
+    energetica[0].budget = 250000000;
+    energetica[1].budget = 200000000;
+    energetica[2].budget = 150000000;
+    energetica[3].budget = 100000000;
 	
+	energetica[0].indeksKota = 40;
+	energetica[1].indeksKota = 35;
+	energetica[2].indeksKota = 30;
+	energetica[3].indeksKota = 25;
+		
 }
 
 void gameplay(kota *energetica) {
@@ -61,8 +72,8 @@ void gameplay(kota *energetica) {
 	system("cls");
 	
 	for(i = 0; i < 4; i++) {
-		printf("L E V E L   %d\n", i + 1);
-		printf("===============\n");
+		printf("L E V E L   %d || %s\n", i + 1, energetica[i].nama);
+		printf("==================================\n");
 		printf("%s\n", energetica[0].desc);
 		printf("Press Any Button to Continue!");
 		getch();
@@ -238,4 +249,3 @@ int main() {
 
     return 0;
 }
-
