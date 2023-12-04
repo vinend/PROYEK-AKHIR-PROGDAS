@@ -63,6 +63,11 @@ void definisiKota(kota *energetica) {
 	energetica[1].indeksKota = 35;
 	energetica[2].indeksKota = 30;
 	energetica[3].indeksKota = 25;
+	
+	energetica[0].hari = 30;
+	energetica[1].hari = 25;
+	energetica[2].hari = 20;
+	energetica[3].hari = 15;
 		
 }
 
