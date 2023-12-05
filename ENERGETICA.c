@@ -36,7 +36,7 @@ typedef struct kotaEnergetica {
 		float wasteManagement;
 		float alatKebersihanSustainable;
 		float skalaHistogram;
-	};
+	}kebersihanRumahTangga;
 	
 	struct aksesEnergiBersih {
 		float kemudahanAkses;
@@ -242,7 +242,7 @@ void aturKebersihanRumahTangga(kota *energetica, int i) {
 			
 		default : 
 			printf("Tolong masukkan input yang valid!\n"); printf("Press Any Button to Continue"); getch(); system("cls");
-			aturKebersihanRumahTangga(kota *energetica, int i);
+			aturKebersihanRumahTangga(energetica,  i);
 	}
 }
 
