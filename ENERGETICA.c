@@ -39,8 +39,12 @@ typedef struct kotaEnergetica {
 	};
 	
 	struct aksesEnergiBersih {
-		
-	};
+		float kemudahanAkses;
+		float kebersihan;
+		float energiTerbarukan;
+		float maxValue;
+        	float skalaHistogram;
+	}energiBersih;
 	
 	struct emisiGasRumahKaca {
 		float gasCO2;
@@ -294,6 +298,79 @@ void manajemenWaste(kota *energetica, int i) {
     energetica[i].budget -= hargaPembuanganWaste;
 }
 
+
+//CODE MUSTOF
+//Implementasinya agak beda jadi dipertanyakan
+//error handling masih kurang
+//budget dan efektifitas tiap opsi masih belum diperhitungkan
+void definisiEnergiBersih(kota *energetica)
+{
+	int i;
+	for (i=0;i<4;i++)
+	{
+		energetica[i].energiBersih.kemudahanAkses = 0;
+		energetica[i].energiBersih.kebersihan = 0;
+		energetica[i].energiBersih.energiTerbarukan = 0;
+	}
+}
+
+void kemudahanAkses (kota *energetica, int i, int nilaiKemudahan, float budget)
+{
+	energetica[i].energiBersih.kemudahanAkses += nilaiKemudahan;
+	energetica[i].budget -= budget;
+}
+
+void kebersihan (kota *energetica, int i, int nilaiKebersihan, float budget)
+{
+	energetica[i].energiBersih.kebersihan += nilaiKebersihan;
+	energetica[i].budget -= budget;
+}
+
+void penambahanEnergi (kota *energetica, int i, int nilaiPenambahan, float budget)
+{
+	energetica[i].energiBersih.energiTerbarukan += nilaiPenambahan;
+	energetica[i].budget -= budget;
+}
+
+void aturAksesEnergi(kota *energetica, int i)
+{
+	int opsi;
+	printf("Apa yang ingin diubah pada Akses Energi Bersih?\n");
+	printf("1. Pembangunan PLTA\n");
+	printf("2. Membuat kebijakan dan regulasi energi bersih\n");
+	printf("3. Memberikan edukasi kepada warga\n");
+	printf("4. Pembangunan infrasruktur yang lebih baik\n");
+	printf("5. Peningkatan akses di daerah terpencil\n");
+	scanf("%d", &opsi);
+	
+	switch (opsi)
+	{
+		case 1:
+			printf("Budget yang dibutuhkan : %f\nValue efektifitas : %d", 100000, 30);
+			penambahanEnergi (energetica, i, 30 , 100000);
+			break;
+		case 2 :
+			printf("Budget yang dibutuhkan : %f\nValue efektifitas : %d", 50000, 20);
+			kemudahanAkses (energetica, i, 20 , 50000);
+			break;
+		case 3 :
+			printf("Budget yang dibutuhkan : %f\nValue efektifitas : %d", 5000, 10);
+			kebersihan (energetica, i, 10 , 5000);
+			break;
+		case 4 :
+			printf("Budget yang dibutuhkan : %f\nValue efektifitas : %d", 100000, 30);
+			penambahanEnergi (energetica, i, 30 , 100000);
+			break;
+		case 5 :
+			printf("Budget yang dibutuhkan : %f\nValue efektifitas : %d", 100000, 30);
+			penambahanEnergi (energetica, i, 30 , 100000);
+			break;
+		default :
+			printf("Input tidak valid. Mohon melakukan input ulang!");
+			aturAksesEnergi(energetica, i);
+	}
+}
+
 //CODE BERSAMA
 
 void definisiKota(kota *energetica) {
@@ -364,11 +441,13 @@ void gameplay(kota *energetica) {
 			switch(pil) {
 						
 				case 1 : 
-                    aturListrik(energetica, i);
+                    			aturListrik(energetica, i);
 					break;
 				case 2 :
+					aturKebersihanRumahTangga(energetica, i);
 					break;
 				case 3 :
+					aturAksesEnergi(energetica, i);
 					break;
 				case 4 :
 					aturEmisi(energetica, i);
