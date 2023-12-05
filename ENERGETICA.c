@@ -32,7 +32,10 @@ typedef struct kotaEnergetica {
 	} listrik;
 	
 	struct kebersihanRumahTangga {
-		
+		float efisiensiEnergi;
+		float wasteManagement;
+		float alatKebersihanSustainable;
+		float skalaHistogram;
 	};
 	
 	struct aksesEnergiBersih {
@@ -191,6 +194,104 @@ void aturEmisi(kota *energetica, int i) {
 	
 	energetica[i].budget -= budget;	//lebih cocok untuk nanti di function
 	
+}
+
+//CODE ALVIN
+void definisiKebersihanRumahTangga (kota *energetica) {
+	int i;
+	
+	energetica[0].kebersihanRumahTangga.alatKebersihanSustainable = 0;
+	energetica[1].kebersihanRumahTangga.alatKebersihanSustainable = 0;
+	energetica[2].kebersihanRumahTangga.alatKebersihanSustainable = 0;
+	energetica[3].kebersihanRumahTangga.alatKebersihanSustainable = 0;
+	
+	energetica[0].kebersihanRumahTangga.efisiensiEnergi = 0;
+	energetica[1].kebersihanRumahTangga.efisiensiEnergi = 0;
+	energetica[2].kebersihanRumahTangga.efisiensiEnergi = 0;
+	energetica[3].kebersihanRumahTangga.efisiensiEnergi = 0;
+	
+	energetica[0].kebersihanRumahTangga.wasteManagement = 0;
+	energetica[1].kebersihanRumahTangga.wasteManagement = 0;
+	energetica[2].kebersihanRumahTangga.wasteManagement = 0;
+	energetica[3].kebersihanRumahTangga.wasteManagement = 0;
+}
+
+void aturKebersihanRumahTangga(kota *energetica, int i) {
+	int pil;
+	
+	printf("O P S I\n");
+	printf("==============\n");
+	printf("1. Penggunaan Alat Kebersihan Rumah Tangga\n");
+	printf("2. Keefisienan Penggunaan Energi Rumah Tangga\n");
+	printf("3. Manajemen Waste\n");
+	scanf("%d", &pil);
+	
+	switch(pil) {
+		case 1 : 
+			alatKebersihan(energetica, energetica[i].kebersihanRumahTangga.alatKebersihanSustainable); printf("\nPress Any Button to Continue"); getch(); system("cls"); break;
+			
+		case 2 : 
+			efisiensiEnergi(energetica, energetica[i].kebersihanRumahTangga.efisiensiEnergi); printf("\nPress Any Button to Continue"); getch(); system("cls"); break;
+			
+		case 3 : 
+			manajemenWaste(energetica, energetica[i].kebersihanRumahTangga.wasteManagement); printf("\nPress Any Button to Continue"); getch(); system("cls"); break;
+			
+		default : 
+			printf("Tolong masukkan input yang valid!\n"); printf("Press Any Button to Continue"); getch(); system("cls");
+			aturKebersihanRumahTangga(kota *energetica, int i);
+	}
+}
+
+void alatKebersihan(kota *energetica, int i) {
+    float alatYangDipakai, biayaUrusAlat, totalAlatDipakai, totalBiaya;
+
+    printf("\nMasukkan jumlah alat kebersihan yang dipakai: ");
+    scanf("%f", &alatYangDipakai);
+
+  
+    biayaUrusAlat = 50000;  
+
+    totalAlatDipakai = alatYangDipakai * biayaUrusAlat;
+    totalBiaya = totalAlatDipakai; 
+
+    
+    energetica[i].kebersihanRumahTangga.alatKebersihanSustainable += alatYangDipakai;
+    energetica[i].budget -= totalBiaya;
+}
+
+
+void efisiensiEnergi(kota *energetica, int i) {
+    float outputEnergi, kehilanganEnergi, totalKonsumsiEnergi, pengurusanEnergi;
+
+    printf("\nMasukkan output energi rumah tangga: ");
+    scanf("%f", &outputEnergi);
+
+    
+    kehilanganEnergi = outputEnergi * 0.1;  
+
+    totalKonsumsiEnergi = outputEnergi + kehilanganEnergi;
+    pengurusanEnergi = totalKonsumsiEnergi * 0.05;  
+
+    
+    energetica[i].kebersihanRumahTangga.efisiensiEnergi = outputEnergi - pengurusanEnergi;
+    energetica[i].budget -= pengurusanEnergi;
+}
+
+
+void manajemenWaste(kota *energetica, int i) {
+    float pengumpulanWaste, totalWaste, hargaPembuanganWaste;
+
+    printf("\nMasukkan jumlah waste yang dikumpulkan: ");
+    scanf("%f", &pengumpulanWaste);
+
+    
+    hargaPembuanganWaste = pengumpulanWaste * 10000;  
+
+    totalWaste = pengumpulanWaste + hargaPembuanganWaste;
+
+    
+    energetica[i].kebersihanRumahTangga.wasteManagement += totalWaste;
+    energetica[i].budget -= hargaPembuanganWaste;
 }
 
 //CODE BERSAMA
