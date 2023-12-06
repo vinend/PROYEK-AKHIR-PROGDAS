@@ -56,6 +56,7 @@ typedef struct kotaEnergetica {
 		float maxValue;
 		int skalaHistogram;
 		float indeksGasRumahKaca;
+		int inc;
 		
 	} emisiGas;
 	
