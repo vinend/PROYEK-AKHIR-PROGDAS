@@ -412,7 +412,6 @@ void gameplay(kota *energetica) {
 	
 	for(i = 0; i < 4; i++) {
         definisiListrik(energetica);
-        energetica[i].indeksKota = (energetica[i].aksesListrik.indeksListrik * 0.25) + (energetica[i].aksesEnergiBersih.indeksAksesEnergi * 0.25) + (energetica[i].emisiGas.indeksGasRumahKaca * 0.25) + (energetica[i].kebersihanRumahTangga.indeksKebersihanRT * 0.25); 
 
 		printf("L E V E L   %d || %s\n", i + 1, energetica[i].nama);
 		printf("==================================\n");
@@ -423,6 +422,7 @@ void gameplay(kota *energetica) {
 		
 		while(energetica[i].hari > 0 && energetica[i].budget > 0) {
 			
+			energetica[i].indeksKota = (energetica[i].listrik.indeksListrik * 0.25) + (energetica[i].energiBersih.indeksAksesEnergi * 0.25) + (energetica[i].emisiGas.indeksGasRumahKaca * 0.25) + (energetica[i].kebersihanRumahTangga.indeksKebersihanRT * 0.25);
             printf("Berikut adalah informasi mengenai kota %s sejauh ini\n", energetica[i].nama);
             printf("Budget kota : %.2f\n", energetica[i].budget);
             printf("Sisa hari   : %.d\n\n", energetica[i].hari);
