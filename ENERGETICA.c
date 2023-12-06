@@ -301,31 +301,6 @@ void definisiKebersihanRumahTangga (kota *energetica) {
 	energetica[3].kebersihanRumahTangga.wasteManagement = 0;
 }
 
-void aturKebersihanRumahTangga(kota *energetica, int i) {
-	int pil;
-	
-	printf("O P S I\n");
-	printf("==============\n");
-	printf("1. Penggunaan Alat Kebersihan Rumah Tangga\n");
-	printf("2. Keefisienan Penggunaan Energi Rumah Tangga\n");
-	printf("3. Manajemen Waste\n");
-	scanf("%d", &pil);
-	
-	switch(pil) {
-		case 1 : 
-			alatKebersihan(energetica, energetica[i].kebersihanRumahTangga.alatKebersihanSustainable); printf("\nPress Any Button to Continue"); getch(); system("cls"); break;
-			
-		case 2 : 
-			efisiensiEnergi(energetica, energetica[i].kebersihanRumahTangga.efisiensiEnergi); printf("\nPress Any Button to Continue"); getch(); system("cls"); break;
-			
-		case 3 : 
-			manajemenWaste(energetica, energetica[i].kebersihanRumahTangga.wasteManagement); printf("\nPress Any Button to Continue"); getch(); system("cls"); break;
-			
-		default : 
-			printf("Tolong masukkan input yang valid!\n"); printf("Press Any Button to Continue"); getch(); system("cls");
-			aturKebersihanRumahTangga(energetica,  i);
-	}
-}
 
 void alatKebersihan(kota *energetica, int i) {
     float alatYangDipakai, biayaUrusAlat, totalAlatDipakai, totalBiaya;
@@ -379,6 +354,31 @@ void manajemenWaste(kota *energetica, int i) {
     energetica[i].budget -= hargaPembuanganWaste;
 }
 
+void aturKebersihanRumahTangga(kota *energetica, int i) {
+	int pil;
+	
+	printf("O P S I\n");
+	printf("==============\n");
+	printf("1. Penggunaan Alat Kebersihan Rumah Tangga\n");
+	printf("2. Keefisienan Penggunaan Energi Rumah Tangga\n");
+	printf("3. Manajemen Waste\n");
+	scanf("%d", &pil);
+	
+	switch(pil) {
+		case 1 : 
+			alatKebersihan(energetica, energetica[i].kebersihanRumahTangga.alatKebersihanSustainable); printf("\nPress Any Button to Continue"); getch(); system("cls"); break;
+			
+		case 2 : 
+			efisiensiEnergi(energetica, energetica[i].kebersihanRumahTangga.efisiensiEnergi); printf("\nPress Any Button to Continue"); getch(); system("cls"); break;
+			
+		case 3 : 
+			manajemenWaste(energetica, energetica[i].kebersihanRumahTangga.wasteManagement); printf("\nPress Any Button to Continue"); getch(); system("cls"); break;
+			
+		default : 
+			printf("Tolong masukkan input yang valid!\n"); printf("Press Any Button to Continue"); getch(); system("cls");
+			aturKebersihanRumahTangga(energetica,  i);
+	}
+}
 
 //CODE MUSTOF
 //Implementasinya agak beda jadi dipertanyakan
@@ -471,25 +471,29 @@ void definisiKota(kota *energetica) {
     energetica[2].budget = 150000000;
     energetica[3].budget = 100000000;
 
-	energetica[0].listrik.indeksListrik = 60;
-	energetica[1].listrik.indeksListrik = ;
-	energetica[2].listrik.indeksListrik = ;
-	energetica[3].listrik.indeksListrik = ;
+	//indeks dte = 55
+	//indeks elegger = 55
+	//indeks tekkompolis = 48,75
+	//indeks biotopia = 43,75
+	energetica[0].listrik.indeksListrik = 55;
+	energetica[1].listrik.indeksListrik = 60;
+	energetica[2].listrik.indeksListrik = 65;
+	energetica[3].listrik.indeksListrik = 40;
 	
-	energetica[0].energiBersih.indeksAksesEnergi = 40;
-	energetica[1].energiBersih.indeksAksesEnergi = ;
-	energetica[2].energiBersih.indeksAksesEnergi = ;
-	energetica[3].energiBersih.indeksAksesEnergi = ;
+	energetica[0].energiBersih.indeksAksesEnergi = 65;
+	energetica[1].energiBersih.indeksAksesEnergi = 40;
+	energetica[2].energiBersih.indeksAksesEnergi = 40;
+	energetica[3].energiBersih.indeksAksesEnergi = 55;
 	
-	energetica[0].kebersihanRumahTangga.indeksKebersihanRT = 65;
-	energetica[1].kebersihanRumahTangga.indeksKebersihanRT = ;
-	energetica[2].kebersihanRumahTangga.indeksKebersihanRT = ;
-	energetica[3].kebersihanRumahTangga.indeksKebersihanRT = ;
+	energetica[0].kebersihanRumahTangga.indeksKebersihanRT = 40;
+	energetica[1].kebersihanRumahTangga.indeksKebersihanRT = 65;
+	energetica[2].kebersihanRumahTangga.indeksKebersihanRT = 40;
+	energetica[3].kebersihanRumahTangga.indeksKebersihanRT = 40;
 	
-	energetica[0].emisiGas.indeksGasRumahKaca = 55;
-	energetica[1].emisiGas.indeksGasRumahKaca = ;
-	energetica[2].emisiGas.indeksGasRumahKaca = ;
-	energetica[3].emisiGas.indeksGasRumahKaca = ;
+	energetica[0].emisiGas.indeksGasRumahKaca = 60;
+	energetica[1].emisiGas.indeksGasRumahKaca = 55;
+	energetica[2].emisiGas.indeksGasRumahKaca = 50;
+	energetica[3].emisiGas.indeksGasRumahKaca = 40;
 	
 	energetica[0].hari = 30;
 	energetica[1].hari = 25;
