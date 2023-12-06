@@ -394,10 +394,25 @@ void definisiKota(kota *energetica) {
     energetica[2].budget = 150000000;
     energetica[3].budget = 100000000;
 
-	energetica[0].indeksKota = 40;
-	energetica[1].indeksKota = 35;
-	energetica[2].indeksKota = 30;
-	energetica[3].indeksKota = 25;
+	energetica[0].listrik.indeksListrik = 60;
+	energetica[1].listrik.indeksListrik = ;
+	energetica[2].listrik.indeksListrik = ;
+	energetica[3].listrik.indeksListrik = ;
+	
+	energetica[0].energiBersih.indeksAksesEnergi = 40;
+	energetica[1].energiBersih.indeksAksesEnergi = ;
+	energetica[2].energiBersih.indeksAksesEnergi = ;
+	energetica[3].energiBersih.indeksAksesEnergi = ;
+	
+	energetica[0].kebersihanRumahTangga.indeksKebersihanRT = 65;
+	energetica[1].kebersihanRumahTangga.indeksKebersihanRT = ;
+	energetica[2].kebersihanRumahTangga.indeksKebersihanRT = ;
+	energetica[3].kebersihanRumahTangga.indeksKebersihanRT = ;
+	
+	energetica[0].emisiGas.indeksGasRumahKaca = 55;
+	energetica[1].emisiGas.indeksGasRumahKaca = ;
+	energetica[2].emisiGas.indeksGasRumahKaca = ;
+	energetica[3].emisiGas.indeksGasRumahKaca = ;
 	
 	energetica[0].hari = 30;
 	energetica[1].hari = 25;
