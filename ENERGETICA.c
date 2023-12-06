@@ -138,15 +138,60 @@ void aturListrik(kota *energetica, int i) {
 
 //CODE MEERDJAH
 
+void definisiAturEmisi(kota *energetica){
+	 energetica[0].emisiGas.priceCO2 = 20000.00;
+ 	 energetica[1].emisiGas.priceCO2 = 25000.00;
+	 energetica[2].emisiGas.priceCO2 = 30000.00;
+	 energetica[3].emisiGas.priceCO2 = 35000.00;
+
+	 energetica[0].emisiGas.priceCH4 = 20000.00;
+ 	 energetica[1].emisiGas.priceCH4 = 25000.00;
+	 energetica[2].emisiGas.priceCH4 = 30000.00;
+	 energetica[3].emisiGas.priceCH4 = 35000.00;
+
+	 energetica[0].emisiGas.priceN2O = 20000.00;
+ 	 energetica[1].emisiGas.priceN2O = 25000.00;
+	 energetica[2].emisiGas.priceN2O = 30000.00;
+	 energetica[3].emisiGas.priceN2O = 35000.00;
+	 
+	 energetica[0].emisiGas.gasCO2 = 20;
+ 	 energetica[1].emisiGas.gasCO2 = 30;
+	 energetica[2].emisiGas.gasCO2 = 25;
+	 energetica[3].emisiGas.gasCO2 = 20;
+
+	 energetica[0].emisiGas.gasCH4 = 25;
+ 	 energetica[1].emisiGas.gasCH4 = 30;
+	 energetica[2].emisiGas.gasCH4 = 20;
+	 energetica[3].emisiGas.gasCH4 = 25;
+
+	 energetica[0].emisiGas.gasN2O = 30;
+ 	 energetica[1].emisiGas.gasN2O = 25;
+	 energetica[2].emisiGas.gasN2O = 25;
+	 energetica[3].emisiGas.gasN2O = 35;
+	 
+	 energetica[0].emisiGas.indeksGasRumahKaca = /*WIP*/
+	 energetica[1].emisiGas.indeksGasRumahKaca = /*WIP*/
+	 energetica[2].emisiGas.indeksGasRumahKaca = /*WIP*/
+	 energetica[3].emisiGas.indeksGasRumahKaca = /*WIP*/
+	 
+	 energetica[0].emisiGas.inc = 0.25;
+	 energetica[1].emisiGas.inc = 0.10;
+	 energetica[2].emisiGas.inc = 0.25;
+	 energetica[3].emisiGas.inc = 0.10;
+}
+
 void changeCO2(kota *energetica, float gasCO2, int i) {
 	float inc;
 	printf("Masukkan penurunan CO2 yang diinginkan: ");
 	scanf("%f", &inc);
 	
-	if(inc > 0 ) { //kondisinya ada yang gua apus
+	if(inc > 0 ) {
 		energetica[i].emisiGas.gasCO2 -= inc;
-		energetica[i].indeksKota -= 0.1 * inc;
+		energetica[i].emisiGas.indeksGasRumahKaca += 0.1 * energetica[i].emisiGas.inc;
 		printf("Berhasil menurunkan CO2\n");
+		energetica[i].emisiGas.priceCO2 = energetica[i].emisiGas.priceCO2 + (energetica[i].emisiGas.priceCO2 * 0.5);
+	} else {
+		printf("TIdak ada yang berubah!");
 	}
 }
 
@@ -157,8 +202,11 @@ void changeCH4(kota *energetica, float gasCH4, int i) {
 	
 	if(inc > 0 ) {
 		energetica[i].emisiGas.gasCH4 -= inc;
-		energetica[i].indeksKota -= 0.1 * inc;
+		energetica[i].emisiGas.indeksGasRumahKaca += 0.1 * energetica[i].emisiGas.inc;
 		printf("Berhasil menurunkan CH4\n");
+		energetica[i].emisiGas.priceCH4 = energetica[i].emisiGas.priceCH4 + (energetica[i].emisiGas.priceCH4 * 0.5);
+	} else {
+		printf("TIdak ada yang berubah!");
 	}
 }
 
@@ -169,14 +217,16 @@ void changeN2O(kota *energetica, float gasN2O, int i) {
 	
 	if(inc > 0 ) {
 		energetica[i].emisiGas.gasN2O -= inc;
-		energetica[i].indeksKota -= 0.1 * inc;
-		printf("Berhasil menurunkan CH4\n");
+		energetica[i].emisiGas.indeksGasRumahKaca += 0.1 * energetica[i].emisiGas.inc;
+		printf("Berhasil menurunkan N2O\n");
+		energetica[i].emisiGas.priceN2O = energetica[i].emisiGas.priceN2O + (energetica[i].emisiGas.priceN2O * 0.15);
+	} else {
+		printf("TIdak ada yang berubah!");
 	}
 }
 
 void aturEmisi(kota *energetica, int i) {
-	int pil, hari;//ini hari belum diganti
-	float budget = 100000000;//ini harusnya disesuaikan dengan option
+	int pil, hari;
 	
 	printf("\n\nO P S I\n");
 	printf("========================\n");
@@ -187,21 +237,34 @@ void aturEmisi(kota *energetica, int i) {
 	
 	switch(pil) {
 		case 1 : 
-			changeCO2(energetica,energetica[i].emisiGas.gasCO2, i);
-			break;
+			if(energetica[i].budget < energetica[i].emisiGas.priceCO2){
+				printf("Budget tidak cukup!\n");
+				break;
+			} else {
+				changeCO2(energetica,energetica[i].emisiGas.gasCO2, i);
+				break;
+			}
 		case 2 : 
-			changeCH4(energetica,energetica[i].emisiGas.gasCH4, i);
-			break;
+			if(energetica[i].budget < energetica[i].emisiGas.priceCH4){
+				printf("Budget tidak cukup!\n");
+				break;
+			} else {
+				changeCH4(energetica,energetica[i].emisiGas.gasCH4, i);
+				break;
+			}
 		case 3 : 
-			changeN2O(energetica,energetica[i].emisiGas.gasN2O, i);
-			break;
+			if(energetica[i].budget < energetica[i].emisiGas.priceN2O){
+				printf("Budget tidak cukup!\n");
+				break;
+			} else {
+				changeN2O(energetica,energetica[i].emisiGas.gasN2O, i);
+				break;
+			}
 		default : 
 			printf("Masukkan Variabel Yang Valid!");
 			getch();
 			system("cls");	
 	}
-	
-	energetica[i].budget -= budget;	//lebih cocok untuk nanti di function
 	
 }
 
