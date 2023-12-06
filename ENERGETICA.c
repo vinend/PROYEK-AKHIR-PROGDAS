@@ -28,6 +28,7 @@ typedef struct kotaEnergetica {
         float listrikTerbaharui;
         float maxValue;
         float skalaHistogram;
+        float indeksListrik;
 		
 	} listrik;
 	
@@ -36,6 +37,7 @@ typedef struct kotaEnergetica {
 		float wasteManagement;
 		float alatKebersihanSustainable;
 		float skalaHistogram;
+		float indeksKebersihanRT;
 	}kebersihanRumahTangga;
 	
 	struct aksesEnergiBersih {
@@ -43,7 +45,8 @@ typedef struct kotaEnergetica {
 		float kebersihan;
 		float energiTerbarukan;
 		float maxValue;
-        	float skalaHistogram;
+        float skalaHistogram;
+        float indeksAksesEnergi;
 	}energiBersih;
 	
 	struct emisiGasRumahKaca {
@@ -52,6 +55,7 @@ typedef struct kotaEnergetica {
 		float gasN2O;
 		float maxValue;
 		int skalaHistogram;
+		float indeksGasRumahKaca;
 		
 	} emisiGas;
 	
@@ -403,10 +407,12 @@ void definisiKota(kota *energetica) {
 }
 
 void gameplay(kota *energetica) {
+	
 	int i, pil;
 	
 	for(i = 0; i < 4; i++) {
         definisiListrik(energetica);
+        energetica[i].indeksKota = (energetica[i].aksesListrik.indeksListrik * 0.25) + (energetica[i].aksesEnergiBersih.indeksAksesEnergi * 0.25) + (energetica[i].emisiGas.indeksGasRumahKaca * 0.25) + (energetica[i].kebersihanRumahTangga.indeksKebersihanRT * 0.25); 
 
 		printf("L E V E L   %d || %s\n", i + 1, energetica[i].nama);
 		printf("==================================\n");
