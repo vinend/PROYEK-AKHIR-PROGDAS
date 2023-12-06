@@ -169,15 +169,15 @@ void definisiAturEmisi(kota *energetica){
 	 energetica[2].emisiGas.gasN2O = 25;
 	 energetica[3].emisiGas.gasN2O = 35;
 	 
-	 energetica[0].emisiGas.indeksGasRumahKaca = /*WIP*/
-	 energetica[1].emisiGas.indeksGasRumahKaca = /*WIP*/
-	 energetica[2].emisiGas.indeksGasRumahKaca = /*WIP*/
-	 energetica[3].emisiGas.indeksGasRumahKaca = /*WIP*/
+	 energetica[0].emisiGas.indeksGasRumahKaca = 35;
+	 energetica[1].emisiGas.indeksGasRumahKaca = 50;
+	 energetica[2].emisiGas.indeksGasRumahKaca = 20;
+	 energetica[3].emisiGas.indeksGasRumahKaca = 25;
 	 
-	 energetica[0].emisiGas.inc = 0.25;
-	 energetica[1].emisiGas.inc = 0.10;
-	 energetica[2].emisiGas.inc = 0.25;
-	 energetica[3].emisiGas.inc = 0.10;
+	 energetica[0].emisiGas.levelMod = 0.25;
+	 energetica[1].emisiGas.levelMod = 0.10;
+	 energetica[2].emisiGas.levelMod = 0.25;
+	 energetica[3].emisiGas.levelMod = 0.10;
 }
 
 void changeCO2(kota *energetica, float gasCO2, int i) {
@@ -187,7 +187,10 @@ void changeCO2(kota *energetica, float gasCO2, int i) {
 	
 	if(inc > 0 ) {
 		energetica[i].emisiGas.gasCO2 -= inc;
-		energetica[i].emisiGas.indeksGasRumahKaca += 0.1 * energetica[i].emisiGas.inc;
+		energetica[i].emisiGas.indeksGasRumahKaca += inc * energetica[i].emisiGas.levelMod;
+		if(energetica[i].emisiGas.indeksGasRumahKaca > 100.00) {
+			energetica[i].emisiGas.indeksGasRumahKaca = 100.00;
+		}
 		printf("Berhasil menurunkan CO2\n");
 		energetica[i].emisiGas.priceCO2 = energetica[i].emisiGas.priceCO2 + (energetica[i].emisiGas.priceCO2 * 0.5);
 	} else {
@@ -201,8 +204,11 @@ void changeCH4(kota *energetica, float gasCH4, int i) {
 	scanf("%f", &inc);
 	
 	if(inc > 0 ) {
-		energetica[i].emisiGas.gasCH4 -= inc;
-		energetica[i].emisiGas.indeksGasRumahKaca += 0.1 * energetica[i].emisiGas.inc;
+		energetica[i].emisiGas.gasCO2 -= inc;
+		energetica[i].emisiGas.indeksGasRumahKaca += inc * energetica[i].emisiGas.levelMod;
+		if(energetica[i].emisiGas.indeksGasRumahKaca > 100.00) {
+			energetica[i].emisiGas.indeksGasRumahKaca = 100.00;
+		}
 		printf("Berhasil menurunkan CH4\n");
 		energetica[i].emisiGas.priceCH4 = energetica[i].emisiGas.priceCH4 + (energetica[i].emisiGas.priceCH4 * 0.5);
 	} else {
@@ -216,8 +222,11 @@ void changeN2O(kota *energetica, float gasN2O, int i) {
 	scanf("%f", &inc);
 	
 	if(inc > 0 ) {
-		energetica[i].emisiGas.gasN2O -= inc;
-		energetica[i].emisiGas.indeksGasRumahKaca += 0.1 * energetica[i].emisiGas.inc;
+		energetica[i].emisiGas.gasCO2 -= inc;
+		energetica[i].emisiGas.indeksGasRumahKaca += inc * energetica[i].emisiGas.levelMod;
+		if(energetica[i].emisiGas.indeksGasRumahKaca > 100.00) {
+			energetica[i].emisiGas.indeksGasRumahKaca = 100.00;
+		}
 		printf("Berhasil menurunkan N2O\n");
 		energetica[i].emisiGas.priceN2O = energetica[i].emisiGas.priceN2O + (energetica[i].emisiGas.priceN2O * 0.15);
 	} else {
