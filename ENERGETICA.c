@@ -53,6 +53,10 @@ typedef struct kotaEnergetica {
 		float gasCO2;
 		float gasCH4;
 		float gasN2O;
+		float priceCO2;
+		float priceCH4;
+		float priceN2O;
+		float levelMod;
 		float maxValue;
 		int skalaHistogram;
 		float indeksGasRumahKaca;
