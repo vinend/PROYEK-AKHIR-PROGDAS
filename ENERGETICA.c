@@ -315,10 +315,17 @@ void alatKebersihan(kota *energetica, int i) {
 
     totalAlatDipakai = alatYangDipakai * biayaUrusAlat;
     totalBiaya = totalAlatDipakai; 
-
     
+    if(totalBiaya > energetica[i].budget) {
+    	printf("Maaf Biaya Anda Tidak Memenuhi");
+	}
+
+    else {
+	
     energetica[i].kebersihanRumahTangga.alatKebersihanSustainable += alatYangDipakai;
     energetica[i].budget -= totalBiaya;
+	}
+	
 }
 
 
@@ -332,11 +339,18 @@ void efisiensiEnergi(kota *energetica, int i) {
     kehilanganEnergi = outputEnergi * 0.1;  
 
     totalKonsumsiEnergi = outputEnergi + kehilanganEnergi;
-    pengurusanEnergi = totalKonsumsiEnergi * 0.05;  
+    pengurusanEnergi = totalKonsumsiEnergi * 0.05;
+	
+	 if(pengurusanEnergi > energetica[i].budget) {
+    	printf("Maaf Biaya Anda Tidak Memenuhi");
+	}  
 
-    
+    else{
+	
     energetica[i].kebersihanRumahTangga.efisiensiEnergi = outputEnergi - pengurusanEnergi;
     energetica[i].budget -= pengurusanEnergi;
+	}
+	
 }
 
 
@@ -350,10 +364,16 @@ void manajemenWaste(kota *energetica, int i) {
     hargaPembuanganWaste = pengumpulanWaste * 10000;  
 
     totalWaste = pengumpulanWaste + hargaPembuanganWaste;
-
     
+    if(hargaPembuanganWaste > energetica[i].budget) {
+    	printf("Maaf Biaya Anda Tidak Memenuhi");
+	}
+	
+	else{
+	
     energetica[i].kebersihanRumahTangga.wasteManagement += totalWaste;
     energetica[i].budget -= hargaPembuanganWaste;
+	}
 }
 
 void aturKebersihanRumahTangga(kota *energetica, int i) {
