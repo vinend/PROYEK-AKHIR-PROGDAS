@@ -285,20 +285,25 @@ void aturEmisi(kota *energetica, int i) {
 void definisiKebersihanRumahTangga (kota *energetica) {
 	int i;
 	
-	energetica[0].kebersihanRumahTangga.alatKebersihanSustainable = 0;
-	energetica[1].kebersihanRumahTangga.alatKebersihanSustainable = 0;
-	energetica[2].kebersihanRumahTangga.alatKebersihanSustainable = 0;
-	energetica[3].kebersihanRumahTangga.alatKebersihanSustainable = 0;
+	energetica[0].kebersihanRumahTangga.alatKebersihanSustainable = 40;
+	energetica[1].kebersihanRumahTangga.alatKebersihanSustainable = 65;
+	energetica[2].kebersihanRumahTangga.alatKebersihanSustainable = 45;
+	energetica[3].kebersihanRumahTangga.alatKebersihanSustainable = 50;
 	
-	energetica[0].kebersihanRumahTangga.efisiensiEnergi = 0;
-	energetica[1].kebersihanRumahTangga.efisiensiEnergi = 0;
-	energetica[2].kebersihanRumahTangga.efisiensiEnergi = 0;
-	energetica[3].kebersihanRumahTangga.efisiensiEnergi = 0;
+	energetica[0].kebersihanRumahTangga.efisiensiEnergi = 40;
+	energetica[1].kebersihanRumahTangga.efisiensiEnergi = 65;
+	energetica[2].kebersihanRumahTangga.efisiensiEnergi = 45;
+	energetica[3].kebersihanRumahTangga.efisiensiEnergi = 50;
 	
-	energetica[0].kebersihanRumahTangga.wasteManagement = 0;
-	energetica[1].kebersihanRumahTangga.wasteManagement = 0;
-	energetica[2].kebersihanRumahTangga.wasteManagement = 0;
-	energetica[3].kebersihanRumahTangga.wasteManagement = 0;
+	energetica[0].kebersihanRumahTangga.wasteManagement = 40;
+	energetica[1].kebersihanRumahTangga.wasteManagement = 65;
+	energetica[2].kebersihanRumahTangga.wasteManagement = 45;
+	energetica[3].kebersihanRumahTangga.wasteManagement = 50;
+	
+	for (i=0;i<4;i++)
+	{
+		energetica[i].kebersihanRumahTangga.indeksKebersihanRT += (energetica[i].kebersihanRumahTangga.alatKebersihanSustainable * 0.33) + (energetica[i].kebersihanRumahTangga.efisiensiEnergi * 0.33) + (energetica[i].kebersihanRumahTangga.wasteManagement * 0.33);
+	}
 }
 
 
@@ -313,11 +318,17 @@ void alatKebersihan(kota *energetica, int i) {
 
     totalAlatDipakai = alatYangDipakai * biayaUrusAlat;
     totalBiaya = totalAlatDipakai; 
-
     
+    if(totalBiaya > energetica[i].budget) {
+    	printf("Maaf Biaya Anda Tidak Memenuhi");
+	}
+
+    else {
+	
     energetica[i].kebersihanRumahTangga.alatKebersihanSustainable += alatYangDipakai;
     energetica[i].budget -= totalBiaya;
-    energetica[i].kebersihanRumahTangga.indeksKebersihanRT += alatYangDipakai * 0.25;
+	}
+	
 }
 
 
@@ -331,12 +342,18 @@ void efisiensiEnergi(kota *energetica, int i) {
     kehilanganEnergi = outputEnergi * 0.1;  
 
     totalKonsumsiEnergi = outputEnergi + kehilanganEnergi;
-    pengurusanEnergi = totalKonsumsiEnergi * 0.05;  
+    pengurusanEnergi = totalKonsumsiEnergi * 0.05;
+	
+	 if(pengurusanEnergi > energetica[i].budget) {
+    	printf("Maaf Biaya Anda Tidak Memenuhi");
+	}  
 
-    
+    else {
+	
     energetica[i].kebersihanRumahTangga.efisiensiEnergi = outputEnergi - pengurusanEnergi;
     energetica[i].budget -= pengurusanEnergi;
-    energetica[i].kebersihanRumahTangga.indeksKebersihanRT += pengurusanEnergi * 0.25;
+	}
+	
 }
 
 
@@ -350,11 +367,16 @@ void manajemenWaste(kota *energetica, int i) {
     hargaPembuanganWaste = pengumpulanWaste * 10000;  
 
     totalWaste = pengumpulanWaste + hargaPembuanganWaste;
-
     
+    if(hargaPembuanganWaste > energetica[i].budget) {
+    	printf("Maaf Biaya Anda Tidak Memenuhi");
+	}
+	
+	else{
+	
     energetica[i].kebersihanRumahTangga.wasteManagement += totalWaste;
     energetica[i].budget -= hargaPembuanganWaste;
-    energetica[i].kebersihanRumahTangga.indeksKebersihanRT += totalWaste * 0.25;
+	}
 }
 
 void aturKebersihanRumahTangga(kota *energetica, int i) {
@@ -383,6 +405,8 @@ void aturKebersihanRumahTangga(kota *energetica, int i) {
 		
 	}
 	
+	energetica[i].kebersihanRumahTangga.indeksKebersihanRT = (energetica[i].kebersihanRumahTangga.alatKebersihanSustainable * 0.33) + (energetica[i].kebersihanRumahTangga.efisiensiEnergi * 0.33) + (energetica[i].kebersihanRumahTangga.wasteManagement * 0.33); 
+	
 	if(energetica[i].kebersihanRumahTangga.indeksKebersihanRT > 100) {
 		energetica[i].kebersihanRumahTangga.indeksKebersihanRT = 100;
 	}
@@ -397,10 +421,6 @@ void aturKebersihanRumahTangga(kota *energetica, int i) {
 //budget dan efektifitas tiap opsi masih belum diperhitungkan
 void definisiEnergiBersih(kota *energetica)
 {
-	//indeks energi bersih DTE =  65
-	//indeks energi bersih Elegger = 40
-	//indeks energi bersih Tekkompolis = 40
-	//indeks energi bersih Biotopia = 55
 	int i;
 	for (i=0;i<4;i++)
 	{
@@ -495,15 +515,12 @@ void definisiKota(kota *energetica) {
 	energetica[2].listrik.indeksListrik = 65;
 	energetica[3].listrik.indeksListrik = 40;
 	
+	definisiKebersihanRumahTangga(energetica);
+	
 	energetica[0].energiBersih.indeksAksesEnergi = 65;
 	energetica[1].energiBersih.indeksAksesEnergi = 40;
 	energetica[2].energiBersih.indeksAksesEnergi = 40;
 	energetica[3].energiBersih.indeksAksesEnergi = 55;
-	
-	energetica[0].kebersihanRumahTangga.indeksKebersihanRT = 40;
-	energetica[1].kebersihanRumahTangga.indeksKebersihanRT = 65;
-	energetica[2].kebersihanRumahTangga.indeksKebersihanRT = 40;
-	energetica[3].kebersihanRumahTangga.indeksKebersihanRT = 40;
 	
 	energetica[0].emisiGas.indeksGasRumahKaca = 60;
 	energetica[1].emisiGas.indeksGasRumahKaca = 55;
@@ -514,6 +531,7 @@ void definisiKota(kota *energetica) {
 	energetica[1].hari = 25;
 	energetica[2].hari = 20;
 	energetica[3].hari = 15;
+	
 		
 }
 
