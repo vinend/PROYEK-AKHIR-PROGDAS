@@ -317,6 +317,7 @@ void alatKebersihan(kota *energetica, int i) {
     
     energetica[i].kebersihanRumahTangga.alatKebersihanSustainable += alatYangDipakai;
     energetica[i].budget -= totalBiaya;
+    energetica[i].kebersihanRumahTangga.indeksKebersihanRT += alatYangDipakai * 0.25;
 }
 
 
@@ -335,6 +336,7 @@ void efisiensiEnergi(kota *energetica, int i) {
     
     energetica[i].kebersihanRumahTangga.efisiensiEnergi = outputEnergi - pengurusanEnergi;
     energetica[i].budget -= pengurusanEnergi;
+    energetica[i].kebersihanRumahTangga.indeksKebersihanRT += pengurusanEnergi * 0.25;
 }
 
 
@@ -352,6 +354,7 @@ void manajemenWaste(kota *energetica, int i) {
     
     energetica[i].kebersihanRumahTangga.wasteManagement += totalWaste;
     energetica[i].budget -= hargaPembuanganWaste;
+    energetica[i].kebersihanRumahTangga.indeksKebersihanRT += totalWaste * 0.25;
 }
 
 void aturKebersihanRumahTangga(kota *energetica, int i) {
@@ -378,6 +381,9 @@ void aturKebersihanRumahTangga(kota *energetica, int i) {
 			printf("Tolong masukkan input yang valid!\n"); printf("Press Any Button to Continue"); getch(); system("cls");
 			aturKebersihanRumahTangga(energetica,  i);
 	}
+	
+	energetica[i].hari--;
+	
 }
 
 //CODE MUSTOF
@@ -643,7 +649,7 @@ int main() {
     			getch();
 			    system("cls");
     	
-    			printf(ANSI_COLOR_GREEN "ENERGETICA" ANSI_COLOR_RESET " adalah negara yang kecil, namun memiliki potensi yang besar. Saat ini " ANSI_COLOR_GREEN "ENERGETICA" ANSI_COLOR_RESET" dalam rangka janji kampanye yang telah dibuat,\n");
+    			printf(ANSI_COLOR_GREEN "ENERGETICA" ANSI_COLOR_RESET " adalah negara yang kecil, namun memiliki potensi yang besar. Saat ini " ANSI_COLOR_GREEN "ENERGETICA" ANSI_COLOR_RESET" dalam rangka janji kampanye yang telah dibuat,");
     			printf("kamu bertekad untuk membawa negara ini dan kota-kotanya untuk mencapai tujuan dari" ANSI_COLOR_CYAN " SDG 7 " ANSI_COLOR_RESET "yang memiliki indeks capaian tersebut. Majukanlah kota-kota Energetica untuk mencapai\n");
                 printf("tujuan SDG 7 dan mencapai tujuan indeks kalian!");
     			printf("\n\nPress any key to continue!");
