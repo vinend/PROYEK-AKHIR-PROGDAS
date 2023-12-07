@@ -504,10 +504,18 @@ void definisiKota(kota *energetica) {
 
 void gameplay(kota *energetica) {
 	
-	int i, pil;
-	
+	int i, pil, trig = 0;
+	 
 	for(i = 0; i < 4; i++) {
         definisiListrik(energetica);
+        
+        if(trig > 0) {
+        	printf("Maaf anda gagal!\n");
+        	printf("Press Any Button to Continue");
+        	getch();
+        	system("cls");
+        	break;
+		}
 
 		printf("L E V E L   %d || %s\n", i + 1, energetica[i].nama);
 		printf("==================================\n");
@@ -516,7 +524,7 @@ void gameplay(kota *energetica) {
 		getch();
 		system("cls");
 		
-		while(energetica[i].hari > 0 && energetica[i].budget > 0) {
+		while(energetica[i].indeksKota < 75) {
 			
 			energetica[i].indeksKota = (energetica[i].listrik.indeksListrik * 0.25) + (energetica[i].energiBersih.indeksAksesEnergi * 0.25) + (energetica[i].emisiGas.indeksGasRumahKaca * 0.25) + (energetica[i].kebersihanRumahTangga.indeksKebersihanRT * 0.25);
             printf("Berikut adalah informasi mengenai kota %s sejauh ini\n", energetica[i].nama);
@@ -527,10 +535,10 @@ void gameplay(kota *energetica) {
             printf("|| Statistik\n");
             printf("||================================\n");
             printf("|| Status Indeks        : %.2f%%\n", energetica[i].indeksKota);
-            printf("|| Status Listrik       : %%\n");
-            printf("|| Status Kebersihan    : %%\n");
-            printf("|| Status Energi Bersih : %%\n");
-            printf("|| Status Emisi Gas     : %%\n");
+            printf("|| Status Listrik       : %.2f%%\n", energetica[i].listrik.indeksListrik );
+            printf("|| Status Kebersihan    : %.2f%%\n", energetica[i].kebersihanRumahTangga.indeksKebersihanRT);
+            printf("|| Status Energi Bersih : %.2f%%\n", energetica[i].energiBersih.indeksAksesEnergi);
+            printf("|| Status Emisi Gas     : %.2f%%\n", energetica[i].emisiGas.indeksGasRumahKaca);
 
             printf("\nSektor yang dapat dipilih:\n");
             printf("1. Akses Listrik\n");
@@ -543,7 +551,7 @@ void gameplay(kota *energetica) {
 			switch(pil) {
 						
 				case 1 : 
-                    			aturListrik(energetica, i);
+                    aturListrik(energetica, i);
 					break;
 				case 2 :
 					aturKebersihanRumahTangga(energetica, i);
@@ -558,6 +566,10 @@ void gameplay(kota *energetica) {
                     printf("Input anda tidak valid!\n\nPress any key to continue!");
                     continue;
 				
+				if(energetica[i].budget == 0 || energetica[i].hari == 0 ) {
+					trig++;
+					break;
+				}
 			}
 			
 		}
