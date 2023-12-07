@@ -345,7 +345,7 @@ void efisiensiEnergi(kota *energetica, int i) {
     	printf("Maaf Biaya Anda Tidak Memenuhi");
 	}  
 
-    else{
+    else {
 	
     energetica[i].kebersihanRumahTangga.efisiensiEnergi = outputEnergi - pengurusanEnergi;
     energetica[i].budget -= pengurusanEnergi;
@@ -402,7 +402,7 @@ void aturKebersihanRumahTangga(kota *energetica, int i) {
 		
 	}
 	
-	energetica[i].kebersihanRumahTangga.indeksKebersihanRT += (energetica[i].kebersihanRumahTangga.alatKebersihanSustainable * 0.33) + (energetica[i].kebersihanRumahTangga.efisiensiEnergi * 0.33) + (energetica[i].kebersihanRumahTangga.wasteManagement * 0.33); 
+	energetica[i].kebersihanRumahTangga.indeksKebersihanRT = (energetica[i].kebersihanRumahTangga.alatKebersihanSustainable * 0.33) + (energetica[i].kebersihanRumahTangga.efisiensiEnergi * 0.33) + (energetica[i].kebersihanRumahTangga.wasteManagement * 0.33); 
 	
 	if(energetica[i].kebersihanRumahTangga.indeksKebersihanRT > 100) {
 		energetica[i].kebersihanRumahTangga.indeksKebersihanRT = 100;
