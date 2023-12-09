@@ -19,7 +19,7 @@ typedef struct kotaEnergetica {
 	
 	float budget;
     float indeksKota;
-
+	int sdm;
 	int hari;
 	
 	struct aksesListrik {
@@ -73,26 +73,26 @@ typedef struct kotaEnergetica {
 //Kriteria masih harus diperhitungkan lagi
 
 void definisiListrik(kota *energetica) {
+	
+	energetica[0].listrik.listrikSubsidi = 30;
+    energetica[1].listrik.listrikSubsidi = 55;
+    energetica[2].listrik.listrikSubsidi = 75;
+    energetica[3].listrik.listrikSubsidi = 45;
 
-		energetica[0].listrik.listrikSubsidi = 30;
-        energetica[1].listrik.listrikSubsidi = 55;
-        energetica[2].listrik.listrikSubsidi = 75;
-        energetica[3].listrik.listrikSubsidi = 45;
+    energetica[0].listrik.listrikUmum = 45;
+    energetica[1].listrik.listrikUmum = 45;
+    energetica[2].listrik.listrikUmum = 60;
+    energetica[3].listrik.listrikUmum = 35;
 
-        energetica[0].listrik.listrikUmum = 45;
-        energetica[1].listrik.listrikUmum = 45;
-        energetica[2].listrik.listrikUmum = 60;
-        energetica[3].listrik.listrikUmum = 35;
+    energetica[0].listrik.listrikTerbaharukan = 90;
+    energetica[1].listrik.listrikTerbaharukan = 80;
+    energetica[2].listrik.listrikTerbaharukan = 60;
+    energetica[3].listrik.listrikTerbaharukan = 40;
 
-        energetica[0].listrik.listrikTerbaharukan = 90;
-        energetica[1].listrik.listrikTerbaharukan = 80;
-        energetica[2].listrik.listrikTerbaharukan = 60;
-        energetica[3].listrik.listrikTerbaharukan = 40;
-
-		energetica[0].listrik.sdmListrik = 300;
-		energetica[1].listrik.sdmListrik = 250;
-		energetica[2].listrik.sdmListrik = 180;
-		energetica[3].listrik.sdmListrik = 90;
+	energetica[0].listrik.sdmListrik = 300;
+	energetica[1].listrik.sdmListrik = 250;
+	energetica[2].listrik.sdmListrik = 180;
+	energetica[3].listrik.sdmListrik = 90;
 }
 
 void changeSubsidi(kota *energetica, float listrikSubsidi, int i) {
@@ -258,36 +258,36 @@ void aturListrik(kota *energetica, int i) {
 //CODE MEERDJAH
 
 void definisiAturEmisi(kota *energetica){
-	 energetica[0].emisiGas.priceCO2 = 20000.00;
- 	 energetica[1].emisiGas.priceCO2 = 25000.00;
-	 energetica[2].emisiGas.priceCO2 = 30000.00;
-	 energetica[3].emisiGas.priceCO2 = 35000.00;
-
-	 energetica[0].emisiGas.priceCH4 = 20000.00;
- 	 energetica[1].emisiGas.priceCH4 = 25000.00;
-	 energetica[2].emisiGas.priceCH4 = 30000.00;
-	 energetica[3].emisiGas.priceCH4 = 35000.00;
-
-	 energetica[0].emisiGas.priceN2O = 20000.00;
- 	 energetica[1].emisiGas.priceN2O = 25000.00;
-	 energetica[2].emisiGas.priceN2O = 30000.00;
-	 energetica[3].emisiGas.priceN2O = 35000.00;
+	energetica[0].emisiGas.priceCO2 = 20000.00;
+	energetica[1].emisiGas.priceCO2 = 25000.00;
+	energetica[2].emisiGas.priceCO2 = 30000.00;
+	energetica[3].emisiGas.priceCO2 = 35000.00;
+	
+	energetica[0].emisiGas.priceCH4 = 20000.00;
+	energetica[1].emisiGas.priceCH4 = 25000.00;
+	energetica[2].emisiGas.priceCH4 = 30000.00;
+	energetica[3].emisiGas.priceCH4 = 35000.00;
+	
+	energetica[0].emisiGas.priceN2O = 20000.00;
+	energetica[1].emisiGas.priceN2O = 25000.00;
+	energetica[2].emisiGas.priceN2O = 30000.00;
+	energetica[3].emisiGas.priceN2O = 35000.00;
 	 
-	 energetica[0].emisiGas.gasCO2 = 60;
- 	 energetica[1].emisiGas.gasCO2 = 50;
-	 energetica[2].emisiGas.gasCO2 = 50;
-	 energetica[3].emisiGas.gasCO2 = 45;
-
-	 energetica[0].emisiGas.gasCH4 = 80;
- 	 energetica[1].emisiGas.gasCH4 = 60;
-	 energetica[2].emisiGas.gasCH4 = 65;
-	 energetica[3].emisiGas.gasCH4 = 70;
-
-	 energetica[0].emisiGas.gasN2O = 50;
- 	 energetica[1].emisiGas.gasN2O = 45;
-	 energetica[2].emisiGas.gasN2O = 55;
-	 energetica[3].emisiGas.gasN2O = 60;
-
+	energetica[0].emisiGas.gasCO2 = 60;
+	energetica[1].emisiGas.gasCO2 = 50;
+	energetica[2].emisiGas.gasCO2 = 50;
+	energetica[3].emisiGas.gasCO2 = 45;
+	
+	energetica[0].emisiGas.gasCH4 = 80;
+	energetica[1].emisiGas.gasCH4 = 60;
+	energetica[2].emisiGas.gasCH4 = 65;
+	energetica[3].emisiGas.gasCH4 = 70;
+	
+	energetica[0].emisiGas.gasN2O = 50;
+	energetica[1].emisiGas.gasN2O = 45;
+	energetica[2].emisiGas.gasN2O = 55;
+	energetica[3].emisiGas.gasN2O = 60;
+	
 	energetica[0].emisiGas.sdmGas = 300;
 	energetica[1].emisiGas.sdmGas = 250;
 	energetica[2].emisiGas.sdmGas = 180;
@@ -544,14 +544,14 @@ void manajemenWaste(kota *energetica, int i) {
 
 	printf("Pengaruh Budget dan Poin\n");
 	printf("==============================\n");
-	printf("Budget yang terpakai\t=\t100000$ per poin\n");
+	printf("Budget yang terpakai\t=\tPoin x 1000 (Biaya per waste dikumpulkan)\n");
 	printf("Pengaruh Pada Index\t=\tAkan naik 1 per 4 Poin\n");
 	
     printf("\nMasukkan jumlah waste yang dikumpulkan: ");
     scanf("%f", &pengumpulanWaste);
 
     
-    hargaPembuanganWaste = pengumpulanWaste * 100000;  
+    hargaPembuanganWaste = pengumpulanWaste * 10000;  
 
     totalWaste = pengumpulanWaste;
     
@@ -576,19 +576,17 @@ void manajemenWaste(kota *energetica, int i) {
 void aturKebersihanRumahTangga(kota *energetica, int i) {
 	int pil; 
 	printf("DISPLAY\n");
-	printf("=========================================================\n");
-	printf("||TOTAL :\t%.2f\n", energetica[i].kebersihanRumahTangga.indeksKebersihanRT);
-	printf("||1. Penggunaan Alat Rumah Tangga = %.2f\n", energetica[i].kebersihanRumahTangga.alatKebersihanSustainable);
-	printf("||2. Keefesienan Penggunaan Energi Rumah Tangga = %.2f\n", energetica[i].kebersihanRumahTangga.efisiensiEnergi);
-	printf("||3. Manajamen Waste = %.2f\n", energetica[i].kebersihanRumahTangga.wasteManagement);
-	printf("=========================================================\n\n");
+	printf("================\n");
+	printf("TOTAL :\t%.2f\n", energetica[i].kebersihanRumahTangga.indeksKebersihanRT);
+	printf("1. Penggunaan Alat Rumah Tangga\t=\t%.2f\n", energetica[i].kebersihanRumahTangga.alatKebersihanSustainable);
+	printf("2. Keefesienan Penggunaan Energi Rumah Tangga\t=\t%.2f\n", energetica[i].kebersihanRumahTangga.efisiensiEnergi);
+	printf("3. Manajamen Waste\t=\t%.2f\n", energetica[i].kebersihanRumahTangga.wasteManagement);
 	
 	printf("O P S I\n");
-	printf("======================================================\n");
-	printf("||1. Penggunaan Alat Kebersihan Rumah Tangga\n");
-	printf("||2. Keefisienan Penggunaan Energi Rumah Tangga\n");
-	printf("||3. Manajemen Waste\n");
-	printf("======================================================\n");
+	printf("==============\n");
+	printf("1. Penggunaan Alat Kebersihan Rumah Tangga\n");
+	printf("2. Keefisienan Penggunaan Energi Rumah Tangga\n");
+	printf("3. Manajemen Waste\n");
 	scanf("%d", &pil);
 	
 	switch(pil) {
@@ -624,54 +622,83 @@ void aturKebersihanRumahTangga(kota *energetica, int i) {
 //budget dan efektifitas tiap opsi masih belum diperhitungkan
 void definisiEnergiBersih(kota *energetica)
 {
-	int i;
-	for (i=0;i<4;i++)
+	energetica[0].energiBersih.energiTerbarukan = 70;
+	energetica[0].energiBersih.kebersihan = 70;
+	energetica[0].energiBersih.kemudahanAkses = 55;
+	
+	energetica[1].energiBersih.energiTerbarukan = 60; 
+	energetica[1].energiBersih.kebersihan= 20;
+	energetica[1].energiBersih.kemudahanAkses = 40; 
+	
+	energetica[2].energiBersih.energiTerbarukan = 35;
+	energetica[2].energiBersih.kebersihan = 50;
+	energetica[2].energiBersih.kemudahanAkses = 35;
+	
+	energetica[3].energiBersih.energiTerbarukan = 55;
+	energetica[3].energiBersih.kebersihan = 80;
+	energetica[3].energiBersih.kemudahanAkses = 30;
+}
+
+void kemudahanAkses (kota *energetica, int i, int nilaiKemudahan, float budget, int hari, int sdm)
+{
+	if (energetica[i].budget>budget && energetica[i].hari>hari && energetica[i].sdm>sdm)
 	{
-		energetica[i].energiBersih.kemudahanAkses = 0;
-		energetica[i].energiBersih.kebersihan = 0;
-		energetica[i].energiBersih.energiTerbarukan = 0;
+		energetica[i].energiBersih.kemudahanAkses += nilaiKemudahan;
+		energetica[i].budget -= budget;
+		energetica[i].hari -= hari;
+		energetica[i].sdm -= sdm;
+		printf("Sukses untuk melakukan perubahan\n");
 	}
+	else printf("Salah satu biaya tidak memenuhi!");
 }
 
-void kemudahanAkses (kota *energetica, int i, int nilaiKemudahan, float budget, int hari)
+void kebersihan (kota *energetica, int i, int nilaiKebersihan, float budget, int hari, int sdm)
 {
-	energetica[i].energiBersih.kemudahanAkses += nilaiKemudahan;
-	energetica[i].energiBersih.indeksAksesEnergi += energetica[i].energiBersih.kemudahanAkses/3;
-	energetica[i].budget -= budget;
-	energetica[i].hari -= hari;
+	if (energetica[i].budget>budget && energetica[i].hari>hari && energetica[i].sdm>sdm)
+	{
+		energetica[i].energiBersih.kebersihan += nilaiKebersihan;
+		energetica[i].budget -= budget;
+		energetica[i].hari -= hari;
+		energetica[i].sdm -= sdm;
+		printf("Sukses untuk melakukan perubahan\n");
+	}
+	else printf("Salah satu biaya tidak memenuhi!");
 }
 
-void kebersihan (kota *energetica, int i, int nilaiKebersihan, float budget, int hari)
+void penambahanEnergi (kota *energetica, int i, int nilaiPenambahan, float budget, int hari, int sdm)
 {
-	energetica[i].energiBersih.kebersihan += nilaiKebersihan;
-	energetica[i].energiBersih.indeksAksesEnergi += energetica[i].energiBersih.kebersihan/3;
-	energetica[i].budget -= budget;
-	energetica[i].hari -= hari;
+	if (energetica[i].budget>budget && energetica[i].hari>hari && energetica[i].sdm>sdm)
+	{
+		energetica[i].energiBersih.energiTerbarukan += nilaiPenambahan;
+		energetica[i].budget -= budget;
+		energetica[i].hari -= hari;
+		energetica[i].sdm -= sdm;
+		printf("Sukses untuk melakukan perubahan\n");
+	}
+	else printf("Salah satu biaya tidak memenuhi!");
 }
 
-void penambahanEnergi (kota *energetica, int i, int nilaiPenambahan, float budget, int hari)
+void displayAkses (int i, int nilaiPenambahan, float budget, int hari, int sdm)
 {
-	energetica[i].energiBersih.energiTerbarukan += nilaiPenambahan;
-	energetica[i].energiBersih.indeksAksesEnergi += energetica[i].energiBersih.energiTerbarukan/3;
-	energetica[i].budget -= budget;
-	energetica[i].hari -= hari;
-}
-
-void displayAkses (int i, int nilaiPenambahan, float budget, int hari)
-{
-	printf("===============Status Perubahan===============\n");
-	printf("||Nilai persentase yang bertambah %d%%\n", nilaiPenambahan/3);
+	printf("===============Status Perubahan==============\n");
+	printf("||Nilai dari variabel yang bertambah %d\n", nilaiPenambahan);
 	printf("||Budget yang dibutuhkan %.2f\n", budget);
 	printf("||Hari yang dibutuhkan %d\n", hari);
-	printf("==============================================\n");
+	printf("||SDM yang dibutuhkan %d\n", sdm);
+	printf("=============================================\n");
 	printf("Apakah Anda ingin melanjutkan pembangunan?\n");
-	printf("1. Ya\n2. Tidak\n");
+	printf("1. Ya\n");
 }
 
 void aturAksesEnergi(kota *energetica, int i)
 {
 	int opsi, confirm;
-	printf("Apa yang ingin diubah pada Akses Energi Bersih?\n");
+	printf("================Status Indeks================\n");
+	printf("||Kemudahan akses energi 	: %.2f / 100\n", energetica[i].energiBersih.kemudahanAkses);
+	printf("||Kebersihan energi 		: %.2f / 100\n", energetica[i].energiBersih.kebersihan);
+	printf("||Kuantitas energi terbarukan 	: %.2f / 100\n", energetica[i].energiBersih.energiTerbarukan);
+	printf("=============================================\n");
+	printf("\nApa yang ingin diubah pada Akses Energi Bersih?\n");
 	printf("1. Pembangunan PLTA\n");
 	printf("2. Membuat kebijakan dan regulasi energi bersih\n");
 	printf("3. Memberikan edukasi kepada warga\n");
@@ -682,60 +709,40 @@ void aturAksesEnergi(kota *energetica, int i)
 	switch (opsi)
 	{
 		case 1:
-			displayAkses (i, 30 , 100000, 10);
+			displayAkses (i, 30 , 100000, 10,20);
 			scanf("%d",&confirm);
-			if (confirm==1)
-			{
-				penambahanEnergi (energetica, i, 30 , 100000, 10);
-				printf("Sukses untuk melakukan perubahan\n");
-			}
+			if (confirm==1) penambahanEnergi (energetica, i, 30 , 10000000000, 10, 20);
 			else printf("Gagal untuk melakukan perubahan\n");
 			break;
 		case 2 :
-			displayAkses (i, 20 , 50000, 5);
+			displayAkses (i, 20 , 50000, 5, 10);
 			scanf("%d",&confirm);
-			if (confirm==1)
-			{
-				kemudahanAkses (energetica, i, 20 , 50000, 5);
-				printf("Sukses untuk melakukan perubahan\n");
-			}
+			if (confirm==1) kemudahanAkses (energetica, i, 20 , 50000, 5, 10);
 			else printf("Gagal untuk melakukan perubahan\n");
 			break;
 		case 3 :
-			displayAkses (i, 10 , 50000, 2);
+			displayAkses (i, 10 , 50000, 2, 10);
 			scanf("%d",&confirm);
-			if (confirm==1)
-			{
-				kebersihan (energetica, i, 10 , 50000, 2);
-				printf("Sukses untuk melakukan perubahan\n");
-			}
+			if (confirm==1) kebersihan (energetica, i, 10 , 50000, 2, 10);
 			else printf("Gagal untuk melakukan perubahan\n");
 			break;
 		case 4 :
-			displayAkses (i, 30 , 100000, 15);
+			displayAkses (i, 30 , 100000, 15, 10);
 			scanf("%d",&confirm);
-			if (confirm==1)
-			{
-				kemudahanAkses (energetica, i, 30 , 100000, 15);
-				printf("Sukses untuk melakukan perubahan\n");
-			}
+			if (confirm==1) kemudahanAkses (energetica, i, 30 , 100000, 15, 10);
 			else printf("Gagal untuk melakukan perubahan\n");
 			break;
 		case 5 :
-			displayAkses (i, 30 , 100000, 10);
+			displayAkses (i, 30 , 100000, 10, 10);
 			scanf("%d",&confirm);
-			if (confirm==1)
-			{
-				kemudahanAkses (energetica, i, 30 , 100000, 10);
-				printf("Sukses untuk melakukan perubahan\n");
-			}
+			if (confirm==1)	kemudahanAkses (energetica, i, 30 , 100000, 10, 10);
 			else printf("Gagal untuk melakukan perubahan\n");
 			break;
 		default :
 			printf("Input tidak valid. Mohon melakukan input ulang!");
 			aturAksesEnergi(energetica, i);
 	}
-	
+	energetica[i].energiBersih.indeksAksesEnergi = (energetica[i].energiBersih.energiTerbarukan + energetica[i].energiBersih.kebersihan + energetica[i].energiBersih.kemudahanAkses) / 3;
 	printf("\n\nPress any key to Continue!");
     getch();
     system("cls");
@@ -760,16 +767,17 @@ void definisiKota(kota *energetica) {
     energetica[2].budget = 150000000;
     energetica[3].budget = 100000000;
 
+	energetica[0].sdm = 300;
+	energetica[1].sdm = 250;
+	energetica[2].sdm = 180;
+	energetica[3].sdm = 90;
+	
 	//indeks dte = 55
 	//indeks elegger = 55
 	//indeks tekkompolis = 48,75
 	//indeks biotopia = 43,
 	
-	energetica[0].energiBersih.indeksAksesEnergi = 65;
-	energetica[1].energiBersih.indeksAksesEnergi = 40;
-	energetica[2].energiBersih.indeksAksesEnergi = 40;
-	energetica[3].energiBersih.indeksAksesEnergi = 55;
-	
+	definisiEnergiBersih(energetica);
 	definisiKebersihanRumahTangga(energetica);
 	
 	energetica[0].emisiGas.indeksGasRumahKaca = 60;
@@ -791,6 +799,7 @@ void gameplay(kota *energetica) {
         energetica[i].kebersihanRumahTangga.indeksKebersihanRT = (energetica[i].kebersihanRumahTangga.alatKebersihanSustainable * 0.33) + (energetica[i].kebersihanRumahTangga.efisiensiEnergi * 0.33) + (energetica[i].kebersihanRumahTangga.wasteManagement * 0.33);
 		energetica[i].listrik.indeksListrik = (energetica[i].listrik.listrikSubsidi + energetica[i].listrik.listrikUmum + energetica[i].listrik.listrikTerbaharukan) / 3;
 		energetica[i].emisiGas.indeksGasRumahKaca = (energetica[i].emisiGas.gasCO2 + energetica[i].emisiGas.gasCH4 + energetica[i].emisiGas.gasN2O) / 3;
+		energetica[i].energiBersih.indeksAksesEnergi = (energetica[i].energiBersih.energiTerbarukan + energetica[i].energiBersih.kebersihan + energetica[i].energiBersih.kemudahanAkses) / 3;
 		
         if(trig > 0) {
         	printf("Maaf anda gagal!\n");
@@ -809,10 +818,13 @@ void gameplay(kota *energetica) {
 		
 		while(energetica[i].indeksKota < 75) {
 			energetica[i].indeksKota = (energetica[i].listrik.indeksListrik + energetica[i].energiBersih.indeksAksesEnergi + energetica[i].emisiGas.indeksGasRumahKaca + energetica[i].kebersihanRumahTangga.indeksKebersihanRT) * 0.25;
-
+			
+			printf("============================================================\n");
             printf("Berikut adalah informasi mengenai kota %s sejauh ini\n", energetica[i].nama);
             printf("Budget kota : $ %.2f\n", energetica[i].budget);
-            printf("Sisa hari   : %d\n\n", energetica[i].hari);
+            printf("Sisa hari   : %d\n", energetica[i].hari);
+            printf("Sisa sumber daya manusia : %d\n", energetica[i].sdm);
+            printf("============================================================\n\n");
 
             printf("||=======================================\n");
             printf("|| Statistik\n");
@@ -872,7 +884,6 @@ int main() {
 	
 	definisiKebersihanRumahTangga (energetica);
 	definisiAturEmisi(energetica);
-	definisiEnergiBersih(energetica);
 	definisiListrik(energetica);
 	definisiKota(energetica);
 	
