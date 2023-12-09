@@ -443,9 +443,6 @@ void aturKebersihanRumahTangga(kota *energetica, int i) {
 }
 
 //CODE MUSTOF
-//Implementasinya agak beda jadi dipertanyakan
-//error handling masih kurang
-//budget dan efektifitas tiap opsi masih belum diperhitungkan
 void definisiEnergiBersih(kota *energetica)
 {
 	energetica[0].energiBersih.energiTerbarukan = 70;
@@ -509,13 +506,15 @@ void penambahanEnergi (kota *energetica, int i, int nilaiPenambahan, float budge
 	else printf("Salah satu biaya tidak memenuhi!");
 }
 
-void displayAkses (int i, int nilaiPenambahan, float budget, int hari, int sdm)
+void displayAkses (kota *energetica, int i, int nilaiPenambahan, float budget, int hari, int sdm)
 {
 	printf("===============Status Perubahan==============\n");
-	printf("||Nilai dari variabel yang bertambah %d\n", nilaiPenambahan);
-	printf("||Budget yang dibutuhkan %.2f\n", budget);
-	printf("||Hari yang dibutuhkan %d\n", hari);
-	printf("||SDM yang dibutuhkan %d\n", sdm);
+	printf("||Nilai dari variabel yang bertambah : %d\n", nilaiPenambahan);
+	printf("||Budget yang dibutuhkan: %.2f\n", budget);
+	printf("||Hari yang dibutuhkan 	: %d\n", hari);
+	printf("||SDM yang dibutuhkan 	: %d\n", sdm);
+	printf("||Budget tersisa 	: %.2f\n", energetica[i].budget - budget);
+	printf("||Hari tersisa 		: %d hari\n", energetica[i].hari - hari);
 	printf("=============================================\n");
 	printf("Apakah Anda ingin melanjutkan pembangunan?\n");
 	printf("1. Ya\n");
@@ -531,48 +530,80 @@ void aturAksesEnergi(kota *energetica, int i)
 	printf("||Kuantitas SDM Akses Energi 	: %.2f\n", energetica[i].energiBersih.sdmAkses);
 	printf("=============================================\n");
 	printf("\nApa yang ingin diubah pada Akses Energi Bersih?\n");
-	printf("1. Pembangunan PLTA\n");
-	printf("2. Membuat kebijakan dan regulasi energi bersih\n");
-	printf("3. Memberikan edukasi kepada warga\n");
-	printf("4. Pembangunan infrasruktur yang lebih baik\n");
-	printf("5. Peningkatan akses di daerah terpencil\n");
+	printf("1. Pembangunan Pembangkit Listrik (Pasokan+++)\n");
+	printf("2. Membuat kebijakan dan regulasi energi bersih (Kebersihan+)\n");
+	printf("3. Memberikan edukasi kepada warga (Pasokan/Kebersihan+)\n");
+	printf("4. Pembangunan infrasruktur yang lebih baik(Akses/Kebersihan+)\n");
+	printf("5. Penyediaan akses energi untuk desa terpencil (Akses++)\n");
+	printf("6. Pengembangan teknologi dan penelitian (Pasokan/Akses+)\n");
+	printf("7. Pengalihan subsidi bahan bakar fosil menjadi energi terbarukan (Pasokan+)\n");
+	printf("8. Menyerukan penggunaan transportasi umum (Akses+)\n");
 	scanf("%d", &opsi);
 	
 	switch (opsi)
 	{
 		case 1:
-			displayAkses (i, 30 , 100000, 10,20);
+			displayAkses (energetica, i, 30 , 25000000, 8, 80);
 			scanf("%d",&confirm);
-			if (confirm == 1) penambahanEnergi (energetica, i, 30 , 10000000000, 10, 20);
+			if (confirm == 1) penambahanEnergi (energetica, i, 30 , 25000000, 8, 80);
 			else printf("Gagal untuk melakukan perubahan\n");
 			break;
 		case 2 :
-			displayAkses (i, 20 , 50000, 5, 10);
+			displayAkses (energetica, i, 10 , 9000000, 3, 20);
 			scanf("%d",&confirm);
-			if (confirm == 1) kemudahanAkses (energetica, i, 20 , 50000, 5, 10);
+			if (confirm == 1) kebersihan (energetica, i, 10 , 9000000, 3, 20);
 			else printf("Gagal untuk melakukan perubahan\n");
 			break;
 		case 3 :
-			displayAkses (i, 10 , 50000, 2, 10);
+			displayAkses (energetica, i, 20 , 15000000, 4,20);
 			scanf("%d",&confirm);
-			if (confirm == 1) kebersihan (energetica, i, 10 , 50000, 2, 10);
+			if (confirm == 1) 
+			{
+				kebersihan (energetica, i, 8 , 7000000, 2, 10);
+				penambahanEnergi (energetica, i, 12 , 8000000, 2, 10);
+			}
 			else printf("Gagal untuk melakukan perubahan\n");
 			break;
 		case 4 :
-			displayAkses (i, 30 , 100000, 15, 10);
+			displayAkses (energetica, i, 25 , 20000000, 6,40);
 			scanf("%d",&confirm);
-			if (confirm == 1) kemudahanAkses (energetica, i, 30 , 100000, 15, 10);
+			if (confirm == 1) 
+			{
+				kemudahanAkses (energetica, i, 10 , 10000000, 3, 20);
+				kebersihan (energetica, i, 15 , 10000000, 3, 20);
+			}
 			else printf("Gagal untuk melakukan perubahan\n");
 			break;
 		case 5 :
-			displayAkses (i, 30 , 100000, 10, 10);
+			displayAkses (energetica, i, 30 , 30000000, 7,40);
 			scanf("%d",&confirm);
-			if (confirm == 1)	kemudahanAkses (energetica, i, 30 , 100000, 10, 10);
+			if (confirm == 1)	kemudahanAkses (energetica, i, 30 , 30000000, 7,40);
+			else printf("Gagal untuk melakukan perubahan\n");
+			break;
+		case 6 :
+			displayAkses (energetica, i, 15 , 13000000, 2,10);
+			scanf("%d",&confirm);
+			if (confirm == 1) 
+			{
+				penambahanEnergi (energetica, i, 9 , 6000000, 1, 5);
+				kemudahanAkses (energetica, i, 6 , 7000000, 1,5);
+			}
+			else printf("Gagal untuk melakukan perubahan\n");
+			break;
+		case 7 :
+			displayAkses (energetica, i, 5 , 5000000, 1, 4);
+			scanf("%d",&confirm);
+			if (confirm == 1) penambahanEnergi (energetica, i, 5 , 5000000, 1, 4);
+			else printf("Gagal untuk melakukan perubahan\n");
+			break;
+		case 8 :
+			displayAkses (energetica, i, 10 , 7000000, 2,10);
+			scanf("%d",&confirm);
+			if (confirm == 1) kemudahanAkses (energetica, i, 10 , 7000000, 2,10);
 			else printf("Gagal untuk melakukan perubahan\n");
 			break;
 		default :
-			printf("Input tidak valid. Mohon melakukan input ulang!");
-			aturAksesEnergi(energetica, i);
+			printf("Input tidak valid. Tidak terjadi perubahan!");
 	}
 	energetica[i].energiBersih.indeksAksesEnergi = (energetica[i].energiBersih.energiTerbarukan + energetica[i].energiBersih.kebersihan + energetica[i].energiBersih.kemudahanAkses) / 3;
 	printf("\n\nPress any key to Continue!");
@@ -830,7 +861,7 @@ void gameplay(kota *energetica) {
 		printf("L E V E L   %d || %s\n", i + 1, energetica[i].nama);
 		printf("==================================\n");
 		printf("%s\n\n", energetica[i].desc);
-		printf("Press any key to continue!");
+		printf("Press any key to continue!\n");
 		getch();
 		system("cls");
 		
