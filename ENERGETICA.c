@@ -544,14 +544,14 @@ void manajemenWaste(kota *energetica, int i) {
 
 	printf("Pengaruh Budget dan Poin\n");
 	printf("==============================\n");
-	printf("Budget yang terpakai\t=\tPoin x 1000 (Biaya per waste dikumpulkan)\n");
+	printf("Budget yang terpakai\t=\t100000$ per poin\n");
 	printf("Pengaruh Pada Index\t=\tAkan naik 1 per 4 Poin\n");
 	
     printf("\nMasukkan jumlah waste yang dikumpulkan: ");
     scanf("%f", &pengumpulanWaste);
 
     
-    hargaPembuanganWaste = pengumpulanWaste * 10000;  
+    hargaPembuanganWaste = pengumpulanWaste * 100000;  
 
     totalWaste = pengumpulanWaste;
     
@@ -576,17 +576,19 @@ void manajemenWaste(kota *energetica, int i) {
 void aturKebersihanRumahTangga(kota *energetica, int i) {
 	int pil; 
 	printf("DISPLAY\n");
-	printf("================\n");
-	printf("TOTAL :\t%.2f\n", energetica[i].kebersihanRumahTangga.indeksKebersihanRT);
-	printf("1. Penggunaan Alat Rumah Tangga\t=\t%.2f\n", energetica[i].kebersihanRumahTangga.alatKebersihanSustainable);
-	printf("2. Keefesienan Penggunaan Energi Rumah Tangga\t=\t%.2f\n", energetica[i].kebersihanRumahTangga.efisiensiEnergi);
-	printf("3. Manajamen Waste\t=\t%.2f\n", energetica[i].kebersihanRumahTangga.wasteManagement);
+	printf("=========================================================\n");
+	printf("||TOTAL :\t%.2f\n", energetica[i].kebersihanRumahTangga.indeksKebersihanRT);
+	printf("||1. Penggunaan Alat Rumah Tangga = %.2f\n", energetica[i].kebersihanRumahTangga.alatKebersihanSustainable);
+	printf("||2. Keefesienan Penggunaan Energi Rumah Tangga = %.2f\n", energetica[i].kebersihanRumahTangga.efisiensiEnergi);
+	printf("||3. Manajamen Waste = %.2f\n", energetica[i].kebersihanRumahTangga.wasteManagement);
+	printf("=========================================================\n\n");
 	
 	printf("O P S I\n");
-	printf("==============\n");
-	printf("1. Penggunaan Alat Kebersihan Rumah Tangga\n");
-	printf("2. Keefisienan Penggunaan Energi Rumah Tangga\n");
-	printf("3. Manajemen Waste\n");
+	printf("======================================================\n");
+	printf("||1. Penggunaan Alat Kebersihan Rumah Tangga\n");
+	printf("||2. Keefisienan Penggunaan Energi Rumah Tangga\n");
+	printf("||3. Manajemen Waste\n");
+	printf("======================================================\n");
 	scanf("%d", &pil);
 	
 	switch(pil) {
