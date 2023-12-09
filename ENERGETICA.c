@@ -59,6 +59,7 @@ typedef struct kotaEnergetica {
 		float levelMod;
 		float maxValue;
 		int skalaHistogram;
+		int sdmGas;
 		float indeksGasRumahKaca;
 		int inc;
 		
@@ -272,44 +273,43 @@ void definisiAturEmisi(kota *energetica){
 	 energetica[2].emisiGas.priceN2O = 30000.00;
 	 energetica[3].emisiGas.priceN2O = 35000.00;
 	 
-	 energetica[0].emisiGas.gasCO2 = 20;
- 	 energetica[1].emisiGas.gasCO2 = 30;
-	 energetica[2].emisiGas.gasCO2 = 25;
-	 energetica[3].emisiGas.gasCO2 = 20;
+	 energetica[0].emisiGas.gasCO2 = 60;
+ 	 energetica[1].emisiGas.gasCO2 = 50;
+	 energetica[2].emisiGas.gasCO2 = 50;
+	 energetica[3].emisiGas.gasCO2 = 45;
 
-	 energetica[0].emisiGas.gasCH4 = 25;
- 	 energetica[1].emisiGas.gasCH4 = 30;
-	 energetica[2].emisiGas.gasCH4 = 20;
-	 energetica[3].emisiGas.gasCH4 = 25;
+	 energetica[0].emisiGas.gasCH4 = 80;
+ 	 energetica[1].emisiGas.gasCH4 = 60;
+	 energetica[2].emisiGas.gasCH4 = 65;
+	 energetica[3].emisiGas.gasCH4 = 70;
 
-	 energetica[0].emisiGas.gasN2O = 30;
- 	 energetica[1].emisiGas.gasN2O = 25;
-	 energetica[2].emisiGas.gasN2O = 25;
-	 energetica[3].emisiGas.gasN2O = 35;
-	 
-	 energetica[0].emisiGas.indeksGasRumahKaca = 35;
-	 energetica[1].emisiGas.indeksGasRumahKaca = 50;
-	 energetica[2].emisiGas.indeksGasRumahKaca = 20;
-	 energetica[3].emisiGas.indeksGasRumahKaca = 25;
-	 
-	 energetica[0].emisiGas.levelMod = 0.25;
-	 energetica[1].emisiGas.levelMod = 0.10;
-	 energetica[2].emisiGas.levelMod = 0.25;
-	 energetica[3].emisiGas.levelMod = 0.10;
+	 energetica[0].emisiGas.gasN2O = 50;
+ 	 energetica[1].emisiGas.gasN2O = 45;
+	 energetica[2].emisiGas.gasN2O = 55;
+	 energetica[3].emisiGas.gasN2O = 60;
+
+	energetica[0].emisiGas.sdmGas = 300;
+	energetica[1].emisiGas.sdmGas = 250;
+	energetica[2].emisiGas.sdmGas = 180;
+	energetica[3].emisiGas.sdmGas = 90;
 }
 
 void changeCO2(kota *energetica, float gasCO2, int i) {
 	float inc;
-	printf("Masukkan penurunan CO2 yang diinginkan: ");
+	printf("Masukkan kenaikan skor CO2 yang diinginkan: ");
 	scanf("%f", &inc);
 	
 	if(inc > 0 ) {
-		energetica[i].emisiGas.gasCO2 -= inc;
-		energetica[i].emisiGas.indeksGasRumahKaca += inc * energetica[i].emisiGas.levelMod;
+		if(inc > (100.00 - energetica[i].emisiGas.gasCO2)){
+			inc = (100.00 - energetica[i].emisiGas.gasCO2);
+		}
+		energetica[i].emisiGas.gasCO2 += inc;
+		energetica[i].budget -= inc * energetica[i].emisiGas.priceCO2;
+		energetica[i].emisiGas.sdmGas -= inc * 3;
 		if(energetica[i].emisiGas.indeksGasRumahKaca > 100.00) {
 			energetica[i].emisiGas.indeksGasRumahKaca = 100.00;
 		}
-		printf("Berhasil menurunkan CO2\n");
+		printf("Berhasil menaikan skor CO2\n");
 		energetica[i].emisiGas.priceCO2 = energetica[i].emisiGas.priceCO2 + (energetica[i].emisiGas.priceCO2 * 0.5);
 	} else {
 		printf("Tidak ada yang berubah!");
@@ -318,16 +318,17 @@ void changeCO2(kota *energetica, float gasCO2, int i) {
 
 void changeCH4(kota *energetica, float gasCH4, int i) {
 	float inc;
-	printf("Masukkan penurunan CH4 yang diinginkan: ");
+	printf("Masukkan kenaikan skor CH4 yang diinginkan: ");
 	scanf("%f", &inc);
 	
 	if(inc > 0 ) {
-		energetica[i].emisiGas.gasCO2 -= inc;
-		energetica[i].emisiGas.indeksGasRumahKaca += inc * energetica[i].emisiGas.levelMod;
-		if(energetica[i].emisiGas.indeksGasRumahKaca > 100.00) {
-			energetica[i].emisiGas.indeksGasRumahKaca = 100.00;
+		if(inc > (100.00 - energetica[i].emisiGas.gasCH4)){
+			inc = (100.00 - energetica[i].emisiGas.gasCH4);
 		}
-		printf("Berhasil menurunkan CH4\n");
+		energetica[i].emisiGas.gasCH4 += inc;
+		energetica[i].budget -= inc * energetica[i].emisiGas.priceCH4;
+		energetica[i].emisiGas.sdmGas -= inc * 3;
+		printf("Berhasil menaikan skor CH4\n");
 		energetica[i].emisiGas.priceCH4 = energetica[i].emisiGas.priceCH4 + (energetica[i].emisiGas.priceCH4 * 0.5);
 	} else {
 		printf("TIdak ada yang berubah!");
@@ -336,16 +337,20 @@ void changeCH4(kota *energetica, float gasCH4, int i) {
 
 void changeN2O(kota *energetica, float gasN2O, int i) {
 	float inc;
-	printf("Masukkan penurunan N2O yang diinginkan: ");
+	printf("Masukkan kenaikan skor N2O yang diinginkan: ");
 	scanf("%f", &inc);
 	
 	if(inc > 0 ) {
-		energetica[i].emisiGas.gasCO2 -= inc;
-		energetica[i].emisiGas.indeksGasRumahKaca += inc * energetica[i].emisiGas.levelMod;
+		if(inc > (100.00 - energetica[i].emisiGas.gasN2O)){
+			inc = (100.00 - energetica[i].emisiGas.gasN2O);
+		}
+		energetica[i].emisiGas.gasN2O += inc;
+		energetica[i].budget -= inc * energetica[i].emisiGas.priceN2O;
+		energetica[i].emisiGas.sdmGas -= inc * 3;
 		if(energetica[i].emisiGas.indeksGasRumahKaca > 100.00) {
 			energetica[i].emisiGas.indeksGasRumahKaca = 100.00;
 		}
-		printf("Berhasil menurunkan N2O\n");
+		printf("Berhasil menaikan skor N2O\n");
 		energetica[i].emisiGas.priceN2O = energetica[i].emisiGas.priceN2O + (energetica[i].emisiGas.priceN2O * 0.15);
 	} else {
 		printf("TIdak ada yang berubah!");
@@ -354,37 +359,72 @@ void changeN2O(kota *energetica, float gasN2O, int i) {
 
 void aturEmisi(kota *energetica, int i) {
 	int pil, hari;
+
+	energetica[i].emisiGas.indeksGasRumahKaca = (energetica[i].emisiGas.gasCO2 + energetica[i].emisiGas.gasCH4 + energetica[i].emisiGas.gasN2O) / 3;
+	
+	system("cls");
+	printf("||=============================================\n");
+    printf("|| Statistik Emisi\n");
+    printf("||=============================================\n");
+	printf("|| Status Emisi    : %.2f%%\n", energetica[i].emisiGas.indeksGasRumahKaca);
+	printf("|| Lebih tinggi skornya, lebih baik kualitas udaranya!\n");
+	printf("|| CO2 Score       : %.0f out of 100\n", energetica[i].emisiGas.gasCO2);
+	printf("|| CH4 Score       : %.0f out of 100\n", energetica[i].emisiGas.gasCH4);
+	printf("|| N2O Score	   : %.0f out of 100\n", energetica[i].emisiGas.gasN2O);
+	printf("||=============================================\n");
+
+	printf("\nBudget Kota : $ %.2f\n", energetica[i].budget);
+	printf("SDM Gas     : %d\n", energetica[i].emisiGas.sdmGas);
 	
 	printf("\n\nO P S I\n");
 	printf("========================\n");
 	printf("1. Gas CO2\n");
 	printf("2. Gas CH4\n");
-	printf("3. Gas N20\n");
+	printf("3. Gas N2O\n");
+	printf("\nMasukkan Opsi yang dipilih! : ");
 	scanf("%d",&pil);
 	
 	switch(pil) {
-		case 1 : 
+		case 1 :
+			printf("\nBiaya : %.2f/poin", energetica[i].emisiGas.priceCO2);
+			printf("\nSDM : 3/poin\n");
 			if(energetica[i].budget < energetica[i].emisiGas.priceCO2){
 				printf("Budget tidak cukup!\n");
+				getch();
+				system("cls");
 				break;
 			} else {
 				changeCO2(energetica,energetica[i].emisiGas.gasCO2, i);
+				getch();
+				system("cls");
 				break;
 			}
 		case 2 : 
+			printf("\nBiaya : %.2f/poin", energetica[i].emisiGas.priceCH4);
+			printf("\nSDM : 3/poin\n");
 			if(energetica[i].budget < energetica[i].emisiGas.priceCH4){
 				printf("Budget tidak cukup!\n");
+				getch();
+				system("cls");
 				break;
 			} else {
 				changeCH4(energetica,energetica[i].emisiGas.gasCH4, i);
+				getch();
+				system("cls");
 				break;
 			}
 		case 3 : 
+			printf("\nBiaya : %.2f/poin", energetica[i].emisiGas.priceN2O);
+			printf("\nSDM : 3/poin\n");
 			if(energetica[i].budget < energetica[i].emisiGas.priceN2O){
 				printf("Budget tidak cukup!\n");
+				getch();
+				system("cls");
 				break;
 			} else {
 				changeN2O(energetica,energetica[i].emisiGas.gasN2O, i);
+				getch();
+				system("cls");
 				break;
 			}
 		default : 
@@ -392,6 +432,24 @@ void aturEmisi(kota *energetica, int i) {
 			getch();
 			system("cls");	
 	}
+	energetica[i].emisiGas.indeksGasRumahKaca = (energetica[i].emisiGas.gasCO2 + energetica[i].emisiGas.gasCH4 + energetica[i].emisiGas.gasN2O) / 3;
+	
+	printf("||=============================================\n");
+    printf("|| Statistik Emisi (UPDATED)\n");
+    printf("||=============================================\n");
+	printf("|| Status Emisi    : %.2f%%\n", energetica[i].emisiGas.indeksGasRumahKaca);
+	printf("|| CO2 Levels      : %.0f out of 100\n", energetica[i].emisiGas.gasCO2);
+	printf("|| CH4 Levels      : %.0f out of 100\n", energetica[i].emisiGas.gasCH4);
+	printf("|| N2O Levels	   : %.0f out of 100\n", energetica[i].emisiGas.gasN2O);
+	printf("||=============================================\n");
+
+	printf("\nBudget Kota : $ %.2f\n", energetica[i].budget);
+	printf("SDM Gas     : %d\n", energetica[i].emisiGas.sdmGas);
+
+	energetica[i].hari--;
+	printf("\nPress any key to continue!");
+	getch();
+	system("cls");
 	
 }
 
@@ -705,7 +763,8 @@ void gameplay(kota *energetica) {
 	for(i = 0; i < 4; i++) {
         energetica[i].kebersihanRumahTangga.indeksKebersihanRT = (energetica[i].kebersihanRumahTangga.alatKebersihanSustainable * 0.33) + (energetica[i].kebersihanRumahTangga.efisiensiEnergi * 0.33) + (energetica[i].kebersihanRumahTangga.wasteManagement * 0.33);
 		energetica[i].listrik.indeksListrik = (energetica[i].listrik.listrikSubsidi + energetica[i].listrik.listrikUmum + energetica[i].listrik.listrikTerbaharukan) / 3;
-
+		energetica[i].emisiGas.indeksGasRumahKaca = (energetica[i].emisiGas.gasCO2 + energetica[i].emisiGas.gasCH4 + energetica[i].emisiGas.gasN2O) / 3;
+		
         if(trig > 0) {
         	printf("Maaf anda gagal!\n");
         	printf("Press Any Button to Continue");
@@ -728,15 +787,15 @@ void gameplay(kota *energetica) {
             printf("Budget kota : $ %.2f\n", energetica[i].budget);
             printf("Sisa hari   : %d\n\n", energetica[i].hari);
 
-            printf("||================================\n");
+            printf("||=======================================\n");
             printf("|| Statistik\n");
-            printf("||================================\n");
-            printf("|| Status Indeks        : %.2f%%\n", energetica[i].indeksKota);
-            printf("|| Status Listrik       : %.2f%%\n", energetica[i].listrik.indeksListrik );
-            printf("|| Status Kebersihan    : %.2f%%\n", energetica[i].kebersihanRumahTangga.indeksKebersihanRT);
-            printf("|| Status Energi Bersih : %.2f%%\n", energetica[i].energiBersih.indeksAksesEnergi);
-            printf("|| Status Emisi Gas     : %.2f%%\n", energetica[i].emisiGas.indeksGasRumahKaca);
-			printf("||================================\n");
+            printf("||=======================================\n");
+            printf("|| Status Indeks        	: %.2f%%\n", energetica[i].indeksKota);
+            printf("|| Status Listrik       	: %.2f%%\n", energetica[i].listrik.indeksListrik );
+            printf("|| Status Kebersihan    	: %.2f%%\n", energetica[i].kebersihanRumahTangga.indeksKebersihanRT);
+            printf("|| Status Energi Bersih 	: %.2f%%\n", energetica[i].energiBersih.indeksAksesEnergi);
+            printf("|| Status Kebersihan Udara	: %.2f%%\n", energetica[i].emisiGas.indeksGasRumahKaca);
+			printf("||=======================================\n");
 
             printf("\nSektor yang dapat dipilih:\n");
             printf("1. Akses Listrik\n");
