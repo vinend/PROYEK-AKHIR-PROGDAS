@@ -477,12 +477,18 @@ void definisiKebersihanRumahTangga (kota *energetica) {
 
 void alatKebersihan(kota *energetica, int i) {
     float alatYangDipakai, biayaUrusAlat, totalAlatDipakai, totalBiaya;
+    
+        printf("Pengaruh Budget dan Poin\n");
+    printf("=================================================================================\n");
+    printf("|| Biaya Pengurusan Alat\t=\tPoin x 500000 $ (Biaya per Alat)\n");
+    printf("|| Pengaruh Pada Index\t\t=\tAkan naik 1 per 4 poin\n");
+    printf("=================================================================================\n");
 
     printf("\nMasukkan jumlah alat kebersihan yang dipakai: ");
     scanf("%f", &alatYangDipakai);
 
   
-    biayaUrusAlat = 50000;  
+    biayaUrusAlat = 500000;  
 
     totalAlatDipakai = alatYangDipakai * biayaUrusAlat;
     totalBiaya = totalAlatDipakai;
@@ -493,8 +499,6 @@ void alatKebersihan(kota *energetica, int i) {
 	} 
 
     else {
-	
-    energetica[i].kebersihanRumahTangga.alatKebersihanSustainable += alatYangDipakai;
     energetica[i].budget -= totalBiaya;
     energetica[i].kebersihanRumahTangga.alatKebersihanSustainable += alatYangDipakai * 0.25;
     
@@ -511,47 +515,52 @@ void alatKebersihan(kota *energetica, int i) {
 void efisiensiEnergi(kota *energetica, int i) {
     float outputEnergi, kehilanganEnergi, totalKonsumsiEnergi, pengurusanEnergi;
 
+    printf("Pengaruh Budget dan Poin\n");
+    printf("=================================================================================\n");
+    printf("|| Biaya Penghematan Energi\t=\tPoin x 400000 $ (Biaya per Penghematan Energi)\n");
+    printf("|| Pengaruh Pada Index\t\t=\tAkan naik 1 per poin\n");
+    printf("=================================================================================\n");
+
     printf("\nMasukkan output energi rumah tangga: ");
     scanf("%f", &outputEnergi);
 
-    
-    kehilanganEnergi = outputEnergi * 0.1;  
-
+    kehilanganEnergi = outputEnergi * 0.1;
     totalKonsumsiEnergi = outputEnergi + kehilanganEnergi;
-    pengurusanEnergi = totalKonsumsiEnergi * 0.05;
-	
-	if(pengurusanEnergi > energetica[i].budget) {
-		printf("Budget anda tidak cukup!\n");
-		energetica[i].hari++;
-	}  
+    pengurusanEnergi = totalKonsumsiEnergi;
 
-    else {
+    if (pengurusanEnergi > energetica[i].budget) {
+        printf("Budget anda tidak cukup!\n");
+        energetica[i].hari++;  
+    } 
 	
-    energetica[i].kebersihanRumahTangga.efisiensiEnergi = outputEnergi - pengurusanEnergi;
-    energetica[i].budget -= pengurusanEnergi;
-    energetica[i].kebersihanRumahTangga.efisiensiEnergi += pengurusanEnergi * 0.25;
-    
-    	if(energetica[i].kebersihanRumahTangga.efisiensiEnergi > 100) {
-    		printf("Indeks melebihi batas! Luar biasa");
-    		energetica[i].kebersihanRumahTangga.efisiensiEnergi = 100;
-		}
-	}
+	else {
+        
+        energetica[i].kebersihanRumahTangga.efisiensiEnergi += outputEnergi - pengurusanEnergi;
+        energetica[i].budget -= pengurusanEnergi * 400000; 
+   
+        if (energetica[i].kebersihanRumahTangga.efisiensiEnergi > 100) {
+            printf("Indeks melebihi batas! Luar biasa\n");
+            energetica[i].kebersihanRumahTangga.efisiensiEnergi = 100;
+        }
+    }
 }
+
 
 
 void manajemenWaste(kota *energetica, int i) {
     float pengumpulanWaste, totalWaste, hargaPembuanganWaste;
 
 	printf("Pengaruh Budget dan Poin\n");
-	printf("==============================\n");
-	printf("Budget yang terpakai\t=\tPoin x 1000 (Biaya per waste dikumpulkan)\n");
-	printf("Pengaruh Pada Index\t=\tAkan naik 1 per 4 Poin\n");
+	printf("=================================================================================\n");
+	printf("||Budget yang terpakai\t=\tPoin x 1000000 $ (Biaya per waste dikumpulkan)\n");
+	printf("||Pengaruh Pada Index\t=\tAkan naik 1 per 4 Poin\n");
+	printf("=================================================================================\n");
 	
     printf("\nMasukkan jumlah waste yang dikumpulkan: ");
     scanf("%f", &pengumpulanWaste);
 
     
-    hargaPembuanganWaste = pengumpulanWaste * 10000;  
+    hargaPembuanganWaste = pengumpulanWaste * 1000000;  
 
     totalWaste = pengumpulanWaste;
     
@@ -574,19 +583,22 @@ void manajemenWaste(kota *energetica, int i) {
 }
 
 void aturKebersihanRumahTangga(kota *energetica, int i) {
-	int pil; 
+	int pil;
+	system("cls"); 
 	printf("DISPLAY\n");
-	printf("================\n");
-	printf("TOTAL :\t%.2f\n", energetica[i].kebersihanRumahTangga.indeksKebersihanRT);
-	printf("1. Penggunaan Alat Rumah Tangga\t=\t%.2f\n", energetica[i].kebersihanRumahTangga.alatKebersihanSustainable);
-	printf("2. Keefesienan Penggunaan Energi Rumah Tangga\t=\t%.2f\n", energetica[i].kebersihanRumahTangga.efisiensiEnergi);
-	printf("3. Manajamen Waste\t=\t%.2f\n", energetica[i].kebersihanRumahTangga.wasteManagement);
+	printf("============================================================\n");
+	printf("||TOTAL : %.2f\n", energetica[i].kebersihanRumahTangga.indeksKebersihanRT);
+	printf("||1. Penggunaan Alat Rumah Tangga = %.2f\n", energetica[i].kebersihanRumahTangga.alatKebersihanSustainable);
+	printf("||2. Keefesienan Penggunaan Energi Rumah Tangga = %.2f\n", energetica[i].kebersihanRumahTangga.efisiensiEnergi);
+	printf("||3. Manajamen Waste = %.2f\n", energetica[i].kebersihanRumahTangga.wasteManagement);
+	printf("============================================================\n\n");
 	
 	printf("O P S I\n");
-	printf("==============\n");
-	printf("1. Penggunaan Alat Kebersihan Rumah Tangga\n");
-	printf("2. Keefisienan Penggunaan Energi Rumah Tangga\n");
-	printf("3. Manajemen Waste\n");
+	printf("==========================================================\n");
+	printf("||1. Penggunaan Alat Kebersihan Rumah Tangga\n");
+	printf("||2. Keefisienan Penggunaan Energi Rumah Tangga\n");
+	printf("||3. Manajemen Waste\n");
+	printf("==========================================================\n");
 	scanf("%d", &pil);
 	
 	switch(pil) {
@@ -757,10 +769,10 @@ void definisiKota(kota *energetica) {
     strcpy(energetica[2].nama, "Tekkompolis");
     strcpy(energetica[3].nama, "Biotopia");
     
-    strcpy(energetica[0].desc, "Ini deskripsi kota Dea-Tae-AE");
-    strcpy(energetica[1].desc, "Ini deskripsi kota Elegger City");
-    strcpy(energetica[2].desc, "Ini deskripsi kota Tekkompolis");
-    strcpy(energetica[3].desc, "Ini deskripsi kota Biotopia");
+    strcpy(energetica[0].desc, "Selamat datang di Dea-Tae-AE, di mana kemajuan energi bersih bertabrakan dengan realitas sehari-hari rumah tangga yang memerlukan sentuhan kebersihan yang lebih tajam. Bagaimana kota ini bisa menjadi model holistik untuk keberlanjutan? Itu adalah pertanyaan yang menggantung di udara, sementara penduduk Dea-Tae-AE terus menjelajahi keseimbangan antara teknologi tinggi dan kebutuhan dasar domestik.");
+    strcpy(energetica[1].desc, "Selamat datang di Elegger City! Kota yang terang benderang oleh ledakan kreativitas para inovator muda teknik elektro. Dengan akses listrik yang mengalir melalui jalanan dan bangunan-bangunan yang canggih, kota ini benar-benar menjadi laboratorium kehidupan bagi anak-anak teknik elektro yang berbakat. Namun dibalik keramaian teknologi yang memukau, tersembunyi ketidakseimbangan terhadap pengurangan emisi gas rumah kaca yang menjadi bagian yang terpinggirkan!");
+    strcpy(energetica[2].desc, "Selamat datang di Tekkompolis! Meski jendela-jendela ruang server bersinar terang, lantai-lantai apartemen masih menyimpan tantangan kebersihan yang menghadang. Dalam dunia Tekkompolis, di mana kode-kode dan algoritma berkembang pesat, kenyataannya adalah bahwa keseimbangan antara teknologi dan kebersihan rumah tangga belum sepenuhnya tercapai. Apakah para pemikir muda di Tekkompolis dapat meretas solusi untuk membangun masa depan yang bersih dan berkelanjutan? Pertanyaan ini menciptakan ketegangan menarik antara kemajuan teknologi dan tanggung jawab lingkungan di kota ini.");
+    strcpy(energetica[3].desc, "Selamat datang di Biotopia, kota yang dibanjiri oleh kecerdasan anak-anak muda yang menggali potensi luar biasa di bidang teknik biomedik dan teknologi kesehatan. Di kota ini, laboratorium-laboratorium inovatif dan pusat riset medis menjadi pusat kegiatan, dengan anak-anak cerdas ini membentuk masa depan kesehatan global. Meskipun kebersihan rumah tangga mencapai tingkat unggul, Biotopia berada di persimpangan tantangan yang menarik: akses listrik yang terbatas, pengurangan emisi gas rumah kaca yang kurang memadai, dan akses energi bersih yang masih terkendala.");
     
     energetica[0].budget = 250000000;
     energetica[1].budget = 200000000;
@@ -796,7 +808,7 @@ void gameplay(kota *energetica) {
 	int i, pil, trig = 0;
 
 	for(i = 0; i < 4; i++) {
-        energetica[i].kebersihanRumahTangga.indeksKebersihanRT = (energetica[i].kebersihanRumahTangga.alatKebersihanSustainable * 0.33) + (energetica[i].kebersihanRumahTangga.efisiensiEnergi * 0.33) + (energetica[i].kebersihanRumahTangga.wasteManagement * 0.33);
+        energetica[i].kebersihanRumahTangga.indeksKebersihanRT = (energetica[i].kebersihanRumahTangga.alatKebersihanSustainable + energetica[i].kebersihanRumahTangga.efisiensiEnergi + energetica[i].kebersihanRumahTangga.wasteManagement) / 3;
 		energetica[i].listrik.indeksListrik = (energetica[i].listrik.listrikSubsidi + energetica[i].listrik.listrikUmum + energetica[i].listrik.listrikTerbaharukan) / 3;
 		energetica[i].emisiGas.indeksGasRumahKaca = (energetica[i].emisiGas.gasCO2 + energetica[i].emisiGas.gasCH4 + energetica[i].emisiGas.gasN2O) / 3;
 		energetica[i].energiBersih.indeksAksesEnergi = (energetica[i].energiBersih.energiTerbarukan + energetica[i].energiBersih.kebersihan + energetica[i].energiBersih.kemudahanAkses) / 3;
