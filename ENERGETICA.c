@@ -367,7 +367,7 @@ void manajemenWaste(kota *energetica, int i) {
 	printf("=================================================================================\n");
 	
     printf("\nMasukkan jumlah waste yang dikumpulkan: ");
-    scanf("%f", &pengumpulanWaste);
+    printf("Silahkan Pilih Opsi : "); scanf("%f", &pengumpulanWaste);
 
     
     hargaPembuanganWaste = pengumpulanWaste * 1000000;  
@@ -410,7 +410,7 @@ void aturKebersihanRumahTangga(kota *energetica, int i) {
 	printf("||2. Keefisienan Penggunaan Energi Rumah Tangga\n");
 	printf("||3. Manajemen Waste\n");
 	printf("==========================================================\n");
-	scanf("%d", &pil);
+	printf("Silahkan Pilih Opsi : "); scanf("%d", &pil);
 	
 	switch(pil) {
 		case 1 : 
