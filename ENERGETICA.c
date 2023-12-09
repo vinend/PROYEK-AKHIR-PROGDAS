@@ -25,11 +25,9 @@ typedef struct kotaEnergetica {
         float listrikSubsidi;
         float listrikUmum;
         float listrikTerbaharukan;
-        float maxValue;
-        float skalaHistogram;
         float indeksListrik;
 		float sdmListrik;
-	} listrik;
+	} aksesListrik;
 	
 	struct kebersihanRumahTangga {
 		float efisiensiEnergi;
@@ -67,46 +65,43 @@ typedef struct kotaEnergetica {
 	
 } kota;
 
-//CODE KIMUSU
-//Sekarang baru bisa buat akses listrik bersubsidi
-//Error handling belum gitu jelas
-//Kriteria masih harus diperhitungkan lagi
+//CODE HAKIM
 
 void definisiListrik(kota *energetica) {
 	
-	energetica[0].listrik.listrikSubsidi = 30;
-    energetica[1].listrik.listrikSubsidi = 55;
-    energetica[2].listrik.listrikSubsidi = 75;
-    energetica[3].listrik.listrikSubsidi = 45;
+	energetica[0].aksesListrik.listrikSubsidi = 30;
+    energetica[1].aksesListrik.listrikSubsidi = 55;
+    energetica[2].aksesListrik.listrikSubsidi = 75;
+    energetica[3].aksesListrik.listrikSubsidi = 45;
 
-    energetica[0].listrik.listrikUmum = 45;
-    energetica[1].listrik.listrikUmum = 45;
-    energetica[2].listrik.listrikUmum = 60;
-    energetica[3].listrik.listrikUmum = 35;
+    energetica[0].aksesListrik.listrikUmum = 45;
+    energetica[1].aksesListrik.listrikUmum = 45;
+    energetica[2].aksesListrik.listrikUmum = 60;
+    energetica[3].aksesListrik.listrikUmum = 35;
 
-    energetica[0].listrik.listrikTerbaharukan = 90;
-    energetica[1].listrik.listrikTerbaharukan = 80;
-    energetica[2].listrik.listrikTerbaharukan = 60;
-    energetica[3].listrik.listrikTerbaharukan = 40;
+    energetica[0].aksesListrik.listrikTerbaharukan = 90;
+    energetica[1].aksesListrik.listrikTerbaharukan = 80;
+    energetica[2].aksesListrik.listrikTerbaharukan = 60;
+    energetica[3].aksesListrik.listrikTerbaharukan = 40;
 
-	energetica[0].listrik.sdmListrik = 300;
-	energetica[1].listrik.sdmListrik = 250;
-	energetica[2].listrik.sdmListrik = 180;
-	energetica[3].listrik.sdmListrik = 90;
+	energetica[0].aksesListrik.sdmListrik = 250;
+	energetica[1].aksesListrik.sdmListrik = 210;
+	energetica[2].aksesListrik.sdmListrik = 150;
+	energetica[3].aksesListrik.sdmListrik = 90;
 }
 
 void changeSubsidi(kota *energetica, float listrikSubsidi, int i) {
-    float incPoin = 0, residu = 0, totalBiaya, totalSDM;
-    float biaya = 900000 + (500000 * i);
-	float sdmCost = floor(3 - (0.5 * i));
+    float incPoin = -1, residu = 0, totalBiaya, totalSDM, usedBiaya, usedSDM;
+    float biaya = 900000 + (500000 * i); // 900000 1400000 1900000 2400000 
+	float sdmCost = floor(3 - (0.5 * i)); // 3 2 2 1
 
     printf("\nBiaya               : $ %.0f / poin", biaya);
 	printf("\nSDM yang diperlukan : %.0f / poin", sdmCost);
     printf("\n\nMasukkan penambahan poin listrik bersubsidi: ");
     
-    while (incPoin <= 0) {
+    while (incPoin < 0) {
         scanf("%f", &incPoin);
-        if (incPoin <= 0) {
+        if (incPoin < 0) {
             printf("Angka yang dimasukkan tidak valid, silahkan masukkan angka lagi\n");
         }
     }
@@ -114,33 +109,37 @@ void changeSubsidi(kota *energetica, float listrikSubsidi, int i) {
 	totalBiaya = biaya * incPoin;
 	totalSDM = sdmCost * incPoin;
 
+	energetica[i].aksesListrik.listrikSubsidi += incPoin;
+	if (energetica[i].aksesListrik.listrikSubsidi > 100) {
+		residu = energetica[i].aksesListrik.listrikSubsidi - 100;
+		energetica[i].aksesListrik.listrikSubsidi = 100;
+	}
+	usedBiaya = totalBiaya - (residu * biaya);
+	usedSDM = totalSDM - (residu * sdmCost);
 
-	if (totalBiaya > energetica[i].budget && energetica[i].listrik.sdmListrik < 0) {
+	if (usedBiaya > energetica[i].budget || usedSDM > energetica[i].aksesListrik.sdmListrik) {
 		printf("Budget/SDM Anda tidak memenuhi. Tidak ada yang berubah.");
+		energetica[i].aksesListrik.listrikSubsidi -= incPoin;
 		energetica[i].hari++;
 	} else {
-        energetica[i].listrik.listrikSubsidi += incPoin;
-		if (energetica[i].listrik.listrikSubsidi > 100) {
-			residu = energetica[i].listrik.listrikSubsidi - 100;
-			energetica[i].listrik.listrikSubsidi = 100;
-		}
-        energetica[i].budget += (residu * biaya) - totalBiaya;
-		energetica[i].listrik.sdmListrik += (residu * sdmCost) - totalSDM;
+		energetica[i].budget -=  usedBiaya;
+		energetica[i].aksesListrik.sdmListrik -= usedSDM;
+		printf("Poin overflow = %.0f\n", residu);
 	}
 }
 
 void changeUmum(kota *energetica, float listrikUmum, int i) {
-    float incPoin = 0, residu = 0, totalBiaya, totalSDM;
-    float biaya = 1500000 + (400000 * i);
-	float sdmCost = 1;
+    float incPoin = -1, residu = 0, totalBiaya, totalSDM, usedBiaya, usedSDM;
+    float biaya = 1500000 + (400000 * i); // 1500000 1900000 2300000 2700000
+	float sdmCost = 1; // 1 1 1 1
 
     printf("\nBiaya               : $ %.0f / poin", biaya);
 	printf("\nSDM yang diperlukan : %.0f / poin", sdmCost);
     printf("\n\nMasukkan penambahan poin listrik fasilitas umum: ");
     
-    while (incPoin <= 0) {
+    while (incPoin < 0) {
         scanf("%f", &incPoin);
-        if (incPoin <= 0) {
+        if (incPoin < 0) {
             printf("Angka yang dimasukkan tidak valid, silahkan masukkan angka lagi\n");
         }
     }
@@ -148,33 +147,37 @@ void changeUmum(kota *energetica, float listrikUmum, int i) {
 	totalBiaya = biaya * incPoin;
 	totalSDM = sdmCost * incPoin;
 
+	energetica[i].aksesListrik.listrikUmum += incPoin;
+	if (energetica[i].aksesListrik.listrikUmum > 100) {
+		residu = energetica[i].aksesListrik.listrikUmum - 100;
+		energetica[i].aksesListrik.listrikUmum = 100;
+	}
+	usedBiaya = totalBiaya - (residu * biaya);
+	usedSDM = totalSDM - (residu * sdmCost);
 
-	if (totalBiaya > energetica[i].budget && energetica[i].listrik.sdmListrik < 0) {
+	if (usedBiaya > energetica[i].budget || usedSDM > energetica[i].aksesListrik.sdmListrik) {
 		printf("Budget/SDM Anda tidak memenuhi. Tidak ada yang berubah.");
+		energetica[i].aksesListrik.listrikUmum -= incPoin;
 		energetica[i].hari++;
 	} else {
-        energetica[i].listrik.listrikUmum += incPoin;
-		if (energetica[i].listrik.listrikUmum > 100) {
-			residu = energetica[i].listrik.listrikUmum - 100;
-			energetica[i].listrik.listrikUmum = 100;
-		}
-        energetica[i].budget += (residu * biaya) - totalBiaya;
-		energetica[i].listrik.sdmListrik += (residu * sdmCost) - totalSDM;
+		energetica[i].budget -=  usedBiaya;
+		energetica[i].aksesListrik.sdmListrik -= usedSDM;
+		printf("Poin overflow = %.0f\n", residu);
 	}
 }
 
 void changeTerbaharukan(kota *energetica, float listrikTerbaharukan, int i) {
-    float incPoin = 0, residu = 0, totalBiaya, totalSDM;
-    float biaya = 1000000;
-	float sdmCost = 2;
+    float incPoin = -1, residu = 0, totalBiaya, totalSDM, usedBiaya, usedSDM;
+    float biaya = 1000000; // 1000000 1000000 1000000 1000000
+	float sdmCost = 2; // 2 2 2 2
 
     printf("\nBiaya               : $ %.0f / poin", biaya);
 	printf("\nSDM yang diperlukan : %.0f / poin", sdmCost);
     printf("\n\nMasukkan penambahan poin akses listrik terbaharukan: ");
     
-    while (incPoin <= 0) {
+    while (incPoin < 0) {
         scanf("%f", &incPoin);
-        if (incPoin <= 0) {
+        if (incPoin < 0) {
             printf("Angka yang dimasukkan tidak valid, silahkan masukkan angka lagi\n");
         }
     }
@@ -182,36 +185,39 @@ void changeTerbaharukan(kota *energetica, float listrikTerbaharukan, int i) {
 	totalBiaya = biaya * incPoin;
 	totalSDM = sdmCost * incPoin;
 
+	energetica[i].aksesListrik.listrikTerbaharukan += incPoin;
+	if (energetica[i].aksesListrik.listrikTerbaharukan > 100) {
+		residu = energetica[i].aksesListrik.listrikTerbaharukan - 100;
+		energetica[i].aksesListrik.listrikTerbaharukan = 100;
+	}
+	usedBiaya = totalBiaya - (residu * biaya);
+	usedSDM = totalSDM - (residu * sdmCost);
 
-	if (totalBiaya > energetica[i].budget && totalSDM > energetica[i].listrik.sdmListrik) {
+	if (usedBiaya > energetica[i].budget || usedSDM > energetica[i].aksesListrik.sdmListrik) {
 		printf("Budget/SDM Anda tidak memenuhi. Tidak ada yang berubah.");
+		energetica[i].aksesListrik.listrikTerbaharukan -= incPoin;
 		energetica[i].hari++;
 	} else {
-        energetica[i].listrik.listrikTerbaharukan += incPoin;
-		if (energetica[i].listrik.listrikTerbaharukan > 100) {
-			residu = energetica[i].listrik.listrikTerbaharukan - 100;
-			energetica[i].listrik.listrikTerbaharukan = 100;
-		}
-        energetica[i].budget += (residu * biaya) - totalBiaya;
-		energetica[i].listrik.sdmListrik +=  (residu * sdmCost) - totalSDM;
+		energetica[i].budget -=  usedBiaya;
+		energetica[i].aksesListrik.sdmListrik -= usedSDM;
+		printf("Poin overflow = %.0f\n", residu);
 	}
 }
 
 void aturListrik(kota *energetica, int i) {
     int pil, hari;
 
-	system("cls");
 	printf("||=============================================\n");
     printf("|| Statistik Listrik\n");
     printf("||=============================================\n");
-	printf("|| Status Listrik           : %.2f%%\n", energetica[i].listrik.indeksListrik);
-	printf("|| Poin Listrik Subsidi     : %.0f out of 100\n", energetica[i].listrik.listrikSubsidi);
-	printf("|| Poin Fasilitas Umum      : %.0f out of 100\n", energetica[i].listrik.listrikUmum);
-	printf("|| Poin Energi terbaharukan : %.0f out of 100\n", energetica[i].listrik.listrikTerbaharukan);
+	printf("|| Status Listrik           : %.2f%%\n", energetica[i].aksesListrik.indeksListrik);
+	printf("|| Poin Listrik Subsidi     : %.0f out of 100\n", energetica[i].aksesListrik.listrikSubsidi);
+	printf("|| Poin Fasilitas Umum      : %.0f out of 100\n", energetica[i].aksesListrik.listrikUmum);
+	printf("|| Poin Energi terbaharukan : %.0f out of 100\n", energetica[i].aksesListrik.listrikTerbaharukan);
 	printf("||=============================================\n");
 
 	printf("\nBudget Kota : $ %.2f\n", energetica[i].budget);
-	printf("SDM Listrik : %.0f\n", energetica[i].listrik.sdmListrik);
+	printf("SDM Listrik : %.0f\n", energetica[i].aksesListrik.sdmListrik);
 
 	printf("\nO P S I\n");
 	printf("========================\n");
@@ -224,236 +230,40 @@ void aturListrik(kota *energetica, int i) {
 	
 	switch(pil) {
 		case 1 : 
-			changeSubsidi(energetica,energetica[i].listrik.listrikSubsidi, i);	
+			changeSubsidi(energetica,energetica[i].aksesListrik.listrikSubsidi, i);	
 			break;
 		case 2 : 
-			changeUmum(energetica,energetica[i].listrik.listrikSubsidi, i);
+			changeUmum(energetica,energetica[i].aksesListrik.listrikSubsidi, i);
 			break;
 		case 3 : 
-			changeTerbaharukan(energetica,energetica[i].listrik.listrikSubsidi, i);
+			changeTerbaharukan(energetica,energetica[i].aksesListrik.listrikSubsidi, i);
 			break;
 		default : 
 			printf("Input anda tidak valid. Tidak ada yang berubah.\n");
 	}
-	energetica[i].listrik.indeksListrik = (energetica[i].listrik.listrikSubsidi + energetica[i].listrik.listrikUmum + energetica[i].listrik.listrikTerbaharukan) / 3;
+
+	energetica[i].aksesListrik.indeksListrik = (energetica[i].aksesListrik.listrikSubsidi + energetica[i].aksesListrik.listrikUmum + energetica[i].aksesListrik.listrikTerbaharukan) / 3;
+	
 	printf("\n||=============================================\n");
     printf("|| Statistik Listrik (Updated)\n");
     printf("||=============================================\n");
-	printf("|| Status Listrik           : %.2f%%\n", energetica[i].listrik.indeksListrik);
-	printf("|| Poin Listrik Subsidi     : %.0f out of 100\n", energetica[i].listrik.listrikSubsidi);
-	printf("|| Poin Fasilitas Umum      : %.0f out of 100\n", energetica[i].listrik.listrikUmum);
-	printf("|| Poin Energi terbaharukan : %.0f out of 100\n", energetica[i].listrik.listrikTerbaharukan);
+	printf("|| Status Listrik           : %.2f%%\n", energetica[i].aksesListrik.indeksListrik);
+	printf("|| Poin Listrik Subsidi     : %.0f out of 100\n", energetica[i].aksesListrik.listrikSubsidi);
+	printf("|| Poin Fasilitas Umum      : %.0f out of 100\n", energetica[i].aksesListrik.listrikUmum);
+	printf("|| Poin Energi terbaharukan : %.0f out of 100\n", energetica[i].aksesListrik.listrikTerbaharukan);
 	printf("||=============================================\n\n");
 
 	printf("\nBudget Kota : $ %.2f\n", energetica[i].budget);
-	printf("SDM Listrik : %.0f\n", energetica[i].listrik.sdmListrik);
+	printf("SDM Listrik : %.0f\n", energetica[i].aksesListrik.sdmListrik);
 
 	energetica[i].hari--;
 	printf("\nPress any key to continue!");
 	getch();
 	system("cls");
-}
-
-
-//CODE MEERDJAH
-
-void definisiAturEmisi(kota *energetica){
-	energetica[0].emisiGas.priceCO2 = 20000.00;
-	energetica[1].emisiGas.priceCO2 = 25000.00;
-	energetica[2].emisiGas.priceCO2 = 30000.00;
-	energetica[3].emisiGas.priceCO2 = 35000.00;
-	
-	energetica[0].emisiGas.priceCH4 = 20000.00;
-	energetica[1].emisiGas.priceCH4 = 25000.00;
-	energetica[2].emisiGas.priceCH4 = 30000.00;
-	energetica[3].emisiGas.priceCH4 = 35000.00;
-	
-	energetica[0].emisiGas.priceN2O = 20000.00;
-	energetica[1].emisiGas.priceN2O = 25000.00;
-	energetica[2].emisiGas.priceN2O = 30000.00;
-	energetica[3].emisiGas.priceN2O = 35000.00;
-	 
-	energetica[0].emisiGas.gasCO2 = 60;
-	energetica[1].emisiGas.gasCO2 = 50;
-	energetica[2].emisiGas.gasCO2 = 50;
-	energetica[3].emisiGas.gasCO2 = 45;
-	
-	energetica[0].emisiGas.gasCH4 = 80;
-	energetica[1].emisiGas.gasCH4 = 60;
-	energetica[2].emisiGas.gasCH4 = 65;
-	energetica[3].emisiGas.gasCH4 = 70;
-	
-	energetica[0].emisiGas.gasN2O = 50;
-	energetica[1].emisiGas.gasN2O = 45;
-	energetica[2].emisiGas.gasN2O = 55;
-	energetica[3].emisiGas.gasN2O = 60;
-	
-	energetica[0].emisiGas.sdmGas = 300;
-	energetica[1].emisiGas.sdmGas = 250;
-	energetica[2].emisiGas.sdmGas = 180;
-	energetica[3].emisiGas.sdmGas = 90;
-}
-
-void changeCO2(kota *energetica, float gasCO2, int i) {
-	float inc;
-	printf("Masukkan kenaikan skor CO2 yang diinginkan: ");
-	scanf("%f", &inc);
-	
-	if(inc > 0 ) {
-		if(inc > (100.00 - energetica[i].emisiGas.gasCO2)){
-			inc = (100.00 - energetica[i].emisiGas.gasCO2);
-		}
-		energetica[i].emisiGas.gasCO2 += inc;
-		energetica[i].budget -= inc * energetica[i].emisiGas.priceCO2;
-		energetica[i].emisiGas.sdmGas -= inc * 3;
-		if(energetica[i].emisiGas.indeksGasRumahKaca > 100.00) {
-			energetica[i].emisiGas.indeksGasRumahKaca = 100.00;
-		}
-		printf("Berhasil menaikan skor CO2\n");
-		energetica[i].emisiGas.priceCO2 = energetica[i].emisiGas.priceCO2 + (energetica[i].emisiGas.priceCO2 * 0.5);
-	} else {
-		printf("Tidak ada yang berubah!");
-	}
-}
-
-void changeCH4(kota *energetica, float gasCH4, int i) {
-	float inc;
-	printf("Masukkan kenaikan skor CH4 yang diinginkan: ");
-	scanf("%f", &inc);
-	
-	if(inc > 0 ) {
-		if(inc > (100.00 - energetica[i].emisiGas.gasCH4)){
-			inc = (100.00 - energetica[i].emisiGas.gasCH4);
-		}
-		energetica[i].emisiGas.gasCH4 += inc;
-		energetica[i].budget -= inc * energetica[i].emisiGas.priceCH4;
-		energetica[i].emisiGas.sdmGas -= inc * 3;
-		printf("Berhasil menaikan skor CH4\n");
-		energetica[i].emisiGas.priceCH4 = energetica[i].emisiGas.priceCH4 + (energetica[i].emisiGas.priceCH4 * 0.5);
-	} else {
-		printf("TIdak ada yang berubah!");
-	}
-}
-
-void changeN2O(kota *energetica, float gasN2O, int i) {
-	float inc;
-	printf("Masukkan kenaikan skor N2O yang diinginkan: ");
-	scanf("%f", &inc);
-	
-	if(inc > 0 ) {
-		if(inc > (100.00 - energetica[i].emisiGas.gasN2O)){
-			inc = (100.00 - energetica[i].emisiGas.gasN2O);
-		}
-		energetica[i].emisiGas.gasN2O += inc;
-		energetica[i].budget -= inc * energetica[i].emisiGas.priceN2O;
-		energetica[i].emisiGas.sdmGas -= inc * 3;
-		if(energetica[i].emisiGas.indeksGasRumahKaca > 100.00) {
-			energetica[i].emisiGas.indeksGasRumahKaca = 100.00;
-		}
-		printf("Berhasil menaikan skor N2O\n");
-		energetica[i].emisiGas.priceN2O = energetica[i].emisiGas.priceN2O + (energetica[i].emisiGas.priceN2O * 0.15);
-	} else {
-		printf("TIdak ada yang berubah!");
-	}
-}
-
-void aturEmisi(kota *energetica, int i) {
-	int pil, hari;
-
-	energetica[i].emisiGas.indeksGasRumahKaca = (energetica[i].emisiGas.gasCO2 + energetica[i].emisiGas.gasCH4 + energetica[i].emisiGas.gasN2O) / 3;
-	
-	system("cls");
-	printf("||=============================================\n");
-    printf("|| Statistik Emisi\n");
-    printf("||=============================================\n");
-	printf("|| Status Emisi    : %.2f%%\n", energetica[i].emisiGas.indeksGasRumahKaca);
-	printf("|| Lebih tinggi skornya, lebih baik kualitas udaranya!\n");
-	printf("|| CO2 Score       : %.0f out of 100\n", energetica[i].emisiGas.gasCO2);
-	printf("|| CH4 Score       : %.0f out of 100\n", energetica[i].emisiGas.gasCH4);
-	printf("|| N2O Score	   : %.0f out of 100\n", energetica[i].emisiGas.gasN2O);
-	printf("||=============================================\n");
-
-	printf("\nBudget Kota : $ %.2f\n", energetica[i].budget);
-	printf("SDM Gas     : %d\n", energetica[i].emisiGas.sdmGas);
-	
-	printf("\n\nO P S I\n");
-	printf("========================\n");
-	printf("1. Gas CO2\n");
-	printf("2. Gas CH4\n");
-	printf("3. Gas N2O\n");
-	printf("\nMasukkan Opsi yang dipilih! : ");
-	scanf("%d",&pil);
-	
-	switch(pil) {
-		case 1 :
-			printf("\nBiaya : %.2f/poin", energetica[i].emisiGas.priceCO2);
-			printf("\nSDM : 3/poin\n");
-			if(energetica[i].budget < energetica[i].emisiGas.priceCO2){
-				printf("Budget tidak cukup!\n");
-				getch();
-				system("cls");
-				break;
-			} else {
-				changeCO2(energetica,energetica[i].emisiGas.gasCO2, i);
-				getch();
-				system("cls");
-				break;
-			}
-		case 2 : 
-			printf("\nBiaya : %.2f/poin", energetica[i].emisiGas.priceCH4);
-			printf("\nSDM : 3/poin\n");
-			if(energetica[i].budget < energetica[i].emisiGas.priceCH4){
-				printf("Budget tidak cukup!\n");
-				getch();
-				system("cls");
-				break;
-			} else {
-				changeCH4(energetica,energetica[i].emisiGas.gasCH4, i);
-				getch();
-				system("cls");
-				break;
-			}
-		case 3 : 
-			printf("\nBiaya : %.2f/poin", energetica[i].emisiGas.priceN2O);
-			printf("\nSDM : 3/poin\n");
-			if(energetica[i].budget < energetica[i].emisiGas.priceN2O){
-				printf("Budget tidak cukup!\n");
-				getch();
-				system("cls");
-				break;
-			} else {
-				changeN2O(energetica,energetica[i].emisiGas.gasN2O, i);
-				getch();
-				system("cls");
-				break;
-			}
-		default : 
-			printf("Masukkan Variabel Yang Valid!");
-			getch();
-			system("cls");	
-	}
-	energetica[i].emisiGas.indeksGasRumahKaca = (energetica[i].emisiGas.gasCO2 + energetica[i].emisiGas.gasCH4 + energetica[i].emisiGas.gasN2O) / 3;
-	
-	printf("||=============================================\n");
-    printf("|| Statistik Emisi (UPDATED)\n");
-    printf("||=============================================\n");
-	printf("|| Status Emisi    : %.2f%%\n", energetica[i].emisiGas.indeksGasRumahKaca);
-	printf("|| CO2 Levels      : %.0f out of 100\n", energetica[i].emisiGas.gasCO2);
-	printf("|| CH4 Levels      : %.0f out of 100\n", energetica[i].emisiGas.gasCH4);
-	printf("|| N2O Levels	   : %.0f out of 100\n", energetica[i].emisiGas.gasN2O);
-	printf("||=============================================\n");
-
-	printf("\nBudget Kota : $ %.2f\n", energetica[i].budget);
-	printf("SDM Gas     : %d\n", energetica[i].emisiGas.sdmGas);
-
-	energetica[i].hari--;
-	printf("\nPress any key to continue!");
-	getch();
-	system("cls");
-	
 }
 
 //CODE ALVIN
+
 void definisiKebersihanRumahTangga (kota *energetica) {
 	int i;
 	
@@ -478,7 +288,7 @@ void definisiKebersihanRumahTangga (kota *energetica) {
 void alatKebersihan(kota *energetica, int i) {
     float alatYangDipakai, biayaUrusAlat, totalAlatDipakai, totalBiaya;
     
-        printf("Pengaruh Budget dan Poin\n");
+    printf("Pengaruh Budget dan Poin\n");
     printf("=================================================================================\n");
     printf("|| Biaya Pengurusan Alat\t=\tPoin x 500000 $ (Biaya per Alat)\n");
     printf("|| Pengaruh Pada Index\t\t=\tAkan naik 1 per 4 poin\n");
@@ -585,7 +395,7 @@ void manajemenWaste(kota *energetica, int i) {
 
 void aturKebersihanRumahTangga(kota *energetica, int i) {
 	int pil;
-	system("cls"); 
+
 	printf("DISPLAY\n");
 	printf("============================================================\n");
 	printf("||TOTAL : %.2f\n", energetica[i].kebersihanRumahTangga.indeksKebersihanRT);
@@ -730,31 +540,31 @@ void aturAksesEnergi(kota *energetica, int i)
 		case 1:
 			displayAkses (i, 30 , 100000, 10,20);
 			scanf("%d",&confirm);
-			if (confirm==1) penambahanEnergi (energetica, i, 30 , 10000000000, 10, 20);
+			if (confirm == 1) penambahanEnergi (energetica, i, 30 , 10000000000, 10, 20);
 			else printf("Gagal untuk melakukan perubahan\n");
 			break;
 		case 2 :
 			displayAkses (i, 20 , 50000, 5, 10);
 			scanf("%d",&confirm);
-			if (confirm==1) kemudahanAkses (energetica, i, 20 , 50000, 5, 10);
+			if (confirm == 1) kemudahanAkses (energetica, i, 20 , 50000, 5, 10);
 			else printf("Gagal untuk melakukan perubahan\n");
 			break;
 		case 3 :
 			displayAkses (i, 10 , 50000, 2, 10);
 			scanf("%d",&confirm);
-			if (confirm==1) kebersihan (energetica, i, 10 , 50000, 2, 10);
+			if (confirm == 1) kebersihan (energetica, i, 10 , 50000, 2, 10);
 			else printf("Gagal untuk melakukan perubahan\n");
 			break;
 		case 4 :
 			displayAkses (i, 30 , 100000, 15, 10);
 			scanf("%d",&confirm);
-			if (confirm==1) kemudahanAkses (energetica, i, 30 , 100000, 15, 10);
+			if (confirm == 1) kemudahanAkses (energetica, i, 30 , 100000, 15, 10);
 			else printf("Gagal untuk melakukan perubahan\n");
 			break;
 		case 5 :
 			displayAkses (i, 30 , 100000, 10, 10);
 			scanf("%d",&confirm);
-			if (confirm==1)	kemudahanAkses (energetica, i, 30 , 100000, 10, 10);
+			if (confirm == 1)	kemudahanAkses (energetica, i, 30 , 100000, 10, 10);
 			else printf("Gagal untuk melakukan perubahan\n");
 			break;
 		default :
@@ -765,6 +575,203 @@ void aturAksesEnergi(kota *energetica, int i)
 	printf("\n\nPress any key to Continue!");
     getch();
     system("cls");
+}
+
+//CODE MEERDJAH
+
+void definisiAturEmisi(kota *energetica){
+	energetica[0].emisiGas.priceCO2 = 20000;
+	energetica[1].emisiGas.priceCO2 = 25000;
+	energetica[2].emisiGas.priceCO2 = 30000;
+	energetica[3].emisiGas.priceCO2 = 35000;
+	
+	energetica[0].emisiGas.priceCH4 = 20000;
+	energetica[1].emisiGas.priceCH4 = 25000;
+	energetica[2].emisiGas.priceCH4 = 30000;
+	energetica[3].emisiGas.priceCH4 = 35000;
+	
+	energetica[0].emisiGas.priceN2O = 20000;
+	energetica[1].emisiGas.priceN2O = 25000;
+	energetica[2].emisiGas.priceN2O = 30000;
+	energetica[3].emisiGas.priceN2O = 35000;
+	 
+	energetica[0].emisiGas.gasCO2 = 55;
+	energetica[1].emisiGas.gasCO2 = 60;
+	energetica[2].emisiGas.gasCO2 = 50;
+	energetica[3].emisiGas.gasCO2 = 45;
+	
+	energetica[0].emisiGas.gasCH4 = 75;
+	energetica[1].emisiGas.gasCH4 = 80;
+	energetica[2].emisiGas.gasCH4 = 65;
+	energetica[3].emisiGas.gasCH4 = 70;
+	
+	energetica[0].emisiGas.gasN2O = 50;
+	energetica[1].emisiGas.gasN2O = 55;
+	energetica[2].emisiGas.gasN2O = 55;
+	energetica[3].emisiGas.gasN2O = 60;
+	
+	energetica[0].emisiGas.sdmGas = 300;
+	energetica[1].emisiGas.sdmGas = 250;
+	energetica[2].emisiGas.sdmGas = 180;
+	energetica[3].emisiGas.sdmGas = 90;
+}
+
+void changeCO2(kota *energetica, float gasCO2, int i) {
+	float inc;
+	printf("Masukkan kenaikan skor CO2 yang diinginkan: ");
+	scanf("%f", &inc);
+	
+	if(inc > 0 ) {
+		if(inc > (100.00 - energetica[i].emisiGas.gasCO2)){
+			inc = (100.00 - energetica[i].emisiGas.gasCO2);
+		}
+		energetica[i].emisiGas.gasCO2 += inc;
+		energetica[i].budget -= inc * energetica[i].emisiGas.priceCO2;
+		energetica[i].emisiGas.sdmGas -= inc * 3;
+		if(energetica[i].emisiGas.indeksGasRumahKaca > 100.00) {
+			energetica[i].emisiGas.indeksGasRumahKaca = 100.00;
+		}
+		printf("Berhasil menaikan skor CO2\n");
+		energetica[i].emisiGas.priceCO2 = energetica[i].emisiGas.priceCO2 + (energetica[i].emisiGas.priceCO2 * 0.5);
+	} else {
+		printf("Tidak ada yang berubah!");
+	}
+}
+
+void changeCH4(kota *energetica, float gasCH4, int i) {
+	float inc;
+	printf("Masukkan kenaikan skor CH4 yang diinginkan: ");
+	scanf("%f", &inc);
+	
+	if(inc > 0 ) {
+		if(inc > (100.00 - energetica[i].emisiGas.gasCH4)){
+			inc = (100.00 - energetica[i].emisiGas.gasCH4);
+		}
+		energetica[i].emisiGas.gasCH4 += inc;
+		energetica[i].budget -= inc * energetica[i].emisiGas.priceCH4;
+		energetica[i].emisiGas.sdmGas -= inc * 3;
+		printf("Berhasil menaikan skor CH4\n");
+		energetica[i].emisiGas.priceCH4 = energetica[i].emisiGas.priceCH4 + (energetica[i].emisiGas.priceCH4 * 0.5);
+	} else {
+		printf("TIdak ada yang berubah!");
+	}
+}
+
+void changeN2O(kota *energetica, float gasN2O, int i) {
+	float inc;
+	printf("Masukkan kenaikan skor N2O yang diinginkan: ");
+	scanf("%f", &inc);
+	
+	if(inc > 0 ) {
+		if(inc > (100.00 - energetica[i].emisiGas.gasN2O)){
+			inc = (100.00 - energetica[i].emisiGas.gasN2O);
+		}
+		energetica[i].emisiGas.gasN2O += inc;
+		energetica[i].budget -= inc * energetica[i].emisiGas.priceN2O;
+		energetica[i].emisiGas.sdmGas -= inc * 3;
+		if(energetica[i].emisiGas.indeksGasRumahKaca > 100.00) {
+			energetica[i].emisiGas.indeksGasRumahKaca = 100.00;
+		}
+		printf("Berhasil menaikan skor N2O\n");
+		energetica[i].emisiGas.priceN2O = energetica[i].emisiGas.priceN2O + (energetica[i].emisiGas.priceN2O * 0.15);
+	} else {
+		printf("TIdak ada yang berubah!");
+	}
+}
+
+void aturEmisi(kota *energetica, int i) {
+	int pil, hari;
+
+	energetica[i].emisiGas.indeksGasRumahKaca = (energetica[i].emisiGas.gasCO2 + energetica[i].emisiGas.gasCH4 + energetica[i].emisiGas.gasN2O) / 3;
+	
+	printf("||=============================================\n");
+    printf("|| Statistik Emisi\n");
+    printf("||=============================================\n");
+	printf("|| Status Emisi    : %.2f%%\n", energetica[i].emisiGas.indeksGasRumahKaca);
+	printf("|| Lebih tinggi skornya, lebih baik kualitas udaranya!\n");
+	printf("|| CO2 Score       : %.0f out of 100\n", energetica[i].emisiGas.gasCO2);
+	printf("|| CH4 Score       : %.0f out of 100\n", energetica[i].emisiGas.gasCH4);
+	printf("|| N2O Score	   : %.0f out of 100\n", energetica[i].emisiGas.gasN2O);
+	printf("||=============================================\n");
+
+	printf("\nBudget Kota : $ %.2f\n", energetica[i].budget);
+	printf("SDM Gas     : %d\n", energetica[i].emisiGas.sdmGas);
+	
+	printf("\n\nO P S I\n");
+	printf("========================\n");
+	printf("1. Gas CO2\n");
+	printf("2. Gas CH4\n");
+	printf("3. Gas N2O\n");
+	printf("\nMasukkan Opsi yang dipilih! : ");
+	scanf("%d",&pil);
+	
+	switch(pil) {
+		case 1 :
+			printf("\nBiaya : %.2f/poin", energetica[i].emisiGas.priceCO2);
+			printf("\nSDM : 3/poin\n");
+			if(energetica[i].budget < energetica[i].emisiGas.priceCO2){
+				printf("Budget tidak cukup!\n");
+				getch();
+				system("cls");
+				break;
+			} else {
+				changeCO2(energetica,energetica[i].emisiGas.gasCO2, i);
+				getch();
+				system("cls");
+				break;
+			}
+		case 2 : 
+			printf("\nBiaya : %.2f/poin", energetica[i].emisiGas.priceCH4);
+			printf("\nSDM : 3/poin\n");
+			if(energetica[i].budget < energetica[i].emisiGas.priceCH4){
+				printf("Budget tidak cukup!\n");
+				getch();
+				system("cls");
+				break;
+			} else {
+				changeCH4(energetica,energetica[i].emisiGas.gasCH4, i);
+				getch();
+				system("cls");
+				break;
+			}
+		case 3 : 
+			printf("\nBiaya : %.2f/poin", energetica[i].emisiGas.priceN2O);
+			printf("\nSDM : 3/poin\n");
+			if(energetica[i].budget < energetica[i].emisiGas.priceN2O){
+				printf("Budget tidak cukup!\n");
+				getch();
+				system("cls");
+				break;
+			} else {
+				changeN2O(energetica,energetica[i].emisiGas.gasN2O, i);
+				getch();
+				system("cls");
+				break;
+			}
+		default : 
+			printf("Masukkan Variabel Yang Valid!");
+			getch();
+			system("cls");	
+	}
+	energetica[i].emisiGas.indeksGasRumahKaca = (energetica[i].emisiGas.gasCO2 + energetica[i].emisiGas.gasCH4 + energetica[i].emisiGas.gasN2O) / 3;
+	
+	printf("||=============================================\n");
+    printf("|| Statistik Emisi (UPDATED)\n");
+    printf("||=============================================\n");
+	printf("|| Status Emisi    : %.2f%%\n", energetica[i].emisiGas.indeksGasRumahKaca);
+	printf("|| CO2 Levels      : %.0f out of 100\n", energetica[i].emisiGas.gasCO2);
+	printf("|| CH4 Levels      : %.0f out of 100\n", energetica[i].emisiGas.gasCH4);
+	printf("|| N2O Levels	   : %.0f out of 100\n", energetica[i].emisiGas.gasN2O);
+	printf("||=============================================\n");
+
+	printf("\nBudget Kota : $ %.2f\n", energetica[i].budget);
+	printf("SDM Gas     : %d\n", energetica[i].emisiGas.sdmGas);
+
+	energetica[i].hari--;
+	printf("\nPress any key to continue!");
+	getch();
+	system("cls");
+	
 }
 
 //CODE BERSAMA
@@ -791,8 +798,10 @@ void definisiKota(kota *energetica) {
 	//indeks tekkompolis = 48,75
 	//indeks biotopia = 43,
 	
+	definisiListrik(energetica);
 	definisiEnergiBersih(energetica);
 	definisiKebersihanRumahTangga(energetica);
+	definisiAturEmisi(energetica);
 	
 	energetica[0].emisiGas.indeksGasRumahKaca = 60;
 	energetica[1].emisiGas.indeksGasRumahKaca = 55;
@@ -807,11 +816,11 @@ void definisiKota(kota *energetica) {
 }
 
 void gameplay(kota *energetica) {
-	int i, pil, trig = 0;
+	int i, j, pilihan, loseTrigger = 0;
 
 	for(i = 0; i < 4; i++) {
         energetica[i].kebersihanRumahTangga.indeksKebersihanRT = (energetica[i].kebersihanRumahTangga.alatKebersihanSustainable + energetica[i].kebersihanRumahTangga.efisiensiEnergi + energetica[i].kebersihanRumahTangga.wasteManagement) / 3;
-		energetica[i].listrik.indeksListrik = (energetica[i].listrik.listrikSubsidi + energetica[i].listrik.listrikUmum + energetica[i].listrik.listrikTerbaharukan) / 3;
+		energetica[i].aksesListrik.indeksListrik = (energetica[i].aksesListrik.listrikSubsidi + energetica[i].aksesListrik.listrikUmum + energetica[i].aksesListrik.listrikTerbaharukan) / 3;
 		energetica[i].emisiGas.indeksGasRumahKaca = (energetica[i].emisiGas.gasCO2 + energetica[i].emisiGas.gasCH4 + energetica[i].emisiGas.gasN2O) / 3;
 		energetica[i].energiBersih.indeksAksesEnergi = (energetica[i].energiBersih.energiTerbarukan + energetica[i].energiBersih.kebersihan + energetica[i].energiBersih.kemudahanAkses) / 3;
 
@@ -823,32 +832,73 @@ void gameplay(kota *energetica) {
 		system("cls");
 		
 		while(energetica[i].indeksKota < 75) {
-			energetica[i].indeksKota = (energetica[i].listrik.indeksListrik + energetica[i].energiBersih.indeksAksesEnergi + energetica[i].emisiGas.indeksGasRumahKaca + energetica[i].kebersihanRumahTangga.indeksKebersihanRT) * 0.25;
+			energetica[i].indeksKota = (energetica[i].aksesListrik.indeksListrik + energetica[i].energiBersih.indeksAksesEnergi + energetica[i].emisiGas.indeksGasRumahKaca + energetica[i].kebersihanRumahTangga.indeksKebersihanRT) * 0.25;
 			
 			if(energetica[i].indeksKota > 75) {
 				break;
 			}
 			
-			if(energetica[i].budget == 0 && energetica[i].hari == 0 ) {
-				trig++;
+			if(energetica[i].budget == 0 || energetica[i].hari == 0 ) {
+				loseTrigger++;
 				break;
 			}
 			
-			printf("============================================================\n");
+			printf(ANSI_COLOR_CYAN"============================================================\n");
             printf("Berikut adalah informasi mengenai kota %s sejauh ini\n", energetica[i].nama);
             printf("Budget kota : $ %.2f\n", energetica[i].budget);
             printf("Sisa hari   : %d\n", energetica[i].hari);
-            printf("============================================================\n\n");
+            printf("============================================================\n\n"ANSI_COLOR_RESET);
 
-            printf("||=======================================\n");
+            printf("||=====================================================\n");
             printf("|| Statistik\n");
-            printf("||=======================================\n");
-            printf("|| Status Indeks        	: %.2f%%\n", energetica[i].indeksKota);
-            printf("|| Status Listrik       	: %.2f%%\n", energetica[i].listrik.indeksListrik );
-            printf("|| Status Kebersihan    	: %.2f%%\n", energetica[i].kebersihanRumahTangga.indeksKebersihanRT);
-            printf("|| Status Energi Bersih 	: %.2f%%\n", energetica[i].energiBersih.indeksAksesEnergi);
-            printf("|| Status Kebersihan Udara	: %.2f%%\n", energetica[i].emisiGas.indeksGasRumahKaca);
-			printf("||=======================================\n");
+            printf("||=====================================================\n");
+            printf("|| Status Indeks        	: %.2f%% ", energetica[i].indeksKota);
+			printf("[");
+			for(j = 0; j < (int)(energetica[i].indeksKota / 10); j++) {
+				printf("#");
+			}
+			for(j = 0; j < 10 - (int)(energetica[i].indeksKota / 10); j++) {
+				printf(" ");
+			}
+			printf("]\n");
+			printf("||\n");
+            printf("|| Status Listrik       	: %.2f%% ", energetica[i].aksesListrik.indeksListrik );
+			printf("[");
+			for(j = 0; j < (int)(energetica[i].aksesListrik.indeksListrik / 10); j++) {
+				printf("#");
+			}
+			for(j = 0; j < 10 - (int)(energetica[i].aksesListrik.indeksListrik / 10); j++) {
+				printf(" ");
+			}
+			printf("]\n");
+            printf("|| Status Kebersihan    	: %.2f%% ", energetica[i].kebersihanRumahTangga.indeksKebersihanRT);
+			printf("[");
+			for(j = 0; j < (int)(energetica[i].kebersihanRumahTangga.indeksKebersihanRT / 10); j++) {
+				printf("#");
+			}
+			for(j = 0; j < 10 - (int)(energetica[i].kebersihanRumahTangga.indeksKebersihanRT / 10); j++) {
+				printf(" ");
+			}
+			printf("]\n");
+            printf("|| Status Energi Bersih 	: %.2f%% ", energetica[i].energiBersih.indeksAksesEnergi);
+			printf("[");
+			for(j = 0; j < (int)(energetica[i].energiBersih.indeksAksesEnergi / 10); j++) {
+				printf("#");
+			}
+			for(j = 0; j < 10 - (int)(energetica[i].energiBersih.indeksAksesEnergi / 10); j++) {
+				printf(" ");
+			}
+			printf("]\n");
+            printf("|| Status Kebersihan Udara	: %.2f%% ", energetica[i].emisiGas.indeksGasRumahKaca);
+			printf("[");
+			for(j = 0; j < (int)(energetica[i].emisiGas.indeksGasRumahKaca / 10); j++) {
+				printf("#");
+			}
+			for(j = 0; j < 10 - (int)(energetica[i].emisiGas.indeksGasRumahKaca / 10); j++) {
+				printf(" ");
+			}
+			printf("]\n");
+			printf("||=====================================================\n");
 
             printf("\nSektor yang dapat dipilih:\n");
             printf("1. Akses Listrik\n");
@@ -857,19 +907,35 @@ void gameplay(kota *energetica) {
             printf("4. Emisi Gas Rumah Kaca\n\n");
 
             printf("Masukkan sektor yang ingin diubah: ");
-			scanf("%d", &pil);
-			switch(pil) {
+			scanf("%d", &pilihan);
+			switch(pilihan) {
 						
 				case 1 : 
+					system("cls");
+					printf(ANSI_COLOR_MAGENTA"||======================================||\n");
+					printf("||         SEKTOR AKSES LISTRIK         ||\n");
+					printf("||======================================||\n\n"ANSI_COLOR_RESET);
                     aturListrik(energetica, i);
 					break;
 				case 2 :
+					system("cls");
+					printf(ANSI_COLOR_MAGENTA"||======================================||\n");
+					printf("||    SEKTOR KEBERSIHAN RUMAH TANGGA    ||\n");
+					printf("||======================================||\n\n"ANSI_COLOR_RESET);
 					aturKebersihanRumahTangga(energetica, i);
 					break;
 				case 3 :
+					system("cls");
+					printf(ANSI_COLOR_MAGENTA"||======================================||\n");
+					printf("||      SEKTOR AKSES ENERGI BERSIH      ||\n");
+					printf("||======================================||\n\n"ANSI_COLOR_RESET);
 					aturAksesEnergi(energetica, i);
 					break;
 				case 4 :
+					system("cls");
+					printf(ANSI_COLOR_MAGENTA"||======================================||\n");
+					printf("||     SEKTOR EMISI GAS RUMAH KACA      ||\n");
+					printf("||======================================||\n\n"ANSI_COLOR_RESET);
 					aturEmisi(energetica, i);
 					break;
 				default : 
@@ -879,9 +945,8 @@ void gameplay(kota *energetica) {
 			}
 			
 		}
-		
-		
-		 if(trig > 0) {
+
+		if(loseTrigger > 0) {
         	printf("Maaf anda gagal!\n");
         	printf("Press Any Button to Continue");
         	getch();
@@ -899,11 +964,14 @@ void gameplay(kota *energetica) {
 
 int main() {
 	
-	kota energetica[4];
+	kota *energetica;
+
+	energetica = (struct kotaEnergetica *)malloc(4 * sizeof(struct kotaEnergetica));
 	
-	definisiKebersihanRumahTangga (energetica);
-	definisiAturEmisi(energetica);
 	definisiListrik(energetica);
+	definisiKebersihanRumahTangga (energetica);
+	definisiEnergiBersih(energetica);
+	definisiAturEmisi(energetica);
 	definisiKota(energetica);
 	
     printf(ANSI_COLOR_YELLOW " _       __________    __________  __  _________                   " ANSI_COLOR_BLUE "________\n" ANSI_COLOR_YELLOW);
@@ -932,15 +1000,15 @@ int main() {
 	getch();
 	system("cls");
 
-	int pil, loop=1;
+	int pil, loop = 1;
 
-	while(loop==1) {
+	while(loop == 1) {
 		printf(ANSI_COLOR_GREEN"    ______"ANSI_COLOR_RESET"_   __"ANSI_COLOR_GREEN"______"ANSI_COLOR_RESET"____  ______"ANSI_COLOR_GREEN"______"ANSI_COLOR_RESET"___________________\n");
 		printf(ANSI_COLOR_GREEN"   / ____/"ANSI_COLOR_RESET" | / "ANSI_COLOR_GREEN"/ ____/"ANSI_COLOR_RESET" __ \\/ ____"ANSI_COLOR_GREEN"/ ____/"ANSI_COLOR_RESET"_  __/  _/ ____/   |\n");
 		printf(ANSI_COLOR_GREEN"  / __/ "ANSI_COLOR_RESET"/  |/ "ANSI_COLOR_GREEN"/ __/ "ANSI_COLOR_RESET"/ /_/ / / __"ANSI_COLOR_GREEN"/ __/   "ANSI_COLOR_RESET"/ /  / // /   / /| |\n");
 		printf(ANSI_COLOR_GREEN" / /___"ANSI_COLOR_RESET"/ /|  "ANSI_COLOR_GREEN"/ /___"ANSI_COLOR_RESET"/ _, _/ /_/ "ANSI_COLOR_GREEN"/ /___  "ANSI_COLOR_RESET"/ / _/ // /___/ ___ |\n");
 		printf(ANSI_COLOR_GREEN"/_____/"ANSI_COLOR_RESET"_/ |_"ANSI_COLOR_GREEN"/_____/"ANSI_COLOR_RESET"_/ |_|\\____"ANSI_COLOR_GREEN"/_____/"ANSI_COLOR_RESET" /_/ /___/\\____/_/  |_|\n");
-		printf("\n\n");
+		printf("\n");
 		printf("                M   A   I   N       M   E   N   U      \n");
 		printf(" " ANSI_COLOR_GREEN "========================================================================\n" ANSI_COLOR_RESET);
 		printf("1.   P L A Y   T H E   G A M E\n");
@@ -960,9 +1028,8 @@ int main() {
     			getch();
 			    system("cls");
     	
-    			printf(ANSI_COLOR_GREEN "ENERGETICA" ANSI_COLOR_RESET " adalah negara yang kecil, namun memiliki potensi yang besar. Saat ini " ANSI_COLOR_GREEN "ENERGETICA" ANSI_COLOR_RESET" dalam rangka janji kampanye yang telah dibuat,");
-    			printf("kamu bertekad untuk membawa negara ini dan kota-kotanya untuk mencapai tujuan dari" ANSI_COLOR_CYAN " SDG 7 " ANSI_COLOR_RESET "yang memiliki indeks capaian tersebut. Majukanlah kota-kota Energetica untuk mencapai\n");
-                printf("tujuan SDG 7 dan mencapai tujuan indeks kalian!");
+    			printf(ANSI_COLOR_GREEN "ENERGETICA" ANSI_COLOR_RESET " adalah negara yang kecil, namun memiliki potensi yang besar. Saat ini " ANSI_COLOR_GREEN "ENERGETICA" ANSI_COLOR_RESET" dalam rangka janji kampanye yang telah dibuat, kamu bertekad untuk membawa negara ini dan\n");
+				printf("kota-kotanya untuk mencapai tujuan dari" ANSI_COLOR_CYAN " SDG 7 " ANSI_COLOR_RESET "yang memiliki indeks capaian tersebut. Majukanlah kota-kota Energetica untuk mencapai tujuan SDG 7 dan mencapai tujuan indeks kalian!");
     			printf("\n\nPress any key to continue!");
     			getch();
                 system("cls");
@@ -1006,9 +1073,11 @@ int main() {
     			printf("| | | || |   | |   \\ \\_/ / |\\ \\| |/ /| | | || |_/ / |____| |___  /\\__/ / |_| /\\__/ / | || | | |_| |_| |\\  || | | || |_/ / |____| |___  | |\\ \\| |___| |_____| |_| | | || |_/ / |____| |___ \n");
     			printf("\\_| |_/\\_|   \\_|    \\___/\\_| \\_|___/ \\_| |_/\\____/\\_____/\\____/  \\____/ \\___/\\____/  \\_/\\_| |_/\\___/\\_| \\_/\\_| |_/\\____/\\_____/\\____/  \\_| \\_\\____/\\_____/\\___/\\_| |_/\\____/\\_____/\\____/\n" ANSI_COLOR_WHITE);
 	
-   				printf(ANSI_COLOR_CYAN "\n===================================================================================================================================================================================================================\n"ANSI_COLOR_RESET);
+   				printf(ANSI_COLOR_CYAN "\n========================================================================================================================================================================================\n"ANSI_COLOR_RESET);
    				printf("THE GOAL OF SDG 7 FROM THE UN IS TO ENSURE ACCESS TO AFFORDABLE, RELIABLE, SUSTAINABLE, AND MODERN ENERGY FOR ALL!\n");
-   				printf("Renewable energy solutions are becoming cheaper, more reliable and more efficient every day.Our current reliance on fossil fuels is unsustainable and harmful to the planet, which is why we have to change the way we produce and consume energy. Implementing these new energy solutions as fast as possible is essential to counter climate change, one of the biggest threats to our own survival.\n");
+   				printf("Renewable energy solutions are becoming cheaper, more reliable and more efficient every day.Our current reliance on fossil fuels is unsustainable and harmful to the planet, which is why\n");
+				printf("we have to change the way we produce and consume energy. Implementing these new energy solutions as fast as possible is essential to counter climate change, one of the biggest threats\n");
+				printf("to our own survival.\n");
    	 			printf("\nTHINGS TO DO!\n");
 				printf("+Find a Goal 7 charity you want to support. Any donation, big or small, can make a difference!\n");
 				printf("+Turn off your air conditioning, especially for sleeping - open a window or use a fan.\n");
@@ -1024,13 +1093,13 @@ int main() {
     		
     		case 4 : 
     			system("cls");
-				printf(ANSI_COLOR_GREEN "______________ ___    _____    _______   ____  __. _____.___.________   ____ ___  ._.\n");
-    			printf("\\__    ___/   |   \\  /  _  \\   \\      \\ |    |/ _| \\__  |   |\\_____  \\ |    |   \\ | |\n");
-    			printf("  |    | /    ~    \\/  /_\\  \\  /   |   \\|      <    /   |   | /   |   \\|    |   / | |\n");
-    			printf("  |    | \\    Y    /    |    \\/    |    \\    |  \\   \\____   |/    |    \\    |  /   \\|\n");
-   				printf("  |____|  \\___|_  /\\____|__  /\\____|__  /____|__ \\  / ______|\\_______  /______/    __\n");
-    			printf("                \\/         \\/         \\/        \\/  \\/               \\/            \\/" ANSI_COLOR_RESET "\n");
-    			loop=0;
+				printf(ANSI_COLOR_GREEN "______________ ___    _____    _______   ____  __.    _____.___.________   ____ ___  ._.\n");
+    			printf("\\__    ___/   |   \\  /  _  \\   \\      \\ |    |/ _|    \\__  |   |\\_____  \\ |    |   \\ | |\n");
+    			printf("  |    | /    ~    \\/  /_\\  \\  /   |   \\|      <       /   |   | /   |   \\|    |   / | |\n");
+    			printf("  |    | \\    Y    /    |    \\/    |    \\    |  \\      \\____   |/    |    \\    |  /   \\|\n");
+   				printf("  |____|  \\___|_  /\\____|__  /\\____|__  /____|__ \\     / ______|\\_______  /______/    __\n");
+    			printf("                \\/         \\/         \\/        \\/     \\/               \\/            \\/" ANSI_COLOR_RESET "\n");
+    			loop = 0;
     			break;
     			
     		default : 
@@ -1042,5 +1111,8 @@ int main() {
 				break;
 		}
 	}
+
+	free(energetica);
+
     return 0;
 }
