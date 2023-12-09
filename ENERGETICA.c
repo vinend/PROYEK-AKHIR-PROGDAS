@@ -113,7 +113,6 @@ void changeSubsidi(kota *energetica, float listrikSubsidi, int i) {
 	if (energetica[i].aksesListrik.listrikSubsidi > 100) {
 		residu = energetica[i].aksesListrik.listrikSubsidi - 100;
 		energetica[i].aksesListrik.listrikSubsidi = 100;
-		incPoin = 100 - residu;
 	}
 	usedBiaya = totalBiaya - (residu * biaya);
 	usedSDM = totalSDM - (residu * sdmCost);
@@ -152,7 +151,6 @@ void changeUmum(kota *energetica, float listrikUmum, int i) {
 	if (energetica[i].aksesListrik.listrikUmum > 100) {
 		residu = energetica[i].aksesListrik.listrikUmum - 100;
 		energetica[i].aksesListrik.listrikUmum = 100;
-		incPoin = 100 - residu;
 	}
 	usedBiaya = totalBiaya - (residu * biaya);
 	usedSDM = totalSDM - (residu * sdmCost);
@@ -191,7 +189,6 @@ void changeTerbaharukan(kota *energetica, float listrikTerbaharukan, int i) {
 	if (energetica[i].aksesListrik.listrikTerbaharukan > 100) {
 		residu = energetica[i].aksesListrik.listrikTerbaharukan - 100;
 		energetica[i].aksesListrik.listrikTerbaharukan = 100;
-		incPoin = 100 - residu;
 	}
 	usedBiaya = totalBiaya - (residu * biaya);
 	usedSDM = totalSDM - (residu * sdmCost);
@@ -370,7 +367,7 @@ void manajemenWaste(kota *energetica, int i) {
 	printf("=================================================================================\n");
 	
     printf("\nMasukkan jumlah waste yang dikumpulkan: ");
-    printf("Silahkan Pilih Opsi : "); scanf("%f", &pengumpulanWaste);
+    scanf("%f", &pengumpulanWaste);
 
     
     hargaPembuanganWaste = pengumpulanWaste * 1000000;  
@@ -413,7 +410,7 @@ void aturKebersihanRumahTangga(kota *energetica, int i) {
 	printf("||2. Keefisienan Penggunaan Energi Rumah Tangga\n");
 	printf("||3. Manajemen Waste\n");
 	printf("==========================================================\n");
-	printf("Silahkan Pilih Opsi : "); scanf("%d", &pil);
+	scanf("%d", &pil);
 	
 	switch(pil) {
 		case 1 : 
@@ -471,7 +468,11 @@ void kemudahanAkses (kota *energetica, int i, int nilaiKemudahan, float budget, 
 {
 	if (energetica[i].budget>budget && energetica[i].hari>hari && energetica[i].energiBersih.sdmAkses>sdm)
 	{
-		energetica[i].energiBersih.kemudahanAkses += nilaiKemudahan;
+		if (energetica[i].energiBersih.kemudahanAkses + nilaiKemudahan <=100)
+		{
+			energetica[i].energiBersih.kemudahanAkses += nilaiKemudahan;
+		}
+		else energetica[i].energiBersih.kemudahanAkses = 100;
 		energetica[i].budget -= budget;
 		energetica[i].hari -= hari;
 		energetica[i].energiBersih.sdmAkses -= sdm;
@@ -484,7 +485,12 @@ void kebersihan (kota *energetica, int i, int nilaiKebersihan, float budget, int
 {
 	if (energetica[i].budget>budget && energetica[i].hari>hari && energetica[i].energiBersih.sdmAkses>sdm)
 	{
-		energetica[i].energiBersih.kebersihan += nilaiKebersihan;
+		if (energetica[i].energiBersih.kebersihan + nilaiKebersihan <=100)
+		{
+			energetica[i].energiBersih.kebersihan += nilaiKebersihan;
+		}
+		else energetica[i].energiBersih.kebersihan = 100;
+		
 		energetica[i].budget -= budget;
 		energetica[i].hari -= hari;
 		energetica[i].energiBersih.sdmAkses -= sdm;
@@ -497,7 +503,11 @@ void penambahanEnergi (kota *energetica, int i, int nilaiPenambahan, float budge
 {
 	if (energetica[i].budget>budget && energetica[i].hari>hari && energetica[i].energiBersih.sdmAkses>sdm)
 	{
-		energetica[i].energiBersih.energiTerbarukan += nilaiPenambahan;
+		if (energetica[i].energiBersih.energiTerbarukan + nilaiPenambahan <=100)
+		{
+			energetica[i].energiBersih.energiTerbarukan += nilaiPenambahan;
+		}
+		else energetica[i].energiBersih.energiTerbarukan = 100;
 		energetica[i].budget -= budget;
 		energetica[i].hari -= hari;
 		energetica[i].energiBersih.sdmAkses -= sdm;
@@ -509,12 +519,12 @@ void penambahanEnergi (kota *energetica, int i, int nilaiPenambahan, float budge
 void displayAkses (kota *energetica, int i, int nilaiPenambahan, float budget, int hari, int sdm)
 {
 	printf("===============Status Perubahan==============\n");
-	printf("||Nilai dari variabel yang bertambah : %d\n", nilaiPenambahan);
-	printf("||Budget yang dibutuhkan: %.2f\n", budget);
-	printf("||Hari yang dibutuhkan 	: %d\n", hari);
-	printf("||SDM yang dibutuhkan 	: %d\n", sdm);
-	printf("||Budget tersisa 	: %.2f\n", energetica[i].budget - budget);
-	printf("||Hari tersisa 		: %d hari\n", energetica[i].hari - hari);
+	printf("||Nilai dari variabel yang bertambah %d\n", nilaiPenambahan);
+	printf("||Budget yang dibutuhkan %.2f\n", budget);
+	printf("||Hari yang dibutuhkan %d\n", hari);
+	printf("||SDM yang dibutuhkan %d\n", sdm);
+	printf("||Budget tersisa %.2f\n", energetica[i].budget - budget);
+	printf("||Hari tersisa : %d hari\n", energetica[i].hari - hari);
 	printf("=============================================\n");
 	printf("Apakah Anda ingin melanjutkan pembangunan?\n");
 	printf("1. Ya\n");
@@ -861,7 +871,7 @@ void gameplay(kota *energetica) {
 		printf("L E V E L   %d || %s\n", i + 1, energetica[i].nama);
 		printf("==================================\n");
 		printf("%s\n\n", energetica[i].desc);
-		printf("Press any key to continue!\n");
+		printf("Press any key to continue!");
 		getch();
 		system("cls");
 		
