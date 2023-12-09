@@ -19,7 +19,6 @@ typedef struct kotaEnergetica {
 	
 	float budget;
     float indeksKota;
-	int sdm;
 	int hari;
 	
 	struct aksesListrik {
@@ -47,6 +46,7 @@ typedef struct kotaEnergetica {
 		float maxValue;
         float skalaHistogram;
         float indeksAksesEnergi;
+        float sdmAkses;
 	} energiBersih;
 	
 	struct emisiGasRumahKaca {
@@ -650,16 +650,21 @@ void definisiEnergiBersih(kota *energetica)
 	energetica[3].energiBersih.energiTerbarukan = 55;
 	energetica[3].energiBersih.kebersihan = 80;
 	energetica[3].energiBersih.kemudahanAkses = 30;
+	
+	energetica[0].energiBersih.sdmAkses = 300;
+	energetica[1].energiBersih.sdmAkses = 250;
+	energetica[2].energiBersih.sdmAkses = 180;
+	energetica[3].energiBersih.sdmAkses = 90;
 }
 
 void kemudahanAkses (kota *energetica, int i, int nilaiKemudahan, float budget, int hari, int sdm)
 {
-	if (energetica[i].budget>budget && energetica[i].hari>hari && energetica[i].sdm>sdm)
+	if (energetica[i].budget>budget && energetica[i].hari>hari && energetica[i].energiBersih.sdmAkses>sdm)
 	{
 		energetica[i].energiBersih.kemudahanAkses += nilaiKemudahan;
 		energetica[i].budget -= budget;
 		energetica[i].hari -= hari;
-		energetica[i].sdm -= sdm;
+		energetica[i].energiBersih.sdmAkses -= sdm;
 		printf("Sukses untuk melakukan perubahan\n");
 	}
 	else printf("Salah satu biaya tidak memenuhi!");
@@ -667,12 +672,12 @@ void kemudahanAkses (kota *energetica, int i, int nilaiKemudahan, float budget, 
 
 void kebersihan (kota *energetica, int i, int nilaiKebersihan, float budget, int hari, int sdm)
 {
-	if (energetica[i].budget>budget && energetica[i].hari>hari && energetica[i].sdm>sdm)
+	if (energetica[i].budget>budget && energetica[i].hari>hari && energetica[i].energiBersih.sdmAkses>sdm)
 	{
 		energetica[i].energiBersih.kebersihan += nilaiKebersihan;
 		energetica[i].budget -= budget;
 		energetica[i].hari -= hari;
-		energetica[i].sdm -= sdm;
+		energetica[i].energiBersih.sdmAkses -= sdm;
 		printf("Sukses untuk melakukan perubahan\n");
 	}
 	else printf("Salah satu biaya tidak memenuhi!");
@@ -680,12 +685,12 @@ void kebersihan (kota *energetica, int i, int nilaiKebersihan, float budget, int
 
 void penambahanEnergi (kota *energetica, int i, int nilaiPenambahan, float budget, int hari, int sdm)
 {
-	if (energetica[i].budget>budget && energetica[i].hari>hari && energetica[i].sdm>sdm)
+	if (energetica[i].budget>budget && energetica[i].hari>hari && energetica[i].energiBersih.sdmAkses>sdm)
 	{
 		energetica[i].energiBersih.energiTerbarukan += nilaiPenambahan;
 		energetica[i].budget -= budget;
 		energetica[i].hari -= hari;
-		energetica[i].sdm -= sdm;
+		energetica[i].energiBersih.sdmAkses -= sdm;
 		printf("Sukses untuk melakukan perubahan\n");
 	}
 	else printf("Salah satu biaya tidak memenuhi!");
@@ -710,6 +715,7 @@ void aturAksesEnergi(kota *energetica, int i)
 	printf("||Kemudahan akses energi 	: %.2f / 100\n", energetica[i].energiBersih.kemudahanAkses);
 	printf("||Kebersihan energi 		: %.2f / 100\n", energetica[i].energiBersih.kebersihan);
 	printf("||Kuantitas energi terbarukan 	: %.2f / 100\n", energetica[i].energiBersih.energiTerbarukan);
+	printf("||Kuantitas SDM Akses Energi 	: %.2f\n", energetica[i].energiBersih.sdmAkses);
 	printf("=============================================\n");
 	printf("\nApa yang ingin diubah pada Akses Energi Bersih?\n");
 	printf("1. Pembangunan PLTA\n");
@@ -779,11 +785,6 @@ void definisiKota(kota *energetica) {
     energetica[1].budget = 200000000;
     energetica[2].budget = 150000000;
     energetica[3].budget = 100000000;
-
-	energetica[0].sdm = 300;
-	energetica[1].sdm = 250;
-	energetica[2].sdm = 180;
-	energetica[3].sdm = 90;
 	
 	//indeks dte = 55
 	//indeks elegger = 55
@@ -837,7 +838,6 @@ void gameplay(kota *energetica) {
             printf("Berikut adalah informasi mengenai kota %s sejauh ini\n", energetica[i].nama);
             printf("Budget kota : $ %.2f\n", energetica[i].budget);
             printf("Sisa hari   : %d\n", energetica[i].hari);
-            printf("Sisa sumber daya manusia : %d\n", energetica[i].sdm);
             printf("============================================================\n\n");
 
             printf("||=======================================\n");
