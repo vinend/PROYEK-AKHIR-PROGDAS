@@ -535,7 +535,7 @@ void efisiensiEnergi(kota *energetica, int i) {
 	
 	else {
         
-        energetica[i].kebersihanRumahTangga.efisiensiEnergi += outputEnergi - pengurusanEnergi;
+        energetica[i].kebersihanRumahTangga.efisiensiEnergi += totalKonsumsiEnergi;
         energetica[i].budget -= pengurusanEnergi * 400000; 
    
         if (energetica[i].kebersihanRumahTangga.efisiensiEnergi > 100) {
@@ -813,14 +813,6 @@ void gameplay(kota *energetica) {
 		energetica[i].listrik.indeksListrik = (energetica[i].listrik.listrikSubsidi + energetica[i].listrik.listrikUmum + energetica[i].listrik.listrikTerbaharukan) / 3;
 		energetica[i].emisiGas.indeksGasRumahKaca = (energetica[i].emisiGas.gasCO2 + energetica[i].emisiGas.gasCH4 + energetica[i].emisiGas.gasN2O) / 3;
 		energetica[i].energiBersih.indeksAksesEnergi = (energetica[i].energiBersih.energiTerbarukan + energetica[i].energiBersih.kebersihan + energetica[i].energiBersih.kemudahanAkses) / 3;
-		
-        if(trig > 0) {
-        	printf("Maaf anda gagal!\n");
-        	printf("Press Any Button to Continue");
-        	getch();
-        	system("cls");
-        	break;
-		}
 
 		printf("L E V E L   %d || %s\n", i + 1, energetica[i].nama);
 		printf("==================================\n");
@@ -831,6 +823,15 @@ void gameplay(kota *energetica) {
 		
 		while(energetica[i].indeksKota < 75) {
 			energetica[i].indeksKota = (energetica[i].listrik.indeksListrik + energetica[i].energiBersih.indeksAksesEnergi + energetica[i].emisiGas.indeksGasRumahKaca + energetica[i].kebersihanRumahTangga.indeksKebersihanRT) * 0.25;
+			
+			if(energetica[i].indeksKota > 75) {
+				break;
+			}
+			
+			if(energetica[i].budget == 0 && energetica[i].hari == 0 ) {
+				trig++;
+				break;
+			}
 			
 			printf("============================================================\n");
             printf("Berikut adalah informasi mengenai kota %s sejauh ini\n", energetica[i].nama);
@@ -875,14 +876,19 @@ void gameplay(kota *energetica) {
                     printf("Input anda tidak valid!\n\nPress any key to continue!");
                     continue;
 				
-				if(energetica[i].budget == 0 || energetica[i].hari == 0 ) {
-					trig++;
-					break;
-				}
 			}
 			
 		}
-
+		
+		
+		 if(trig > 0) {
+        	printf("Maaf anda gagal!\n");
+        	printf("Press Any Button to Continue");
+        	getch();
+        	system("cls");
+        	break;
+		}
+	
 		printf("B E R H A S I L - L E V E L   %d || %s\n", i + 1, energetica[i].nama);
 		
 		getch();
