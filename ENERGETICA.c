@@ -399,20 +399,21 @@ void aturEmisi(kota *energetica, int i) {
 void definisiKebersihanRumahTangga (kota *energetica) {
 	int i;
 	
-	energetica[0].kebersihanRumahTangga.alatKebersihanSustainable = 0;
-	energetica[1].kebersihanRumahTangga.alatKebersihanSustainable = 0;
-	energetica[2].kebersihanRumahTangga.alatKebersihanSustainable = 0;
-	energetica[3].kebersihanRumahTangga.alatKebersihanSustainable = 0;
+	energetica[0].kebersihanRumahTangga.alatKebersihanSustainable = 40;
+	energetica[1].kebersihanRumahTangga.alatKebersihanSustainable = 55;
+	energetica[2].kebersihanRumahTangga.alatKebersihanSustainable = 35;
+	energetica[3].kebersihanRumahTangga.alatKebersihanSustainable = 30;
 	
-	energetica[0].kebersihanRumahTangga.efisiensiEnergi = 0;
-	energetica[1].kebersihanRumahTangga.efisiensiEnergi = 0;
-	energetica[2].kebersihanRumahTangga.efisiensiEnergi = 0;
-	energetica[3].kebersihanRumahTangga.efisiensiEnergi = 0;
+	energetica[0].kebersihanRumahTangga.efisiensiEnergi = 40;
+	energetica[1].kebersihanRumahTangga.efisiensiEnergi = 55;
+	energetica[2].kebersihanRumahTangga.efisiensiEnergi = 35;
+	energetica[3].kebersihanRumahTangga.efisiensiEnergi = 30;
 	
-	energetica[0].kebersihanRumahTangga.wasteManagement = 0;
-	energetica[1].kebersihanRumahTangga.wasteManagement = 0;
-	energetica[2].kebersihanRumahTangga.wasteManagement = 0;
-	energetica[3].kebersihanRumahTangga.wasteManagement = 0;
+	energetica[0].kebersihanRumahTangga.wasteManagement = 40;
+	energetica[1].kebersihanRumahTangga.wasteManagement = 55;
+	energetica[2].kebersihanRumahTangga.wasteManagement = 35;
+	energetica[3].kebersihanRumahTangga.wasteManagement = 30;
+
 }
 
 
@@ -426,12 +427,21 @@ void alatKebersihan(kota *energetica, int i) {
     biayaUrusAlat = 50000;  
 
     totalAlatDipakai = alatYangDipakai * biayaUrusAlat;
-    totalBiaya = totalAlatDipakai; 
+    totalBiaya = totalAlatDipakai;
+	
+	if(totalBiaya > energetica[i].budget) {
+		printf("Budget anda tidak cukup!\n");
+		energetica[i].hari++;
+	} 
 
-    
+    else {
+	
     energetica[i].kebersihanRumahTangga.alatKebersihanSustainable += alatYangDipakai;
     energetica[i].budget -= totalBiaya;
     energetica[i].kebersihanRumahTangga.indeksKebersihanRT += alatYangDipakai * 0.25;
+    
+	}
+	
 }
 
 
@@ -445,25 +455,37 @@ void efisiensiEnergi(kota *energetica, int i) {
     kehilanganEnergi = outputEnergi * 0.1;  
 
     totalKonsumsiEnergi = outputEnergi + kehilanganEnergi;
-    pengurusanEnergi = totalKonsumsiEnergi * 0.05;  
+    pengurusanEnergi = totalKonsumsiEnergi * 0.05;
+	
+	if(pengurusanEnergi > energetica[i].budget) {
+		printf("Budget anda tidak cukup!\n");
+		energetica[i].hari++;
+	}  
 
-    
+    else {
+	
     energetica[i].kebersihanRumahTangga.efisiensiEnergi = outputEnergi - pengurusanEnergi;
     energetica[i].budget -= pengurusanEnergi;
     energetica[i].kebersihanRumahTangga.indeksKebersihanRT += pengurusanEnergi * 0.25;
+	}
 }
 
 
 void manajemenWaste(kota *energetica, int i) {
     float pengumpulanWaste, totalWaste, hargaPembuanganWaste;
 
+	printf("Pengaruh Budget dan Poin\n");
+	printf("==============================\n");
+	printf("Budget yang terpakai\t=\tPoin x 1000 (Biaya per waste dikumpulkan)\n");
+	printf("Pengaruh Pada Index\t=\tAkan naik 1 per 4 Poin\n");
+	
     printf("\nMasukkan jumlah waste yang dikumpulkan: ");
     scanf("%f", &pengumpulanWaste);
 
     
     hargaPembuanganWaste = pengumpulanWaste * 10000;  
 
-    totalWaste = pengumpulanWaste + hargaPembuanganWaste;
+    totalWaste = pengumpulanWaste;
 
     
     energetica[i].kebersihanRumahTangga.wasteManagement += totalWaste;
@@ -472,7 +494,13 @@ void manajemenWaste(kota *energetica, int i) {
 }
 
 void aturKebersihanRumahTangga(kota *energetica, int i) {
-	int pil;
+	int pil; 
+	printf("DISPLAY\n");
+	printf("================\n");
+	printf("TOTAL :\t%.2f\n", energetica[i].kebersihanRumahTangga.indeksKebersihanRT);
+	printf("1. Penggunaan Alat Rumah Tangga\t=\t%.2f\n", energetica[i].kebersihanRumahTangga.alatKebersihanSustainable);
+	printf("2. Keefesienan Penggunaan Energi Rumah Tangga\t=\t%.2f\n", energetica[i].kebersihanRumahTangga.efisiensiEnergi);
+	printf("3. Manajamen Waste\t=\t%.2f\n", energetica[i].kebersihanRumahTangga.wasteManagement);
 	
 	printf("O P S I\n");
 	printf("==============\n");
@@ -483,13 +511,13 @@ void aturKebersihanRumahTangga(kota *energetica, int i) {
 	
 	switch(pil) {
 		case 1 : 
-			alatKebersihan(energetica, energetica[i].kebersihanRumahTangga.alatKebersihanSustainable); printf("\nPress Any Button to Continue"); getch(); system("cls"); break;
+			alatKebersihan(energetica, i); printf("\nPress Any Button to Continue"); getch(); system("cls"); break;
 			
 		case 2 : 
-			efisiensiEnergi(energetica, energetica[i].kebersihanRumahTangga.efisiensiEnergi); printf("\nPress Any Button to Continue"); getch(); system("cls"); break;
+			efisiensiEnergi(energetica, i); printf("\nPress Any Button to Continue"); getch(); system("cls"); break;
 			
 		case 3 : 
-			manajemenWaste(energetica, energetica[i].kebersihanRumahTangga.wasteManagement); printf("\nPress Any Button to Continue"); getch(); system("cls"); break;
+			manajemenWaste(energetica, i); printf("\nPress Any Button to Continue"); getch(); system("cls"); break;
 			
 		default : 
 			printf("Tolong masukkan input yang valid!\n"); printf("Press Any Button to Continue"); getch(); system("cls");
@@ -657,10 +685,7 @@ void definisiKota(kota *energetica) {
 	energetica[2].energiBersih.indeksAksesEnergi = 40;
 	energetica[3].energiBersih.indeksAksesEnergi = 55;
 	
-	energetica[0].kebersihanRumahTangga.indeksKebersihanRT = 40;
-	energetica[1].kebersihanRumahTangga.indeksKebersihanRT = 65;
-	energetica[2].kebersihanRumahTangga.indeksKebersihanRT = 40;
-	energetica[3].kebersihanRumahTangga.indeksKebersihanRT = 40;
+	definisiKebersihanRumahTangga(energetica);
 	
 	energetica[0].emisiGas.indeksGasRumahKaca = 60;
 	energetica[1].emisiGas.indeksGasRumahKaca = 55;
@@ -678,7 +703,7 @@ void gameplay(kota *energetica) {
 	int i, pil, trig = 0;
 
 	for(i = 0; i < 4; i++) {
-        
+        energetica[i].kebersihanRumahTangga.indeksKebersihanRT = (energetica[i].kebersihanRumahTangga.alatKebersihanSustainable * 0.33) + (energetica[i].kebersihanRumahTangga.efisiensiEnergi * 0.33) + (energetica[i].kebersihanRumahTangga.wasteManagement * 0.33);
 		energetica[i].listrik.indeksListrik = (energetica[i].listrik.listrikSubsidi + energetica[i].listrik.listrikUmum + energetica[i].listrik.listrikTerbaharukan) / 3;
 
         if(trig > 0) {
