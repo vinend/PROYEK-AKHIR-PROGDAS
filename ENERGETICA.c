@@ -113,6 +113,7 @@ void changeSubsidi(kota *energetica, float listrikSubsidi, int i) {
 	if (energetica[i].aksesListrik.listrikSubsidi > 100) {
 		residu = energetica[i].aksesListrik.listrikSubsidi - 100;
 		energetica[i].aksesListrik.listrikSubsidi = 100;
+		incPoin = 100 - residu;
 	}
 	usedBiaya = totalBiaya - (residu * biaya);
 	usedSDM = totalSDM - (residu * sdmCost);
@@ -151,6 +152,7 @@ void changeUmum(kota *energetica, float listrikUmum, int i) {
 	if (energetica[i].aksesListrik.listrikUmum > 100) {
 		residu = energetica[i].aksesListrik.listrikUmum - 100;
 		energetica[i].aksesListrik.listrikUmum = 100;
+		incPoin = 100 - residu;
 	}
 	usedBiaya = totalBiaya - (residu * biaya);
 	usedSDM = totalSDM - (residu * sdmCost);
@@ -189,6 +191,7 @@ void changeTerbaharukan(kota *energetica, float listrikTerbaharukan, int i) {
 	if (energetica[i].aksesListrik.listrikTerbaharukan > 100) {
 		residu = energetica[i].aksesListrik.listrikTerbaharukan - 100;
 		energetica[i].aksesListrik.listrikTerbaharukan = 100;
+		incPoin = 100 - residu;
 	}
 	usedBiaya = totalBiaya - (residu * biaya);
 	usedSDM = totalSDM - (residu * sdmCost);
