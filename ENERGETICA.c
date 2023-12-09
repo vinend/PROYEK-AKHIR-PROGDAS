@@ -528,7 +528,7 @@ void efisiensiEnergi(kota *energetica, int i) {
     totalKonsumsiEnergi = outputEnergi + kehilanganEnergi;
     pengurusanEnergi = totalKonsumsiEnergi;
 
-    if (pengurusanEnergi > energetica[i].budget) {
+    if (pengurusanEnergi * 400000 > energetica[i].budget) {
         printf("Budget anda tidak cukup!\n");
         energetica[i].hari++;  
     } 
@@ -565,7 +565,8 @@ void manajemenWaste(kota *energetica, int i) {
     totalWaste = pengumpulanWaste;
     
     if(hargaPembuanganWaste > energetica[i].budget) {
-    	printf("Budget anda tidak cukup! :(");
+    	printf("Budget anda tidak cukup!");
+    	energetica[i].hari++;
 	}
 
     else {
