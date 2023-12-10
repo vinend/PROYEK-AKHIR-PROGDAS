@@ -54,10 +54,10 @@ typedef struct kotaEnergetica {
 		float priceCO2;
 		float priceCH4;
 		float priceN2O;
-		float levelMod;
 		float maxValue;
 		int skalaHistogram;
 		int sdmGas;
+		int levelMod;
 		float indeksGasRumahKaca;
 		int inc;
 		
@@ -655,9 +655,14 @@ void definisiAturEmisi(kota *energetica){
 	energetica[3].emisiGas.gasN2O = 60;
 	
 	energetica[0].emisiGas.sdmGas = 300;
-	energetica[1].emisiGas.sdmGas = 250;
-	energetica[2].emisiGas.sdmGas = 180;
-	energetica[3].emisiGas.sdmGas = 90;
+	energetica[1].emisiGas.sdmGas = 260;
+	energetica[2].emisiGas.sdmGas = 240;
+	energetica[3].emisiGas.sdmGas = 200;
+	
+	energetica[0].emisiGas.levelMod = 2;
+	energetica[1].emisiGas.levelMod = 2;
+	energetica[2].emisiGas.levelMod = 3;
+	energetica[3].emisiGas.levelMod = 3;
 }
 
 void changeCO2(kota *energetica, float gasCO2, int i) {
@@ -668,15 +673,24 @@ void changeCO2(kota *energetica, float gasCO2, int i) {
 	if(inc > 0 ) {
 		if(inc > (100.00 - energetica[i].emisiGas.gasCO2)){
 			inc = (100.00 - energetica[i].emisiGas.gasCO2);
+			printf("\nPerubahan melebihi batas skor, menyesuaikan nilai...\n");
+			getch();
+		}
+		if(energetica[i].emisiGas.sdmGas < inc * energetica[i].emisiGas.levelMod){
+			inc = energetica[i].emisiGas.sdmGas / energetica[i].emisiGas.levelMod;
+			printf("\nSDM tidak cukup untuk perubahan yang diinginkan, menyesuaikan nilai...\n");
+			getch();
 		}
 		energetica[i].emisiGas.gasCO2 += inc;
 		energetica[i].budget -= inc * energetica[i].emisiGas.priceCO2;
-		energetica[i].emisiGas.sdmGas -= inc * 3;
+		energetica[i].emisiGas.sdmGas -= inc * energetica[i].emisiGas.levelMod;
 		if(energetica[i].emisiGas.indeksGasRumahKaca > 100.00) {
 			energetica[i].emisiGas.indeksGasRumahKaca = 100.00;
 		}
-		printf("Berhasil menaikan skor CO2\n");
+		printf("\nBerhasil menaikan skor CO2\n");
 		energetica[i].emisiGas.priceCO2 = energetica[i].emisiGas.priceCO2 + (energetica[i].emisiGas.priceCO2 * 0.5);
+	} else if (energetica[i].emisiGas.gasCO2 == 100) {
+		printf("Skor sudah maksimal!");
 	} else {
 		printf("Tidak ada yang berubah!");
 	}
@@ -690,11 +704,18 @@ void changeCH4(kota *energetica, float gasCH4, int i) {
 	if(inc > 0 ) {
 		if(inc > (100.00 - energetica[i].emisiGas.gasCH4)){
 			inc = (100.00 - energetica[i].emisiGas.gasCH4);
+			printf("\nPerubahan melebihi batas skor, menyesuaikan nilai...\n");
+			getch();
+		}
+		if(energetica[i].emisiGas.sdmGas < inc * energetica[i].emisiGas.levelMod){
+			inc = energetica[i].emisiGas.sdmGas / energetica[i].emisiGas.levelMod;
+			printf("\nSDM tidak cukup untuk perubahan yang diinginkan, menyesuaikan nilai...\n");
+			getch();
 		}
 		energetica[i].emisiGas.gasCH4 += inc;
 		energetica[i].budget -= inc * energetica[i].emisiGas.priceCH4;
-		energetica[i].emisiGas.sdmGas -= inc * 3;
-		printf("Berhasil menaikan skor CH4\n");
+		energetica[i].emisiGas.sdmGas -= inc * energetica[i].emisiGas.levelMod;
+		printf("\nBerhasil menaikan skor CH4\n");
 		energetica[i].emisiGas.priceCH4 = energetica[i].emisiGas.priceCH4 + (energetica[i].emisiGas.priceCH4 * 0.5);
 	} else {
 		printf("TIdak ada yang berubah!");
@@ -709,14 +730,21 @@ void changeN2O(kota *energetica, float gasN2O, int i) {
 	if(inc > 0 ) {
 		if(inc > (100.00 - energetica[i].emisiGas.gasN2O)){
 			inc = (100.00 - energetica[i].emisiGas.gasN2O);
+			printf("\nPerubahan melebihi batas skor, menyesuaikan nilai...\n");
+			getch();
+		}
+		if(energetica[i].emisiGas.sdmGas < inc * energetica[i].emisiGas.levelMod){
+			inc = energetica[i].emisiGas.sdmGas / energetica[i].emisiGas.levelMod;
+			printf("\nSDM tidak cukup untuk perubahan yang diinginkan, menyesuaikan nilai...\n");
+			getch();
 		}
 		energetica[i].emisiGas.gasN2O += inc;
 		energetica[i].budget -= inc * energetica[i].emisiGas.priceN2O;
-		energetica[i].emisiGas.sdmGas -= inc * 3;
+		energetica[i].emisiGas.sdmGas -= inc * energetica[i].emisiGas.levelMod;
 		if(energetica[i].emisiGas.indeksGasRumahKaca > 100.00) {
 			energetica[i].emisiGas.indeksGasRumahKaca = 100.00;
 		}
-		printf("Berhasil menaikan skor N2O\n");
+		printf("\nBerhasil menaikan skor N2O\n");
 		energetica[i].emisiGas.priceN2O = energetica[i].emisiGas.priceN2O + (energetica[i].emisiGas.priceN2O * 0.15);
 	} else {
 		printf("TIdak ada yang berubah!");
@@ -752,9 +780,9 @@ void aturEmisi(kota *energetica, int i) {
 	switch(pil) {
 		case 1 :
 			printf("\nBiaya : %.2f/poin", energetica[i].emisiGas.priceCO2);
-			printf("\nSDM : 3/poin\n");
-			if(energetica[i].budget < energetica[i].emisiGas.priceCO2){
-				printf("Budget tidak cukup!\n");
+			printf("\nSDM : %d/poin\n", energetica[i].emisiGas.levelMod);
+			if(energetica[i].budget < energetica[i].emisiGas.priceCO2 || energetica[i].emisiGas.sdmGas < energetica[i].emisiGas.levelMod){
+				printf("Budget/SDM tidak cukup!\n");
 				getch();
 				system("cls");
 				break;
@@ -766,9 +794,9 @@ void aturEmisi(kota *energetica, int i) {
 			}
 		case 2 : 
 			printf("\nBiaya : %.2f/poin", energetica[i].emisiGas.priceCH4);
-			printf("\nSDM : 3/poin\n");
-			if(energetica[i].budget < energetica[i].emisiGas.priceCH4){
-				printf("Budget tidak cukup!\n");
+			printf("\nSDM : %d/poin\n", energetica[i].emisiGas.levelMod);
+			if(energetica[i].budget < energetica[i].emisiGas.priceCH4 || energetica[i].emisiGas.sdmGas < energetica[i].emisiGas.levelMod){
+				printf("Budget/SDM tidak cukup!\n");
 				getch();
 				system("cls");
 				break;
@@ -780,9 +808,9 @@ void aturEmisi(kota *energetica, int i) {
 			}
 		case 3 : 
 			printf("\nBiaya : %.2f/poin", energetica[i].emisiGas.priceN2O);
-			printf("\nSDM : 3/poin\n");
-			if(energetica[i].budget < energetica[i].emisiGas.priceN2O){
-				printf("Budget tidak cukup!\n");
+			printf("\nSDM : %d/poin\n", energetica[i].emisiGas.levelMod);
+			if(energetica[i].budget < energetica[i].emisiGas.priceN2O || energetica[i].emisiGas.sdmGas < energetica[i].emisiGas.levelMod){
+				printf("Budget/SDM tidak cukup!\n");
 				getch();
 				system("cls");
 				break;
