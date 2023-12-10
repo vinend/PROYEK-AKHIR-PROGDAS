@@ -102,7 +102,7 @@ void changeSubsidi(kota *energetica, float listrikSubsidi, int i) {
     while (incPoin < 0) {
         scanf("%f", &incPoin);
         if (incPoin < 0) {
-            printf("Angka yang dimasukkan tidak valid, silahkan masukkan angka lagi\n");
+            printf(ANSI_COLOR_RED"Angka yang dimasukkan tidak valid, silahkan masukkan angka lagi\n"ANSI_COLOR_RESET);
         }
     }
 
@@ -113,12 +113,13 @@ void changeSubsidi(kota *energetica, float listrikSubsidi, int i) {
 	if (energetica[i].aksesListrik.listrikSubsidi > 100) {
 		residu = energetica[i].aksesListrik.listrikSubsidi - 100;
 		energetica[i].aksesListrik.listrikSubsidi = 100;
+		incPoin = 100 - residu;
 	}
 	usedBiaya = totalBiaya - (residu * biaya);
 	usedSDM = totalSDM - (residu * sdmCost);
 
 	if (usedBiaya > energetica[i].budget || usedSDM > energetica[i].aksesListrik.sdmListrik) {
-		printf("Budget/SDM Anda tidak memenuhi. Tidak ada yang berubah.");
+		printf(ANSI_COLOR_RED"Budget/SDM Anda tidak memenuhi. Tidak ada yang berubah.\n"ANSI_COLOR_RESET);
 		energetica[i].aksesListrik.listrikSubsidi -= incPoin;
 		energetica[i].hari++;
 	} else {
@@ -140,7 +141,7 @@ void changeUmum(kota *energetica, float listrikUmum, int i) {
     while (incPoin < 0) {
         scanf("%f", &incPoin);
         if (incPoin < 0) {
-            printf("Angka yang dimasukkan tidak valid, silahkan masukkan angka lagi\n");
+            printf(ANSI_COLOR_RED"Angka yang dimasukkan tidak valid, silahkan masukkan angka lagi\n"ANSI_COLOR_RESET);
         }
     }
 
@@ -151,12 +152,13 @@ void changeUmum(kota *energetica, float listrikUmum, int i) {
 	if (energetica[i].aksesListrik.listrikUmum > 100) {
 		residu = energetica[i].aksesListrik.listrikUmum - 100;
 		energetica[i].aksesListrik.listrikUmum = 100;
+		incPoin = 100 - residu;
 	}
 	usedBiaya = totalBiaya - (residu * biaya);
 	usedSDM = totalSDM - (residu * sdmCost);
 
 	if (usedBiaya > energetica[i].budget || usedSDM > energetica[i].aksesListrik.sdmListrik) {
-		printf("Budget/SDM Anda tidak memenuhi. Tidak ada yang berubah.");
+		printf(ANSI_COLOR_RED"Budget/SDM Anda tidak memenuhi. Tidak ada yang berubah.\n"ANSI_COLOR_RESET);
 		energetica[i].aksesListrik.listrikUmum -= incPoin;
 		energetica[i].hari++;
 	} else {
@@ -178,7 +180,7 @@ void changeTerbaharukan(kota *energetica, float listrikTerbaharukan, int i) {
     while (incPoin < 0) {
         scanf("%f", &incPoin);
         if (incPoin < 0) {
-            printf("Angka yang dimasukkan tidak valid, silahkan masukkan angka lagi\n");
+            printf(ANSI_COLOR_RED"Angka yang dimasukkan tidak valid, silahkan masukkan angka lagi\n"ANSI_COLOR_RESET);
         }
     }
 
@@ -189,12 +191,13 @@ void changeTerbaharukan(kota *energetica, float listrikTerbaharukan, int i) {
 	if (energetica[i].aksesListrik.listrikTerbaharukan > 100) {
 		residu = energetica[i].aksesListrik.listrikTerbaharukan - 100;
 		energetica[i].aksesListrik.listrikTerbaharukan = 100;
+		incPoin = 100 - residu;
 	}
 	usedBiaya = totalBiaya - (residu * biaya);
 	usedSDM = totalSDM - (residu * sdmCost);
 
 	if (usedBiaya > energetica[i].budget || usedSDM > energetica[i].aksesListrik.sdmListrik) {
-		printf("Budget/SDM Anda tidak memenuhi. Tidak ada yang berubah.");
+		printf(ANSI_COLOR_RED"Budget/SDM Anda tidak memenuhi. Tidak ada yang berubah.\n"ANSI_COLOR_RESET);
 		energetica[i].aksesListrik.listrikTerbaharukan -= incPoin;
 		energetica[i].hari++;
 	} else {
@@ -219,8 +222,8 @@ void aturListrik(kota *energetica, int i) {
 	printf("\nBudget Kota : $ %.2f\n", energetica[i].budget);
 	printf("SDM Listrik : %.0f\n", energetica[i].aksesListrik.sdmListrik);
 
-	printf("\nO P S I\n");
-	printf("========================\n");
+	printf("\n  O P S I  \n");
+	printf("============\n");
 	printf("1. Menyediakan listrik bersubsidi\n");
 	printf("2. Penambahan listrik untuk fasilitas umum\n");
 	printf("3. Penyediaan listrik dari energi terbaharukan\n");
@@ -239,7 +242,7 @@ void aturListrik(kota *energetica, int i) {
 			changeTerbaharukan(energetica,energetica[i].aksesListrik.listrikSubsidi, i);
 			break;
 		default : 
-			printf("Input anda tidak valid. Tidak ada yang berubah.\n");
+			printf(ANSI_COLOR_RED"Input anda tidak valid. Tidak ada yang berubah.\n"ANSI_COLOR_RESET);
 	}
 
 	energetica[i].aksesListrik.indeksListrik = (energetica[i].aksesListrik.listrikSubsidi + energetica[i].aksesListrik.listrikUmum + energetica[i].aksesListrik.listrikTerbaharukan) / 3;
@@ -499,7 +502,7 @@ void definisiEnergiBersih(kota *energetica)
 	energetica[0].energiBersih.kemudahanAkses = 55;
 	
 	energetica[1].energiBersih.energiTerbarukan = 60; 
-	energetica[1].energiBersih.kebersihan= 20;
+	energetica[1].energiBersih.kebersihan = 20;
 	energetica[1].energiBersih.kemudahanAkses = 40; 
 	
 	energetica[2].energiBersih.energiTerbarukan = 35;
@@ -580,6 +583,7 @@ void displayAkses (kota *energetica, int i, int nilaiPenambahan, float budget, i
 	printf("=============================================\n");
 	printf("Apakah Anda ingin melanjutkan pembangunan?\n");
 	printf("1. Ya\n");
+	printf("0. Tidak\n");
 }
 
 void aturAksesEnergi(kota *energetica, int i)
@@ -698,12 +702,12 @@ void definisiAturEmisi(kota *energetica){
 	
 	energetica[0].emisiGas.gasCH4 = 75;
 	energetica[1].emisiGas.gasCH4 = 80;
-	energetica[2].emisiGas.gasCH4 = 65;
+	energetica[2].emisiGas.gasCH4 = 55;
 	energetica[3].emisiGas.gasCH4 = 70;
 	
 	energetica[0].emisiGas.gasN2O = 50;
 	energetica[1].emisiGas.gasN2O = 55;
-	energetica[2].emisiGas.gasN2O = 55;
+	energetica[2].emisiGas.gasN2O = 60;
 	energetica[3].emisiGas.gasN2O = 60;
 	
 	energetica[0].emisiGas.sdmGas = 300;
@@ -918,7 +922,7 @@ void definisiKota(kota *energetica, char *username) {
     strcpy(energetica[3].nama, "Biotopia");
     
     sprintf(energetica[0].desc, "Selamat datang di Dea-Tae-AE, di mana kemajuan energi bersih bertabrakan dengan realitas sehari-hari rumah tangga yang memerlukan sentuhan kebersihan yang lebih tajam. Bagaimana kota ini bisa menjadi model holistik untuk keberlanjutan? Itu adalah pertanyaan yang menggantung di udara, sementara penduduk Dea-Tae-AE terus menjelajahi keseimbangan antara teknologi tinggi dan kebutuhan dasar domestik. Sebagai pemimpin negara " ANSI_COLOR_GREEN "ENERGETICA" ANSI_COLOR_RESET ", " ANSI_COLOR_MAGENTA "%s" ANSI_COLOR_RESET ", memilih kota ini sebagai kota yang akan dibenahi pertama.", username);
-    sprintf(energetica[1].desc, "Selamat datang di Elegger City! Kota yang terang benderang oleh ledakan kreativitas para inovator muda teknik elektro. Dengan akses listrik yang mengalir melalui jalanan dan bangunan-bangunan yang canggih, kota ini benar-benar menjadi laboratorium kehidupan bagi anak-anak teknik elektro yang berbakat. Namun dibalik keramaian teknologi yang memukau, tersembunyi ketidakseimbangan terhadap pengurangan emisi gas rumah kaca yang menjadi bagian yang terpinggirkan! Setelah keberhasilan di kota Dea-Tae-AE, Anda ,"ANSI_COLOR_MAGENTA"%s"ANSI_COLOR_RESET", melanjutkan untuk menyelesaikan permasalahan emisi gas rumah kaca di Elegger City.", username);
+    sprintf(energetica[1].desc, "Selamat datang di Elegger City! Kota yang terang benderang oleh ledakan kreativitas para inovator muda teknik elektro. Dengan akses listrik yang mengalir melalui jalanan dan bangunan-bangunan yang canggih, kota ini benar-benar menjadi laboratorium kehidupan bagi anak-anak teknik elektro yang berbakat. Namun dibalik keramaian teknologi yang memukau, tersembunyi ketidakseimbangan terhadap pengurangan emisi gas rumah kaca yang menjadi bagian yang terpinggirkan! Setelah keberhasilan di kota Dea-Tae-AE, Anda, "ANSI_COLOR_MAGENTA"%s"ANSI_COLOR_RESET", melanjutkan untuk menyelesaikan permasalahan emisi gas rumah kaca di Elegger City.", username);
     sprintf(energetica[2].desc, "Selamat datang di Tekkompolis! Meski jendela-jendela ruang server bersinar terang, lantai-lantai apartemen masih menyimpan tantangan kebersihan yang menghadang. Dalam dunia Tekkompolis, di mana kode-kode dan algoritma berkembang pesat, kenyataannya adalah bahwa keseimbangan antara teknologi dan kebersihan rumah tangga belum sepenuhnya tercapai. Apakah para pemikir muda di Tekkompolis dapat meretas solusi untuk membangun masa depan yang bersih dan berkelanjutan? Pertanyaan ini menciptakan ketegangan menarik antara kemajuan teknologi dan tanggung jawab lingkungan di kota ini. Tak hanya diam begitu saja. Anda, "ANSI_COLOR_MAGENTA"%s"ANSI_COLOR_RESET", ikut serta untuk membangun Tekkompolis menjadi kota yang bersih dan berkelanjutan.", username);
     strcpy(energetica[3].desc, "Selamat datang di Biotopia, kota yang dibanjiri oleh kecerdasan anak-anak muda yang menggali potensi luar biasa di bidang teknik biomedik dan teknologi kesehatan. Di kota ini, laboratorium-laboratorium inovatif dan pusat riset medis menjadi pusat kegiatan, dengan anak-anak cerdas ini membentuk masa depan kesehatan global. Meskipun kebersihan rumah tangga mencapai tingkat unggul, Biotopia berada di persimpangan tantangan yang menarik: akses listrik yang terbatas, pengurangan emisi gas rumah kaca yang kurang memadai, dan akses energi bersih yang masih terkendala. Biotopia akan menjadi kota terakhir yang akan Anda sebagai Kepala Negara benahi, pastikan untuk mengambil langkah yang benar! Karena resourcement yang semakin sedikit.");
     
@@ -1160,9 +1164,9 @@ int main() {
 		switch(pil) {
     		case 1 :
 				system("cls"); 
-    			printf("S E L A M A T!\n");
-    			printf("===================\n");
-    			printf("Anda, "ANSI_COLOR_MAGENTA"%s"ANSI_COLOR_RESET",terpilih menjadi presiden dari negara" ANSI_COLOR_GREEN " ENERGETICA" ANSI_COLOR_RESET "!", username);
+    			printf("  S E L A M A T!  \n");
+    			printf("==================\n");
+    			printf("Anda, "ANSI_COLOR_MAGENTA"%s"ANSI_COLOR_RESET", terpilih menjadi presiden dari negara" ANSI_COLOR_GREEN " ENERGETICA" ANSI_COLOR_RESET "!", username);
     			printf("\n\nPress any key to continue!");
     			getch();
 			    system("cls");
