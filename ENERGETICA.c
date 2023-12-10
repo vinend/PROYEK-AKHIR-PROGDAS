@@ -902,23 +902,6 @@ void aturEmisi(kota *energetica, int i) {
 
 void definisiKota(kota *energetica, char *username) {
 	
-    strcpy(energetica[0].nama, "Dea-Tae-AE");
-    strcpy(energetica[1].nama, "Elegger City");
-    strcpy(energetica[2].nama, "Tekkompolis");
-    strcpy(energetica[3].nama, "Biotopia");
-    
-    
-    
-    sprintf(energetica[0].desc, "Selamat datang di Dea-Tae-AE, di mana kemajuan energi bersih bertabrakan dengan realitas sehari-hari rumah tangga yang memerlukan sentuhan kebersihan yang lebih tajam. Bagaimana kota ini bisa menjadi model holistik untuk keberlanjutan? Itu adalah pertanyaan yang menggantung di udara, sementara penduduk Dea-Tae-AE terus menjelajahi keseimbangan antara teknologi tinggi dan kebutuhan dasar domestik. Sebagai pemimpin negara " ANSI_COLOR_GREEN "ENERGETICA" ANSI_COLOR_RESET ", " ANSI_COLOR_MAGENTA "%s" ANSI_COLOR_RESET ", memilih kota ini sebagai kota yang akan dibenahi pertama.", username);
-    sprintf(energetica[1].desc, "Selamat datang di Elegger City! Kota yang terang benderang oleh ledakan kreativitas para inovator muda teknik elektro. Dengan akses listrik yang mengalir melalui jalanan dan bangunan-bangunan yang canggih, kota ini benar-benar menjadi laboratorium kehidupan bagi anak-anak teknik elektro yang berbakat. Namun dibalik keramaian teknologi yang memukau, tersembunyi ketidakseimbangan terhadap pengurangan emisi gas rumah kaca yang menjadi bagian yang terpinggirkan! Setelah keberhasilan di kota Dea-Tae-AE, Anda ,"ANSI_COLOR_MAGENTA"%s"ANSI_COLOR_RESET", melanjutkan untuk menyelesaikan permasalahan emisi gas rumah kaca di Elegger City.", username);
-    sprintf(energetica[2].desc, "Selamat datang di Tekkompolis! Meski jendela-jendela ruang server bersinar terang, lantai-lantai apartemen masih menyimpan tantangan kebersihan yang menghadang. Dalam dunia Tekkompolis, di mana kode-kode dan algoritma berkembang pesat, kenyataannya adalah bahwa keseimbangan antara teknologi dan kebersihan rumah tangga belum sepenuhnya tercapai. Apakah para pemikir muda di Tekkompolis dapat meretas solusi untuk membangun masa depan yang bersih dan berkelanjutan? Pertanyaan ini menciptakan ketegangan menarik antara kemajuan teknologi dan tanggung jawab lingkungan di kota ini. Tak hanya diam begitu saja. Anda, "ANSI_COLOR_MAGENTA"%s"ANSI_COLOR_RESET", ikut serta untuk membangun Tekkompolis menjadi kota yang bersih dan berkelanjutan.", username);
-    strcpy(energetica[3].desc, "Selamat datang di Biotopia, kota yang dibanjiri oleh kecerdasan anak-anak muda yang menggali potensi luar biasa di bidang teknik biomedik dan teknologi kesehatan. Di kota ini, laboratorium-laboratorium inovatif dan pusat riset medis menjadi pusat kegiatan, dengan anak-anak cerdas ini membentuk masa depan kesehatan global. Meskipun kebersihan rumah tangga mencapai tingkat unggul, Biotopia berada di persimpangan tantangan yang menarik: akses listrik yang terbatas, pengurangan emisi gas rumah kaca yang kurang memadai, dan akses energi bersih yang masih terkendala. Biotopia akan menjadi kota terakhir yang akan Anda sebagai Kepala Negara benahi, pastikan untuk mengambil langkah yang benar! Karena resourcement yang semakin sedikit.");
-    
-    energetica[0].budget = 250000000;
-    energetica[1].budget = 200000000;
-    energetica[2].budget = 150000000;
-    energetica[3].budget = 100000000;
-	
 	//indeks dte = 55
 	//indeks elegger = 55
 	//indeks tekkompolis = 48,75
@@ -929,11 +912,21 @@ void definisiKota(kota *energetica, char *username) {
 	definisiKebersihanRumahTangga(energetica);
 	definisiAturEmisi(energetica);
 	
-	energetica[0].emisiGas.indeksGasRumahKaca = 60;
-	energetica[1].emisiGas.indeksGasRumahKaca = 55;
-	energetica[2].emisiGas.indeksGasRumahKaca = 50;
-	energetica[3].emisiGas.indeksGasRumahKaca = 40;
-	
+    strcpy(energetica[0].nama, "Dea-Tae-AE");
+    strcpy(energetica[1].nama, "Elegger City");
+    strcpy(energetica[2].nama, "Tekkompolis");
+    strcpy(energetica[3].nama, "Biotopia");
+    
+    sprintf(energetica[0].desc, "Selamat datang di Dea-Tae-AE, di mana kemajuan energi bersih bertabrakan dengan realitas sehari-hari rumah tangga yang memerlukan sentuhan kebersihan yang lebih tajam. Bagaimana kota ini bisa menjadi model holistik untuk keberlanjutan? Itu adalah pertanyaan yang menggantung di udara, sementara penduduk Dea-Tae-AE terus menjelajahi keseimbangan antara teknologi tinggi dan kebutuhan dasar domestik. Sebagai pemimpin negara " ANSI_COLOR_GREEN "ENERGETICA" ANSI_COLOR_RESET ", " ANSI_COLOR_MAGENTA "%s" ANSI_COLOR_RESET ", memilih kota ini sebagai kota yang akan dibenahi pertama.", username);
+    sprintf(energetica[1].desc, "Selamat datang di Elegger City! Kota yang terang benderang oleh ledakan kreativitas para inovator muda teknik elektro. Dengan akses listrik yang mengalir melalui jalanan dan bangunan-bangunan yang canggih, kota ini benar-benar menjadi laboratorium kehidupan bagi anak-anak teknik elektro yang berbakat. Namun dibalik keramaian teknologi yang memukau, tersembunyi ketidakseimbangan terhadap pengurangan emisi gas rumah kaca yang menjadi bagian yang terpinggirkan! Setelah keberhasilan di kota Dea-Tae-AE, Anda ,"ANSI_COLOR_MAGENTA"%s"ANSI_COLOR_RESET", melanjutkan untuk menyelesaikan permasalahan emisi gas rumah kaca di Elegger City.", username);
+    sprintf(energetica[2].desc, "Selamat datang di Tekkompolis! Meski jendela-jendela ruang server bersinar terang, lantai-lantai apartemen masih menyimpan tantangan kebersihan yang menghadang. Dalam dunia Tekkompolis, di mana kode-kode dan algoritma berkembang pesat, kenyataannya adalah bahwa keseimbangan antara teknologi dan kebersihan rumah tangga belum sepenuhnya tercapai. Apakah para pemikir muda di Tekkompolis dapat meretas solusi untuk membangun masa depan yang bersih dan berkelanjutan? Pertanyaan ini menciptakan ketegangan menarik antara kemajuan teknologi dan tanggung jawab lingkungan di kota ini. Tak hanya diam begitu saja. Anda, "ANSI_COLOR_MAGENTA"%s"ANSI_COLOR_RESET", ikut serta untuk membangun Tekkompolis menjadi kota yang bersih dan berkelanjutan.", username);
+    strcpy(energetica[3].desc, "Selamat datang di Biotopia, kota yang dibanjiri oleh kecerdasan anak-anak muda yang menggali potensi luar biasa di bidang teknik biomedik dan teknologi kesehatan. Di kota ini, laboratorium-laboratorium inovatif dan pusat riset medis menjadi pusat kegiatan, dengan anak-anak cerdas ini membentuk masa depan kesehatan global. Meskipun kebersihan rumah tangga mencapai tingkat unggul, Biotopia berada di persimpangan tantangan yang menarik: akses listrik yang terbatas, pengurangan emisi gas rumah kaca yang kurang memadai, dan akses energi bersih yang masih terkendala. Biotopia akan menjadi kota terakhir yang akan Anda sebagai Kepala Negara benahi, pastikan untuk mengambil langkah yang benar! Karena resourcement yang semakin sedikit.");
+    
+    energetica[0].budget = 250000000;
+    energetica[1].budget = 200000000;
+    energetica[2].budget = 150000000;
+    energetica[3].budget = 100000000;
+
 	energetica[0].hari = 30;
 	energetica[1].hari = 25;
 	energetica[2].hari = 20;
@@ -1144,10 +1137,6 @@ int main() {
 	getch();
 	system("cls");
 	
-	definisiListrik(energetica);
-	definisiKebersihanRumahTangga (energetica);
-	definisiEnergiBersih(energetica);
-	definisiAturEmisi(energetica);
 	definisiKota(energetica, username);
 	
 	int pil, loop = 1;
