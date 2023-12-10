@@ -13,7 +13,6 @@
 #define ANSI_COLOR_WHITE   "\x1b[37m"
 
 typedef struct kotaEnergetica {
-	
 	char desc[800];
 	char nama[50];
 	
@@ -609,63 +608,63 @@ void aturAksesEnergi(kota *energetica, int i)
 	switch (opsi)
 	{
 		case 1:
-			displayAkses (energetica, i, 30 , 25000000, 8, 80);
+			displayAkses (energetica, i, 30 , 20000000, 3, 50);
 			scanf("%d",&confirm);
-			if (confirm == 1) penambahanEnergi (energetica, i, 30 , 25000000, 8, 80);
+			if (confirm == 1) penambahanEnergi (energetica, i, 30 , 20000000, 3, 50);
 			else printf("Gagal untuk melakukan perubahan\n");
 			break;
 		case 2 :
-			displayAkses (energetica, i, 10 , 9000000, 3, 20);
+			displayAkses (energetica, i, 10 , 6000000, 3, 20);
 			scanf("%d",&confirm);
-			if (confirm == 1) kebersihan (energetica, i, 10 , 9000000, 3, 20);
+			if (confirm == 1) kebersihan (energetica, i, 10 , 6000000, 3, 20);
 			else printf("Gagal untuk melakukan perubahan\n");
 			break;
 		case 3 :
-			displayAkses (energetica, i, 20 , 15000000, 4,20);
+			displayAkses (energetica, i, 20 , 12000000, 4,20);
 			scanf("%d",&confirm);
 			if (confirm == 1) 
 			{
 				kebersihan (energetica, i, 8 , 7000000, 2, 10);
-				penambahanEnergi (energetica, i, 12 , 8000000, 2, 10);
+				penambahanEnergi (energetica, i, 12 , 5000000, 2, 10);
 			}
 			else printf("Gagal untuk melakukan perubahan\n");
 			break;
 		case 4 :
-			displayAkses (energetica, i, 25 , 20000000, 6,40);
+			displayAkses (energetica, i, 25 , 14000000, 3,30);
 			scanf("%d",&confirm);
 			if (confirm == 1) 
 			{
-				kemudahanAkses (energetica, i, 10 , 10000000, 3, 20);
-				kebersihan (energetica, i, 15 , 10000000, 3, 20);
+				kemudahanAkses (energetica, i, 10 , 4000000, 2, 10);
+				kebersihan (energetica, i, 15 , 10000000, 1, 20);
 			}
 			else printf("Gagal untuk melakukan perubahan\n");
 			break;
 		case 5 :
-			displayAkses (energetica, i, 30 , 30000000, 7,40);
+			displayAkses (energetica, i, 30 , 21000000, 2, 40);
 			scanf("%d",&confirm);
-			if (confirm == 1)	kemudahanAkses (energetica, i, 30 , 30000000, 7,40);
+			if (confirm == 1)	kemudahanAkses (energetica, i, 30 , 21000000, 2,40);
 			else printf("Gagal untuk melakukan perubahan\n");
 			break;
 		case 6 :
-			displayAkses (energetica, i, 15 , 13000000, 2,10);
+			displayAkses (energetica, i, 15 , 10000000, 2, 10);
 			scanf("%d",&confirm);
 			if (confirm == 1) 
 			{
 				penambahanEnergi (energetica, i, 9 , 6000000, 1, 5);
-				kemudahanAkses (energetica, i, 6 , 7000000, 1,5);
+				kemudahanAkses (energetica, i, 6 , 4000000, 1,5);
 			}
 			else printf("Gagal untuk melakukan perubahan\n");
 			break;
 		case 7 :
-			displayAkses (energetica, i, 5 , 5000000, 1, 4);
+			displayAkses (energetica, i, 5 , 3500000, 1, 2);
 			scanf("%d",&confirm);
-			if (confirm == 1) penambahanEnergi (energetica, i, 5 , 5000000, 1, 4);
+			if (confirm == 1) penambahanEnergi (energetica, i, 5 , 3500000, 1, 2);
 			else printf("Gagal untuk melakukan perubahan\n");
 			break;
 		case 8 :
-			displayAkses (energetica, i, 10 , 7000000, 2,10);
+			displayAkses (energetica, i, 10 , 6000000, 2,7);
 			scanf("%d",&confirm);
-			if (confirm == 1) kemudahanAkses (energetica, i, 10 , 7000000, 2,10);
+			if (confirm == 1) kemudahanAkses (energetica, i, 10 , 6000000, 2,7);
 			else printf("Gagal untuk melakukan perubahan\n");
 			break;
 		default :
@@ -928,14 +927,13 @@ void definisiKota(kota *energetica, char *username) {
     
     energetica[0].budget = 250000000;
     energetica[1].budget = 200000000;
-    energetica[2].budget = 150000000;
-    energetica[3].budget = 100000000;
+    energetica[2].budget = 250000000;
+    energetica[3].budget = 300000000;
 
 	energetica[0].hari = 30;
 	energetica[1].hari = 25;
-	energetica[2].hari = 20;
-	energetica[3].hari = 15;
-		
+	energetica[2].hari = 25;
+	energetica[3].hari = 25;	
 }
 
 void gameplay(kota *energetica) {
