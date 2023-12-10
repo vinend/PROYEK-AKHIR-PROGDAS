@@ -284,10 +284,10 @@ void definisiKebersihanRumahTangga (kota *energetica) {
 
 }
 
-
 void alatKebersihan(kota *energetica, int i) {
     float alatYangDipakai, biayaUrusAlat, totalAlatDipakai, totalBiaya;
-    
+    int confirm = 0;
+
     printf("Pengaruh Budget dan Poin\n");
     printf("=================================================================================\n");
     printf("|| Biaya Pengurusan Alat\t=\tPoin x 500000 $ (Biaya per Alat)\n");
@@ -297,33 +297,48 @@ void alatKebersihan(kota *energetica, int i) {
     printf("\nMasukkan jumlah alat kebersihan yang dipakai: ");
     scanf("%f", &alatYangDipakai);
 
-  
-    biayaUrusAlat = 500000;  
+    biayaUrusAlat = 500000;
 
     totalAlatDipakai = alatYangDipakai * biayaUrusAlat;
     totalBiaya = totalAlatDipakai;
-	
-	if(totalBiaya > energetica[i].budget) {
-		printf("Budget anda tidak cukup!\n");
-		energetica[i].hari++;
-	} 
 
-    else {
-    energetica[i].budget -= totalBiaya;
-    energetica[i].kebersihanRumahTangga.alatKebersihanSustainable += alatYangDipakai * 0.25;
-    
-    if (energetica[i].kebersihanRumahTangga.alatKebersihanSustainable > 100) {
-    	printf("Indeks Melebihi Batas! Luar biasa");
-    	energetica[i].kebersihanRumahTangga.alatKebersihanSustainable = 100;
-	} 
-    
-	}
-	
+    if (totalBiaya > energetica[i].budget) {
+        printf("Budget anda tidak cukup!\n");
+        printf("Apakah anda ingin  menggunakan seluruh budget dan merisikokan? [1 - YES] [0 - NO] : ");
+        scanf("%d", &confirm);
+
+        if (confirm == 1) {
+            printf("Menggunakan seluruh budget yang tersedia.\n");
+
+            float buyoutCost = energetica[i].budget / biayaUrusAlat;
+
+            energetica[i].kebersihanRumahTangga.alatKebersihanSustainable += buyoutCost * 0.25;
+            energetica[i].budget = 0;  
+
+            if (energetica[i].kebersihanRumahTangga.alatKebersihanSustainable > 100) {
+                printf("Indeks Melebihi Batas! Luar biasa\n");
+                energetica[i].kebersihanRumahTangga.alatKebersihanSustainable = 100;
+            }
+        } else {
+            printf("Kembali ke menu!\n");
+            energetica[i].hari++;
+        }
+    } else {
+        
+        energetica[i].budget -= totalBiaya;
+        energetica[i].kebersihanRumahTangga.alatKebersihanSustainable += alatYangDipakai * 0.25;
+
+        if (energetica[i].kebersihanRumahTangga.alatKebersihanSustainable > 100) {
+            printf("Indeks Melebihi Batas! Luar biasa\n");
+            energetica[i].kebersihanRumahTangga.alatKebersihanSustainable = 100;
+        }
+    }
 }
 
 
 void efisiensiEnergi(kota *energetica, int i) {
     float outputEnergi, kehilanganEnergi, totalKonsumsiEnergi, pengurusanEnergi;
+    int confirm = 0;
 
     printf("Pengaruh Budget dan Poin\n");
     printf("=================================================================================\n");
@@ -340,14 +355,33 @@ void efisiensiEnergi(kota *energetica, int i) {
 
     if (pengurusanEnergi * 400000 > energetica[i].budget) {
         printf("Budget anda tidak cukup!\n");
-        energetica[i].hari++;  
-    } 
-	
-	else {
+        printf("Apakah anda ingin  menggunakan seluruh budget dan merisikokan? [1 - YES] [0 - NO] : ");
+        scanf("%d", &confirm);
         
+        if (confirm == 1) {
+            printf("Menggunakan seluruh budget yang tersedia.\n");
+
+            
+            float buyoutCost = energetica[i].budget / 400000.0;
+            
+            
+            energetica[i].kebersihanRumahTangga.efisiensiEnergi += buyoutCost;
+            energetica[i].budget = 0;
+            energetica[i].kebersihanRumahTangga.efisiensiEnergi += buyoutCost * 0.25;
+
+            if (energetica[i].kebersihanRumahTangga.efisiensiEnergi > 100) {
+                printf("Indeks melebihi batas! Luar biasa\n");
+                energetica[i].kebersihanRumahTangga.efisiensiEnergi = 100;
+            }
+        } else {
+            printf("Kembali ke menu!\n");
+            energetica[i].hari++;
+        }
+    } else {
+       
         energetica[i].kebersihanRumahTangga.efisiensiEnergi += totalKonsumsiEnergi;
-        energetica[i].budget -= pengurusanEnergi * 400000; 
-   
+        energetica[i].budget -= pengurusanEnergi * 400000;
+
         if (energetica[i].kebersihanRumahTangga.efisiensiEnergi > 100) {
             printf("Indeks melebihi batas! Luar biasa\n");
             energetica[i].kebersihanRumahTangga.efisiensiEnergi = 100;
@@ -356,42 +390,60 @@ void efisiensiEnergi(kota *energetica, int i) {
 }
 
 
-
 void manajemenWaste(kota *energetica, int i) {
     float pengumpulanWaste, totalWaste, hargaPembuanganWaste;
+    int confirm = 0;
 
-	printf("Pengaruh Budget dan Poin\n");
-	printf("=================================================================================\n");
-	printf("||Budget yang terpakai\t=\tPoin x 1000000 $ (Biaya per waste dikumpulkan)\n");
-	printf("||Pengaruh Pada Index\t=\tAkan naik 1 per 4 Poin\n");
-	printf("=================================================================================\n");
-	
+    printf("Pengaruh Budget dan Poin\n");
+    printf("=================================================================================\n");
+    printf("|| Budget yang terpakai\t=\tPoin x 1000000 $ (Biaya per waste dikumpulkan)\n");
+    printf("|| Pengaruh Pada Index\t=\tAkan naik 1 per 4 Poin\n");
+    printf("=================================================================================\n");
+
     printf("\nMasukkan jumlah waste yang dikumpulkan: ");
     scanf("%f", &pengumpulanWaste);
 
-    
-    hargaPembuanganWaste = pengumpulanWaste * 1000000;  
+    hargaPembuanganWaste = pengumpulanWaste * 1000000;
 
     totalWaste = pengumpulanWaste;
-    
-    if(hargaPembuanganWaste > energetica[i].budget) {
-    	printf("Budget anda tidak cukup!");
-    	energetica[i].hari++;
-	}
 
+   
+    if (hargaPembuanganWaste > energetica[i].budget) {
+        printf("Budget anda tidak cukup!\n");
+        printf("Apakah anda ingin  menggunakan seluruh budget dan merisikokan? [1 - YES] [0 - NO] : ");
+        scanf("%d", &confirm );
+        
+        if(confirm == 1) {
+		
+        	printf("Menggunakan seluruh budget yang tersedia.\n");
+
+        
+        	totalWaste = energetica[i].budget / 1000000;  
+        	hargaPembuanganWaste = energetica[i].budget;
+        	energetica[i].kebersihanRumahTangga.wasteManagement += totalWaste;
+    		energetica[i].budget -= hargaPembuanganWaste;
+    		energetica[i].kebersihanRumahTangga.wasteManagement += totalWaste * 0.25;
+		}
+		
+		else {
+			printf("Kembali ke menu!");
+			energetica[i].hari++;
+		}
+    }
+    
     else {
 	
     energetica[i].kebersihanRumahTangga.wasteManagement += totalWaste;
     energetica[i].budget -= hargaPembuanganWaste;
     energetica[i].kebersihanRumahTangga.wasteManagement += totalWaste * 0.25;
-    
-    if(energetica[i].kebersihanRumahTangga.wasteManagement > 100) {
-    		printf("Indeks melebihi batas! Luar biasa");
-    		energetica[i].kebersihanRumahTangga.wasteManagement = 100;
-		}
-	
+
+    if (energetica[i].kebersihanRumahTangga.wasteManagement > 100) {
+        printf("Indeks melebihi batas! Luar biasa\n");
+        energetica[i].kebersihanRumahTangga.wasteManagement = 100;
+    	}
 	}
 }
+
 
 void aturKebersihanRumahTangga(kota *energetica, int i) {
 	int pil;
