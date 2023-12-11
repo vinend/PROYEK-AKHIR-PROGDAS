@@ -86,7 +86,7 @@ void definisiListrik(kota *energetica) {
 	energetica[0].aksesListrik.sdmListrik = 250;
 	energetica[1].aksesListrik.sdmListrik = 210;
 	energetica[2].aksesListrik.sdmListrik = 150;
-	energetica[3].aksesListrik.sdmListrik = 120;
+	energetica[3].aksesListrik.sdmListrik = 90;
 }
 
 void changeSubsidi(kota *energetica, float listrikSubsidi, int i) {
@@ -707,7 +707,7 @@ void definisiAturEmisi(kota *energetica){
 	energetica[0].emisiGas.gasN2O = 50;
 	energetica[1].emisiGas.gasN2O = 55;
 	energetica[2].emisiGas.gasN2O = 60;
-	energetica[3].emisiGas.gasN2O = 50;
+	energetica[3].emisiGas.gasN2O = 60;
 	
 	energetica[0].emisiGas.sdmGas = 300;
 	energetica[1].emisiGas.sdmGas = 260;
@@ -770,10 +770,15 @@ void changeCH4(kota *energetica, float gasCH4, int i) {
 		energetica[i].emisiGas.gasCH4 += inc;
 		energetica[i].budget -= inc * energetica[i].emisiGas.priceCH4;
 		energetica[i].emisiGas.sdmGas -= inc * energetica[i].emisiGas.levelMod;
+		if(energetica[i].emisiGas.indeksGasRumahKaca > 100.00) {
+			energetica[i].emisiGas.indeksGasRumahKaca = 100.00;
+		}
 		printf("\nBerhasil menaikan skor CH4\n");
 		energetica[i].emisiGas.priceCH4 = energetica[i].emisiGas.priceCH4 + (energetica[i].emisiGas.priceCH4 * 0.5);
+	} else if (energetica[i].emisiGas.gasCH4 == 100) {
+		printf("Skor sudah maksimal!");
 	} else {
-		printf("TIdak ada yang berubah!");
+		printf("Tidak ada yang berubah!");
 	}
 }
 
@@ -801,8 +806,10 @@ void changeN2O(kota *energetica, float gasN2O, int i) {
 		}
 		printf("\nBerhasil menaikan skor N2O\n");
 		energetica[i].emisiGas.priceN2O = energetica[i].emisiGas.priceN2O + (energetica[i].emisiGas.priceN2O * 0.15);
+	} else if (energetica[i].emisiGas.gasN2O == 100) {
+		printf("Skor sudah maksimal!");
 	} else {
-		printf("TIdak ada yang berubah!");
+		printf("Tidak ada yang berubah!");
 	}
 }
 
@@ -923,7 +930,7 @@ void definisiKota(kota *energetica, char *username) {
     sprintf(energetica[0].desc, "Selamat datang di Dea-Tae-AE, di mana kemajuan energi bersih bertabrakan dengan realitas sehari-hari rumah tangga yang memerlukan sentuhan kebersihan yang lebih tajam. Bagaimana kota ini bisa menjadi model holistik untuk keberlanjutan? Itu adalah pertanyaan yang menggantung di udara, sementara penduduk Dea-Tae-AE terus menjelajahi keseimbangan antara teknologi tinggi dan kebutuhan dasar domestik. Sebagai pemimpin negara " ANSI_COLOR_GREEN "ENERGETICA" ANSI_COLOR_RESET ", " ANSI_COLOR_MAGENTA "%s" ANSI_COLOR_RESET ", memilih kota ini sebagai kota yang akan dibenahi pertama.", username);
     sprintf(energetica[1].desc, "Selamat datang di Elegger City! Kota yang terang benderang oleh ledakan kreativitas para inovator muda teknik elektro. Dengan akses listrik yang mengalir melalui jalanan dan bangunan-bangunan yang canggih, kota ini benar-benar menjadi laboratorium kehidupan bagi anak-anak teknik elektro yang berbakat. Namun dibalik keramaian teknologi yang memukau, tersembunyi ketidakseimbangan terhadap pengurangan emisi gas rumah kaca yang menjadi bagian yang terpinggirkan! Setelah keberhasilan di kota Dea-Tae-AE, Anda, "ANSI_COLOR_MAGENTA"%s"ANSI_COLOR_RESET", melanjutkan untuk menyelesaikan permasalahan emisi gas rumah kaca di Elegger City.", username);
     sprintf(energetica[2].desc, "Selamat datang di Tekkompolis! Meski jendela-jendela ruang server bersinar terang, lantai-lantai apartemen masih menyimpan tantangan kebersihan yang menghadang. Dalam dunia Tekkompolis, di mana kode-kode dan algoritma berkembang pesat, kenyataannya adalah bahwa keseimbangan antara teknologi dan kebersihan rumah tangga belum sepenuhnya tercapai. Apakah para pemikir muda di Tekkompolis dapat meretas solusi untuk membangun masa depan yang bersih dan berkelanjutan? Pertanyaan ini menciptakan ketegangan menarik antara kemajuan teknologi dan tanggung jawab lingkungan di kota ini. Tak hanya diam begitu saja. Anda, "ANSI_COLOR_MAGENTA"%s"ANSI_COLOR_RESET", ikut serta untuk membangun Tekkompolis menjadi kota yang bersih dan berkelanjutan.", username);
-    sprintf(energetica[3].desc, "Selamat datang di Biotopia, kota yang dibanjiri oleh kecerdasan anak-anak muda yang menggali potensi luar biasa di bidang teknik biomedik dan teknologi kesehatan. Di kota ini, laboratorium-laboratorium inovatif dan pusat riset medis menjadi pusat kegiatan, dengan anak-anak cerdas ini membentuk masa depan kesehatan global. Meskipun kebersihan rumah tangga mencapai tingkat unggul, Biotopia berada di persimpangan tantangan yang menarik: akses listrik yang terbatas, pengurangan emisi gas rumah kaca yang kurang memadai, dan akses energi bersih yang masih terkendala. Biotopia akan menjadi kota terakhir yang akan "ANSI_COLOR_MAGENTA"%s"ANSI_COLOR_RESET" sebagai Kepala Negara benahi, pastikan untuk mengambil langkah yang benar! Karena resourcement yang semakin sedikit.", username);
+    strcpy(energetica[3].desc, "Selamat datang di Biotopia, kota yang dibanjiri oleh kecerdasan anak-anak muda yang menggali potensi luar biasa di bidang teknik biomedik dan teknologi kesehatan. Di kota ini, laboratorium-laboratorium inovatif dan pusat riset medis menjadi pusat kegiatan, dengan anak-anak cerdas ini membentuk masa depan kesehatan global. Meskipun kebersihan rumah tangga mencapai tingkat unggul, Biotopia berada di persimpangan tantangan yang menarik: akses listrik yang terbatas, pengurangan emisi gas rumah kaca yang kurang memadai, dan akses energi bersih yang masih terkendala. Biotopia akan menjadi kota terakhir yang akan Anda sebagai Kepala Negara benahi, pastikan untuk mengambil langkah yang benar! Karena resourcement yang semakin sedikit.");
     
     energetica[0].budget = 250000000;
     energetica[1].budget = 200000000;
