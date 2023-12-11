@@ -490,8 +490,13 @@ void aturKebersihanRumahTangga(kota *energetica, int i) {
 }
 
 //CODE MUSTOF
-void definisiEnergiBersih(kota *energetica)
+void definisiEnergiBersih(kota *energetica)	//mendefinisikan nilai dari variable struct member dari masing-masing kota energiBersih
 {
+	//indeks energi bersih di kota Dea-Tae-AE = 65 
+	//indeks energi bersih di kota Elegger = 40
+	//indeks energi bersih di kota Tekkompolis = 40 
+	//indeks energi bersih di kota Biotopia = 55
+	
 	energetica[0].energiBersih.energiTerbarukan = 70;
 	energetica[0].energiBersih.kebersihan = 70;
 	energetica[0].energiBersih.kemudahanAkses = 55;
@@ -508,6 +513,7 @@ void definisiEnergiBersih(kota *energetica)
 	energetica[3].energiBersih.kebersihan = 80;
 	energetica[3].energiBersih.kemudahanAkses = 30;
 	
+	//banyaknya sesuai dengan sdm di fungsi lain
 	energetica[0].energiBersih.sdmAkses = 300;
 	energetica[1].energiBersih.sdmAkses = 250;
 	energetica[2].energiBersih.sdmAkses = 180;
@@ -515,58 +521,86 @@ void definisiEnergiBersih(kota *energetica)
 }
 
 void kemudahanAkses (kota *energetica, int i, int nilaiKemudahan, float budget, int hari, int sdm)
+//fungsi menerima info kota, nilaiKemudahan, budget, hari, dan sdm dari masing-masing opsi
 {
 	if (energetica[i].budget>budget && energetica[i].hari>hari && energetica[i].energiBersih.sdmAkses>sdm)
+	//sebagai error handling, jika budget, hari, ataupun sdm yang dimiliki user lebih banyak/sedikit
+	//dibandingkan dengan biaya yang diperlukan untuk melakukan salah satu opsi
+	//ini akan melanjutkan jika biaya mencukupi
 	{
 		if (energetica[i].energiBersih.kemudahanAkses + nilaiKemudahan <=100)
+		//error handling jika nilai indeks dari salah satu variabel berniali >100
+		//kode yang dieksekusi ini jika masih belum diatas 100
 		{
 			energetica[i].energiBersih.kemudahanAkses += nilaiKemudahan;
+			//penambahan nilai variabel
 		}
-		else energetica[i].energiBersih.kemudahanAkses = 100;
-		energetica[i].budget -= budget;
-		energetica[i].hari -= hari;
-		energetica[i].energiBersih.sdmAkses -= sdm;
-		printf("Sukses untuk melakukan perubahan\n");
+		else energetica[i].energiBersih.kemudahanAkses = 100;//jika nilai indeks melebihi 100, akan diset untuk tetap 100
+		
+		energetica[i].budget -= budget;	//pengurangan budget sesuai opsi
+		energetica[i].hari -= hari;	//pengurangan budget sesuai opsi
+		energetica[i].energiBersih.sdmAkses -= sdm;	//pengurangan sdm sesuai opsi
+		printf("Sukses untuk melakukan perubahan\n");	//memberitahu user fungsi berhasil diimplementasikan
 	}
 	else printf("Salah satu biaya tidak memenuhi!");
+	//jika tidak mencukupi maka penambahan akan diabaikan dan hanya menampilkan kesalahan
 }
 
 void kebersihan (kota *energetica, int i, int nilaiKebersihan, float budget, int hari, int sdm)
+//fungsi menerima info kota, nilaiKebersihan, budget, hari, dan sdm dari masing-masing opsi
 {
 	if (energetica[i].budget>budget && energetica[i].hari>hari && energetica[i].energiBersih.sdmAkses>sdm)
+	//sebagai error handling, jika budget, hari, ataupun sdm yang dimiliki user lebih banyak/sedikit
+	//dibandingkan dengan biaya yang diperlukan untuk melakukan salah satu opsi
+	//ini akan melanjutkan jika biaya mencukupi
 	{
 		if (energetica[i].energiBersih.kebersihan + nilaiKebersihan <=100)
+		//error handling jika nilai indeks dari salah satu variabel berniali >100
+		//kode yang dieksekusi ini jika masih belum diatas 100
 		{
 			energetica[i].energiBersih.kebersihan += nilaiKebersihan;
+			//penambahan nilai variabel
 		}
-		else energetica[i].energiBersih.kebersihan = 100;
+		else energetica[i].energiBersih.kebersihan = 100;	//diset menjadi 100 jika nilai variabel >100
 		
-		energetica[i].budget -= budget;
-		energetica[i].hari -= hari;
-		energetica[i].energiBersih.sdmAkses -= sdm;
-		printf("Sukses untuk melakukan perubahan\n");
+		energetica[i].budget -= budget;	//pengurangan budget sesuai opsi
+		energetica[i].hari -= hari;	//pengurangan budget sesuai opsi
+		energetica[i].energiBersih.sdmAkses -= sdm;	//pengurangan sdm sesuai opsi
+		printf("Sukses untuk melakukan perubahan\n");	//memberitahu user fungsi berhasil diimplementasikan
 	}
 	else printf("Salah satu biaya tidak memenuhi!");
+	//jika tidak mencukupi maka penambahan akan diabaikan dan hanya menampilkan kesalahan
 }
 
 void penambahanEnergi (kota *energetica, int i, int nilaiPenambahan, float budget, int hari, int sdm)
+//fungsi menerima info kota, nilaiKebersihan, budget, hari, dan sdm dari masing-masing opsi
 {
 	if (energetica[i].budget>budget && energetica[i].hari>hari && energetica[i].energiBersih.sdmAkses>sdm)
+	//sebagai error handling, jika budget, hari, ataupun sdm yang dimiliki user lebih banyak/sedikit
+	//dibandingkan dengan biaya yang diperlukan untuk melakukan salah satu opsi
+	//ini akan melanjutkan jika biaya mencukupi
 	{
 		if (energetica[i].energiBersih.energiTerbarukan + nilaiPenambahan <=100)
+		//error handling jika nilai indeks dari salah satu variabel berniali >100
+		//kode yang dieksekusi ini jika masih belum diatas 100
 		{
 			energetica[i].energiBersih.energiTerbarukan += nilaiPenambahan;
+			//penambahan nilai variabel
 		}
-		else energetica[i].energiBersih.energiTerbarukan = 100;
-		energetica[i].budget -= budget;
-		energetica[i].hari -= hari;
-		energetica[i].energiBersih.sdmAkses -= sdm;
-		printf("Sukses untuk melakukan perubahan\n");
+		else energetica[i].energiBersih.energiTerbarukan = 100;	//diset menjadi 100 jika nilai variabel >100
+		
+		energetica[i].budget -= budget;	//pengurangan budget sesuai opsi
+		energetica[i].hari -= hari;	//pengurangan budget sesuai opsi
+		energetica[i].energiBersih.sdmAkses -= sdm;	//pengurangan sdm sesuai opsi
+		printf("Sukses untuk melakukan perubahan\n");	//memberitahu user fungsi berhasil diimplementasikan
 	}
 	else printf("Salah satu biaya tidak memenuhi!");
+	//jika tidak mencukupi maka penambahan akan diabaikan dan hanya menampilkan kesalahan
 }
 
 void displayAkses (kota *energetica, int i, int nilaiPenambahan, float budget, int hari, int sdm)
+//menampilkan informasi mengenai biaya yang diperlukan untuk melaksanakan salah satu opsi
+//dibuat fungsi karena pemakaian berulang
 {
 	printf("===============Status Perubahan==============\n");
 	printf("||Nilai dari variabel yang bertambah %d\n", nilaiPenambahan);
@@ -579,11 +613,12 @@ void displayAkses (kota *energetica, int i, int nilaiPenambahan, float budget, i
 	printf("Apakah Anda ingin melanjutkan pembangunan?\n");
 	printf("1. Ya\n");
 	printf("0. Tidak\n");
+	//setelah kode ini, akan diminta konfirmasi dengan input dari user
 }
 
 void aturAksesEnergi(kota *energetica, int i)
 {
-	int opsi, confirm;
+	int opsi, confirm;	//opsi untuk case dari switch, confirm untuk melanjutkan/membatalkan eksekusi
 	printf("================Status Indeks================\n");
 	printf("||Kemudahan akses energi 	: %.2f / 100\n", energetica[i].energiBersih.kemudahanAkses);
 	printf("||Kebersihan energi 		: %.2f / 100\n", energetica[i].energiBersih.kebersihan);
@@ -616,7 +651,7 @@ void aturAksesEnergi(kota *energetica, int i)
 			else printf("Gagal untuk melakukan perubahan\n");
 			break;
 		case 3 :
-			displayAkses (energetica, i, 20 , 12000000, 4,20);
+			displayAkses (energetica, i, 20 , 12000000, 4,20);	//terdiri dari 2 nilai fungsi yang dijumlah
 			scanf("%d",&confirm);
 			if (confirm == 1) 
 			{
@@ -667,6 +702,7 @@ void aturAksesEnergi(kota *energetica, int i)
 			printf("Input tidak valid. Tidak terjadi perubahan!");
 	}
 	energetica[i].energiBersih.indeksAksesEnergi = (energetica[i].energiBersih.energiTerbarukan + energetica[i].energiBersih.kebersihan + energetica[i].energiBersih.kemudahanAkses) / 3;
+	//untuk merefresh nilai dari indeksAksesEnergi setelah dilakukannya penambahan nilai
 	printf("\n\nPress any key to Continue!");
     getch();
     system("cls");
