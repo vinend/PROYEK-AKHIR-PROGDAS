@@ -425,10 +425,6 @@ void manajemenWaste(kota *energetica, int i) {
         	energetica[i].kebersihanRumahTangga.wasteManagement += totalWaste;
     		energetica[i].budget -= hargaPembuanganWaste;
     		energetica[i].kebersihanRumahTangga.wasteManagement += totalWaste * 0.25;
-		if (energetica[i].kebersihanRumahTangga.wasteManagement > 100) {
-        	printf("Indeks melebihi batas! Luar biasa\n");
-        	energetica[i].kebersihanRumahTangga.wasteManagement = 100;
-    		}
 		}
 		
 		else {
