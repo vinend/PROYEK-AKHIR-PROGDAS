@@ -943,7 +943,7 @@ void definisiKota(kota *energetica, char *username) {
 	energetica[3].hari = 25;	
 }
 
-void gameplay(kota *energetica) {
+void gameplay(kota *energetica, char *username) {
 	int i, j, pilihan, loseTrigger = 0;
 
 	for(i = 0; i < 4; i++) {
@@ -1075,7 +1075,7 @@ void gameplay(kota *energetica) {
 		}
 
 		if(loseTrigger > 0) {
-        	printf("Maaf anda gagal!\n");
+        	printf("Maaf anda "ANSI_COLOR_RED"gagal"ANSI_COLOR_RESET"!\n");
         	printf("Press Any Button to Continue");
         	getch();
         	system("cls");
@@ -1083,6 +1083,11 @@ void gameplay(kota *energetica) {
 		}
 	
 		printf("B E R H A S I L - L E V E L   %d || %s\n", i + 1, energetica[i].nama);
+		
+		if (i==3)
+		{
+			printf("Selamat kepada "ANSI_COLOR_MAGENTA"%s"ANSI_COLOR_RESET" karena telah menyelesaikan semua level di game "ANSI_COLOR_GREEN"ENERGETICA"ANSI_COLOR_RESET" dan telah "ANSI_COLOR_CYAN"BERHASIL"ANSI_COLOR_RESET" dalam membawa negara "ANSI_COLOR_GREEN"ENERGETICA"ANSI_COLOR_RESET" mencapai target SDG 7.", username);
+		}
 		
 		getch();
 		system("cls");
@@ -1182,7 +1187,7 @@ int main() {
     			getch();
                 system("cls");
     	
-    			gameplay(energetica);
+    			gameplay(energetica, username);
     		
     		    getch();
 			    system("cls"); 
