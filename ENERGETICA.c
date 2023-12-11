@@ -32,7 +32,6 @@ typedef struct kotaEnergetica {
 		float efisiensiEnergi;
 		float wasteManagement;
 		float alatKebersihanSustainable;
-		float skalaHistogram;
 		float indeksKebersihanRT;
 	} kebersihanRumahTangga;
 	
@@ -40,8 +39,6 @@ typedef struct kotaEnergetica {
 		float kemudahanAkses;
 		float kebersihan;
 		float energiTerbarukan;
-		float maxValue;
-        float skalaHistogram;
         float indeksAksesEnergi;
         float sdmAkses;
 	} energiBersih;
@@ -53,8 +50,6 @@ typedef struct kotaEnergetica {
 		float priceCO2;
 		float priceCH4;
 		float priceN2O;
-		float maxValue;
-		int skalaHistogram;
 		int sdmGas;
 		int levelMod;
 		float indeksGasRumahKaca;
@@ -66,7 +61,7 @@ typedef struct kotaEnergetica {
 
 //CODE HAKIM
 
-void definisiListrik(kota *energetica) {
+void definisiListrik(kota *energetica) { //fungsi definisi (inisialisasi tiap variabel yang terkait)
 	
 	energetica[0].aksesListrik.listrikSubsidi = 30;
     energetica[1].aksesListrik.listrikSubsidi = 55;
@@ -90,7 +85,7 @@ void definisiListrik(kota *energetica) {
 }
 
 void changeSubsidi(kota *energetica, float listrikSubsidi, int i) {
-    float incPoin = -1, residu = 0, totalBiaya, totalSDM, usedBiaya, usedSDM;
+    float incPoin = -1, residu = 0, totalBiaya, totalSDM, usedBiaya, usedSDM; //incPoin diinisialisasi -1 supaya bisa mulai input dalam syarat while loop
     float biaya = 900000 + (500000 * i); // 900000 1400000 1900000 2400000 
 	float sdmCost = floor(3 - (0.5 * i)); // 3 2 2 1
 
@@ -100,7 +95,7 @@ void changeSubsidi(kota *energetica, float listrikSubsidi, int i) {
     
     while (incPoin < 0) {
         scanf("%f", &incPoin);
-        if (incPoin < 0) {
+        if (incPoin < 0) { //error handling jika input negatif
             printf(ANSI_COLOR_RED"Angka yang dimasukkan tidak valid, silahkan masukkan angka lagi\n"ANSI_COLOR_RESET);
         }
     }
@@ -109,27 +104,27 @@ void changeSubsidi(kota *energetica, float listrikSubsidi, int i) {
 	totalSDM = sdmCost * incPoin;
 
 	energetica[i].aksesListrik.listrikSubsidi += incPoin;
-	if (energetica[i].aksesListrik.listrikSubsidi > 100) {
+	if (energetica[i].aksesListrik.listrikSubsidi > 100) { //handling jika poin melebihi seratus
 		residu = energetica[i].aksesListrik.listrikSubsidi - 100;
 		energetica[i].aksesListrik.listrikSubsidi = 100;
 		incPoin = 100 - residu;
 	}
-	usedBiaya = totalBiaya - (residu * biaya);
-	usedSDM = totalSDM - (residu * sdmCost);
+	usedBiaya = totalBiaya - (residu * biaya); //biaya final
+	usedSDM = totalSDM - (residu * sdmCost); //SDM final
 
-	if (usedBiaya > energetica[i].budget || usedSDM > energetica[i].aksesListrik.sdmListrik) {
+	if (usedBiaya > energetica[i].budget || usedSDM > energetica[i].aksesListrik.sdmListrik) { //handling jika suplai (budget dan SDM) habis
 		printf(ANSI_COLOR_RED"Budget/SDM Anda tidak memenuhi. Tidak ada yang berubah.\n"ANSI_COLOR_RESET);
-		energetica[i].aksesListrik.listrikSubsidi -= incPoin;
-		energetica[i].hari++;
+		energetica[i].aksesListrik.listrikSubsidi -= incPoin; //poin kembali ke saat sebelum ditambah
+		energetica[i].hari++; //hari tidak akan berubah
 	} else {
 		energetica[i].budget -=  usedBiaya;
 		energetica[i].aksesListrik.sdmListrik -= usedSDM;
-		printf("Poin overflow = %.0f\n", residu);
+		printf("Poin overflow = %.0f\n", residu); //tampilan poin yang overflow
 	}
 }
 
 void changeUmum(kota *energetica, float listrikUmum, int i) {
-    float incPoin = -1, residu = 0, totalBiaya, totalSDM, usedBiaya, usedSDM;
+    float incPoin = -1, residu = 0, totalBiaya, totalSDM, usedBiaya, usedSDM; //incPoin diinisialisasi -1 supaya bisa mulai input dalam syarat while loop
     float biaya = 1500000 + (400000 * i); // 1500000 1900000 2300000 2700000
 	float sdmCost = 1; // 1 1 1 1
 
@@ -139,7 +134,7 @@ void changeUmum(kota *energetica, float listrikUmum, int i) {
     
     while (incPoin < 0) {
         scanf("%f", &incPoin);
-        if (incPoin < 0) {
+        if (incPoin < 0) { //error handling jika input negatif
             printf(ANSI_COLOR_RED"Angka yang dimasukkan tidak valid, silahkan masukkan angka lagi\n"ANSI_COLOR_RESET);
         }
     }
@@ -148,27 +143,27 @@ void changeUmum(kota *energetica, float listrikUmum, int i) {
 	totalSDM = sdmCost * incPoin;
 
 	energetica[i].aksesListrik.listrikUmum += incPoin;
-	if (energetica[i].aksesListrik.listrikUmum > 100) {
+	if (energetica[i].aksesListrik.listrikUmum > 100) { //handling jika poin melebihi seratus
 		residu = energetica[i].aksesListrik.listrikUmum - 100;
 		energetica[i].aksesListrik.listrikUmum = 100;
 		incPoin = 100 - residu;
 	}
-	usedBiaya = totalBiaya - (residu * biaya);
-	usedSDM = totalSDM - (residu * sdmCost);
+	usedBiaya = totalBiaya - (residu * biaya); //biaya final
+	usedSDM = totalSDM - (residu * sdmCost); //SDM final
 
-	if (usedBiaya > energetica[i].budget || usedSDM > energetica[i].aksesListrik.sdmListrik) {
+	if (usedBiaya > energetica[i].budget || usedSDM > energetica[i].aksesListrik.sdmListrik) { //handling jika suplai (budget dan SDM) habis
 		printf(ANSI_COLOR_RED"Budget/SDM Anda tidak memenuhi. Tidak ada yang berubah.\n"ANSI_COLOR_RESET);
-		energetica[i].aksesListrik.listrikUmum -= incPoin;
-		energetica[i].hari++;
+		energetica[i].aksesListrik.listrikUmum -= incPoin; //poin kembali ke saat sebelum ditambah
+		energetica[i].hari++; //hari tidak akan berubah
 	} else {
 		energetica[i].budget -=  usedBiaya;
 		energetica[i].aksesListrik.sdmListrik -= usedSDM;
-		printf("Poin overflow = %.0f\n", residu);
+		printf("Poin overflow = %.0f\n", residu); //tampilan poin overflow
 	}
 }
 
 void changeTerbaharukan(kota *energetica, float listrikTerbaharukan, int i) {
-    float incPoin = -1, residu = 0, totalBiaya, totalSDM, usedBiaya, usedSDM;
+    float incPoin = -1, residu = 0, totalBiaya, totalSDM, usedBiaya, usedSDM; //incPoin diinisialisasi -1 supaya bisa mulai input dalam syarat while loop
     float biaya = 1000000; // 1000000 1000000 1000000 1000000
 	float sdmCost = 2; // 2 2 2 2
 
@@ -178,13 +173,13 @@ void changeTerbaharukan(kota *energetica, float listrikTerbaharukan, int i) {
     
     while (incPoin < 0) {
         scanf("%f", &incPoin);
-        if (incPoin < 0) {
+        if (incPoin < 0) { //error handling jika input negatif
             printf(ANSI_COLOR_RED"Angka yang dimasukkan tidak valid, silahkan masukkan angka lagi\n"ANSI_COLOR_RESET);
         }
     }
 
-	totalBiaya = biaya * incPoin;
-	totalSDM = sdmCost * incPoin;
+	totalBiaya = biaya * incPoin; //biaya final
+	totalSDM = sdmCost * incPoin; //SDM final
 
 	energetica[i].aksesListrik.listrikTerbaharukan += incPoin;
 	if (energetica[i].aksesListrik.listrikTerbaharukan > 100) {
@@ -195,21 +190,21 @@ void changeTerbaharukan(kota *energetica, float listrikTerbaharukan, int i) {
 	usedBiaya = totalBiaya - (residu * biaya);
 	usedSDM = totalSDM - (residu * sdmCost);
 
-	if (usedBiaya > energetica[i].budget || usedSDM > energetica[i].aksesListrik.sdmListrik) {
+	if (usedBiaya > energetica[i].budget || usedSDM > energetica[i].aksesListrik.sdmListrik) {  //handling jika suplai (budget dan SDM) habi
 		printf(ANSI_COLOR_RED"Budget/SDM Anda tidak memenuhi. Tidak ada yang berubah.\n"ANSI_COLOR_RESET);
-		energetica[i].aksesListrik.listrikTerbaharukan -= incPoin;
-		energetica[i].hari++;
+		energetica[i].aksesListrik.listrikTerbaharukan -= incPoin; //poin kembali ke saat sebelum ditambah
+		energetica[i].hari++; //hari tidak akan berubah
 	} else {
 		energetica[i].budget -=  usedBiaya;
 		energetica[i].aksesListrik.sdmListrik -= usedSDM;
-		printf("Poin overflow = %.0f\n", residu);
+		printf("Poin overflow = %.0f\n", residu); //tampilan poin overflow
 	}
 }
 
 void aturListrik(kota *energetica, int i) {
     int pil, hari;
 
-	printf("||=============================================\n");
+	printf("||=============================================\n"); //Tabel statistik
     printf("|| Statistik Listrik\n");
     printf("||=============================================\n");
 	printf("|| Status Listrik           : %.2f%%\n", energetica[i].aksesListrik.indeksListrik);
@@ -218,19 +213,19 @@ void aturListrik(kota *energetica, int i) {
 	printf("|| Poin Energi terbaharukan : %.0f out of 100\n", energetica[i].aksesListrik.listrikTerbaharukan);
 	printf("||=============================================\n");
 
-	printf("\nBudget Kota : $ %.2f\n", energetica[i].budget);
+	printf("\nBudget Kota : $ %.2f\n", energetica[i].budget); //tampilan suplai
 	printf("SDM Listrik : %.0f\n", energetica[i].aksesListrik.sdmListrik);
 
-	printf("\n  O P S I  \n");
+	printf("\n  O P S I  \n"); //tampilan opsi
 	printf("============\n");
 	printf("1. Menyediakan listrik bersubsidi\n");
 	printf("2. Penambahan listrik untuk fasilitas umum\n");
 	printf("3. Penyediaan listrik dari energi terbaharukan\n");
 
-    printf("\nMasukkan OPSI: "); 
+    printf("\nMasukkan OPSI: "); //input opsi
 	scanf("%d",&pil);
 	
-	switch(pil) {
+	switch(pil) { //switch case pemanggilan tiap fungsi
 		case 1 : 
 			changeSubsidi(energetica,energetica[i].aksesListrik.listrikSubsidi, i);	
 			break;
@@ -244,9 +239,10 @@ void aturListrik(kota *energetica, int i) {
 			printf(ANSI_COLOR_RED"Input anda tidak valid. Tidak ada yang berubah.\n"ANSI_COLOR_RESET);
 	}
 
+	//pendefinisian kembali nilai indeks setelah value setiap variabel berubah
 	energetica[i].aksesListrik.indeksListrik = (energetica[i].aksesListrik.listrikSubsidi + energetica[i].aksesListrik.listrikUmum + energetica[i].aksesListrik.listrikTerbaharukan) / 3;
 	
-	printf("\n||=============================================\n");
+	printf("\n||=============================================\n"); //tampilan statistik yang telah diupdate
     printf("|| Statistik Listrik (Updated)\n");
     printf("||=============================================\n");
 	printf("|| Status Listrik           : %.2f%%\n", energetica[i].aksesListrik.indeksListrik);
@@ -255,10 +251,10 @@ void aturListrik(kota *energetica, int i) {
 	printf("|| Poin Energi terbaharukan : %.0f out of 100\n", energetica[i].aksesListrik.listrikTerbaharukan);
 	printf("||=============================================\n\n");
 
-	printf("\nBudget Kota : $ %.2f\n", energetica[i].budget);
+	printf("\nBudget Kota : $ %.2f\n", energetica[i].budget); //tampilan suplai setelah diupdate
 	printf("SDM Listrik : %.0f\n", energetica[i].aksesListrik.sdmListrik);
 
-	energetica[i].hari--;
+	energetica[i].hari--; //hari berkurang 1
 	printf("\nPress any key to continue!");
 	getch();
 	system("cls");
