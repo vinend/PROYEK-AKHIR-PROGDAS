@@ -54,7 +54,6 @@ typedef struct kotaEnergetica {
 		int levelMod;
 		float indeksGasRumahKaca;
 		int inc;
-		
 	} emisiGas;
 	
 } kota;
@@ -62,7 +61,6 @@ typedef struct kotaEnergetica {
 //CODE HAKIM
 
 void definisiListrik(kota *energetica) { //fungsi definisi (inisialisasi tiap variabel yang terkait)
-	
 	energetica[0].aksesListrik.listrikSubsidi = 30;
     energetica[1].aksesListrik.listrikSubsidi = 55;
     energetica[2].aksesListrik.listrikSubsidi = 75;
@@ -980,7 +978,7 @@ void definisiKota(kota *energetica, char *username) {
 	//indeks dte = 55
 	//indeks elegger = 55
 	//indeks tekkompolis = 48,75
-	//indeks biotopia = 43,
+	//indeks biotopia = 45
 	
 	definisiListrik(energetica);
 	definisiEnergiBersih(energetica);
@@ -1164,7 +1162,7 @@ int main() {
 	
 	kota *energetica;
 	energetica = (struct kotaEnergetica *)malloc(4 * sizeof(struct kotaEnergetica));
-	if (energetica == NULL) 
+	if (energetica == NULL) //error handling
 	{
         printf("Alokasi memori gagal.\n");
         return 1;
@@ -1172,7 +1170,7 @@ int main() {
 	
 	char *username;
 	username = (char *)malloc(50 * sizeof(char));
-    if (username == NULL) 
+    if (username == NULL) //error handling
 	{
         printf("Alokasi memori gagal.\n");
         return 1;
@@ -1205,7 +1203,7 @@ int main() {
 	system("cls");
 
 	printf("Sebelum Anda bermain, mohon masukkan username : ");
-	if (scanf(" %[^\n]", username) != 1) 
+	if (scanf(" %[^\n]", username) != 1) //error handling
 	{
         printf("Gagal membaca input.\n");
         return 1;
@@ -1216,9 +1214,9 @@ int main() {
 	getch();
 	system("cls");
 	
-	definisiKota(energetica, username);
+	definisiKota(energetica, username); //call function
 	
-	int pil, loop = 1;
+	int pil, loop = 1; //pil = switch indicator, loop = exit program indicator
 
 	while(loop == 1) {
 		printf(ANSI_COLOR_GREEN"    ______"ANSI_COLOR_RESET"_   __"ANSI_COLOR_GREEN"______"ANSI_COLOR_RESET"____  ______"ANSI_COLOR_GREEN"______"ANSI_COLOR_RESET"___________________\n");
@@ -1237,7 +1235,7 @@ int main() {
 		printf("P I L I H A N  :  "); scanf("%d", &pil);
 	
 		switch(pil) {
-    		case 1 :
+    		case 1 : //play the game
 				system("cls"); 
     			printf("  S E L A M A T!  \n");
     			printf("==================\n");
@@ -1258,7 +1256,7 @@ int main() {
 			    system("cls"); 
                 break;
     		
-    		case 2 : 
+    		case 2 : //how to play
     			system("cls");
     			printf("C A R A   B E R M A I N\n");
     			printf("==============================\n");
@@ -1273,7 +1271,7 @@ int main() {
 				system("cls"); 
 				break;
     	
-    		case 3 : 
+    		case 3 : //information about SDG 7
 				system("cls");
 				printf(ANSI_COLOR_CYAN" ________  ________  ________                ________  \n");
     			printf("|\\   ____\\|\\   ___ \\|\\   ____\\              |\\_____  \\ \n");
@@ -1309,7 +1307,7 @@ int main() {
 				system("cls"); 
 				break;
     		
-    		case 4 : 
+    		case 4 : //exit program
     			system("cls");
 				printf(ANSI_COLOR_GREEN "______________ ___    _____    _______   ____  __.    _____.___.________   ____ ___  ._.\n");
     			printf("\\__    ___/   |   \\  /  _  \\   \\      \\ |    |/ _|    \\__  |   |\\_____  \\ |    |   \\ | |\n");
@@ -1320,7 +1318,7 @@ int main() {
     			loop = 0;
     			break;
     			
-    		default : 
+    		default : //error handling
 				system("cls");
 				printf("T Y P E   A   V A L I D   N U M B E R !!\n\n");
 				printf("Press any key to Continue");
@@ -1330,7 +1328,7 @@ int main() {
 		}
 	}
 	
-	free(username);
+	free(username); //pembebasan memori yang teralokasi secara dinamis
 	free(energetica);
 
     return 0;
