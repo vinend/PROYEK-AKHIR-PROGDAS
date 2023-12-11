@@ -265,7 +265,9 @@ void aturListrik(kota *energetica, int i) {
 void definisiKebersihanRumahTangga (kota *energetica) {
 	int i;
 	
-	energetica[0].kebersihanRumahTangga.alatKebersihanSustainable = 40;
+	//Pendefinsian Nilai-Nilai Indeks lokal dari Indeks Kebersihan Rumah Tangga
+	
+	energetica[0].kebersihanRumahTangga.alatKebersihanSustainable = 40; 
 	energetica[1].kebersihanRumahTangga.alatKebersihanSustainable = 55;
 	energetica[2].kebersihanRumahTangga.alatKebersihanSustainable = 35;
 	energetica[3].kebersihanRumahTangga.alatKebersihanSustainable = 30;
@@ -285,47 +287,59 @@ void definisiKebersihanRumahTangga (kota *energetica) {
 void alatKebersihan(kota *energetica, int i) {
     float alatYangDipakai, biayaUrusAlat, totalAlatDipakai, totalBiaya;
     int confirm = 0;
-
+	
+	//Tampilan tentang pengaruh poin terhadap budget dan penambahan poin
     printf("Pengaruh Budget dan Poin\n");
     printf("=================================================================================\n");
     printf("|| Biaya Pengurusan Alat\t=\tPoin x 500000 $ (Biaya per Alat)\n");
     printf("|| Pengaruh Pada Index\t\t=\tAkan naik 1 per 4 poin\n");
     printf("=================================================================================\n");
-
+	
+	//Scan atau input data tentang berapa poin alat akan dipakai
     printf("\nMasukkan jumlah alat kebersihan yang dipakai: ");
     scanf("%f", &alatYangDipakai);
 
     biayaUrusAlat = 500000;
 
+	//Perhitungan Total Biaya
     totalAlatDipakai = alatYangDipakai * biayaUrusAlat;
     totalBiaya = totalAlatDipakai;
 
+	//Pemeriksaan apakah biaya melebihi budget tersedia
     if (totalBiaya > energetica[i].budget) {
+
+	    //Pilihan untuk menghabiskan budget atau tidak
         printf("Budget anda tidak cukup!\n");
         printf("Apakah anda ingin  menggunakan seluruh budget dan merisikokan? [1 - YES] [0 - NO] : ");
         scanf("%d", &confirm);
 
+	    //Menggunakan Seluruh Budget yang tersedia
         if (confirm == 1) {
             printf("Menggunakan seluruh budget yang tersedia.\n");
 
+		//Perhitungan jumlah alat yang dapat diebli sesuai dengan budget yang tersedia
             float buyoutCost = energetica[i].budget / biayaUrusAlat;
 
+		//Penambahan poin kebersihan rumah tangga sustainable
             energetica[i].kebersihanRumahTangga.alatKebersihanSustainable += buyoutCost * 0.25;
             energetica[i].budget = 0;  
 
+		//Pemeriksaan apakah indeks kebersihan melebihi batas atau tidak
             if (energetica[i].kebersihanRumahTangga.alatKebersihanSustainable > 100) {
                 printf("Indeks Melebihi Batas! Luar biasa\n");
                 energetica[i].kebersihanRumahTangga.alatKebersihanSustainable = 100;
             }
         } else {
+		//Ketika user menolak penggunaan seluruh budget yang tersedia
             printf("Kembali ke menu!\n");
             energetica[i].hari++;
         }
     } else {
-        
+        	//Penyimpanan pengurangan budget dan penambahan poin kebersihan sustainable
         energetica[i].budget -= totalBiaya;
         energetica[i].kebersihanRumahTangga.alatKebersihanSustainable += alatYangDipakai * 0.25;
 
+	    //Pemeriksaan apakah indeks kebersihan melebihi batas atau tidak
         if (energetica[i].kebersihanRumahTangga.alatKebersihanSustainable > 100) {
             printf("Indeks Melebihi Batas! Luar biasa\n");
             energetica[i].kebersihanRumahTangga.alatKebersihanSustainable = 100;
